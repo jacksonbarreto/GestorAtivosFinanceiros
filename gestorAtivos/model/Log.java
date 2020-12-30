@@ -1,14 +1,13 @@
 package model;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 public class Log {
-    private ArrayList<Operation> operations;
+    private final LocalDateTime moment;
+    private Operation operation;
 
-    public Log(ArrayList<Operation> operations) {
-        this.operations = operations;
-    }
-    public Log() {
-        this.operations = new ArrayList<>();
+    public Log(Operation operation) {
+        this.operation = operation;
+        this.moment = LocalDateTime.now();
     }
 }

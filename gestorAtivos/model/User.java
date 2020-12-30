@@ -9,7 +9,21 @@ public class User {
     private ArrayList<FinancialAsset> financialAssets;
     private ArrayList<Log> logs;
 
+    public User(String username, String password, UserType userType) {
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
+        this.financialAssets = new ArrayList<>();
+        this.logs = new ArrayList<>();
+    }
 
+    public User(String username, String password, UserType userType, ArrayList<FinancialAsset> financialAssets, ArrayList<Log> logs) {
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
+        this.financialAssets = financialAssets;
+        this.logs = logs;
+    }
 
     public String getUsername() {
         return username;
