@@ -10,9 +10,9 @@ import java.util.Objects;
 @Access(AccessType.PROPERTY)
 @DiscriminatorValue(value = "2")
 @PrimaryKeyJoinColumn(name = "id")
-public class TermDeposit extends FinancialAsset{
+public class TermDeposit extends FinancialAsset implements AssetWithInvestedValue{
 
-    private double depositedAmount;
+    private Double depositedAmount;
     private double annualProfitability;
     private String account;
 
@@ -48,7 +48,7 @@ public class TermDeposit extends FinancialAsset{
     }
 
     @Column(name = "ValorDepositado", nullable = false)
-    public double getDepositedAmount() {
+    public Double getDepositedAmount() {
         return depositedAmount;
     }
 
@@ -68,7 +68,7 @@ public class TermDeposit extends FinancialAsset{
         return bank;
     }
 
-    public void setDepositedAmount(double depositedAmount) {
+    public void setDepositedAmount(Double depositedAmount) {
         this.depositedAmount = depositedAmount;
     }
 
@@ -95,5 +95,15 @@ public class TermDeposit extends FinancialAsset{
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getDepositedAmount(), getAnnualProfitability(), getAccount(), getBank());
+    }
+
+    @Override
+    public Double getAmountInvested() {
+        return this.getDepositedAmount();
+    }
+
+    @Override
+    public int compareTo(FinancialAsset financialAsset) {
+        return this.depositedAmount.compareTo(((InvestmentFund) financialAsset).getAmountInvested());
     }
 }

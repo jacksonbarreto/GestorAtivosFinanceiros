@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <!-- Unidade de persistencia -->
+    <persistence-unit name="gestorfinanceiro" >
+        <!-- Implementação do JPA -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <!-- Lista de entidades -->
+       <class>gestorAtivos.model.FinancialAsset</class>
+          <class>gestorAtivos.model.InvestmentFund</class>
+          <class>gestorAtivos.model.TermDeposit</class>
+          <class>gestorAtivos.model.RentalProperty</class>
+          <class>gestorAtivos.model.Payment</class>
+
+          <class>gestorAtivos.model.User</class>
+          <class>gestorAtivos.model.Log</class>
+          <class>gestorAtivos.model.Operation</class>
+          <class>gestorAtivos.model.AssetType</class>
+
+          <class>gestorAtivos.model.Bank</class>
+          <properties>
+              <!-- Propriedades JDBC -->
+              <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+           <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="javax.persistence.jdbc.user" value="gestorfinanceiro"/>
+              <property name="javax.persistence.jdbc.password" value="ativo"/>
+              <!-- Configurações específicas do Hibernate -->
+              <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect"/>
+              <property name="hibernate.hbm2ddl.auto" value="create"/>
+              <property name="hibernate.show_sql" value="true"/>
+              <property name="hibernate.format_sql" value="true"/>
+          </properties>
+      </persistence-unit>
+  </persistence>
