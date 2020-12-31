@@ -1,14 +1,27 @@
 package model;
 
-public enum UserType {
-    SIMPLE(1), MANAGER(2), ROOT(3);
-    private final int type;
+import javax.persistence.*;
+import java.io.Serializable;
 
-    UserType(int type) {
-        this.type = type;
+
+public enum UserType implements Serializable {
+    SIMPLE(1L,"SIMPLE"), MANAGER(2L, "MANAGER"), ROOT(3L, "ROOT");
+
+
+    private final Long id;
+    private final String userType;
+
+    UserType(Long id, String userType) {
+        this.id = id;
+        this.userType = userType;
     }
 
-    public int getType() {
-        return type;
+    public Long getId() {
+        return id;
     }
+
+    public String getUserType() {
+        return userType;
+    }
+
 }

@@ -1,15 +1,28 @@
 package model;
 
-public enum Operation {
+import javax.persistence.*;
+import java.io.Serializable;
 
-    LOGIN(1, "LOGING"), LOGOUT(2, "LOGOUT"), CHANGED_PASSWORD(3, "CHANGED PASSWORD"),
-    CHANGED_USERNAME(4, "CHANGED USERNAME");
 
-    private final int id;
+public enum Operation implements Serializable {
+
+    LOGIN(1L, "LOGING"), LOGOUT(2L, "LOGOUT"), CHANGED_PASSWORD(3L, "CHANGED PASSWORD"),
+    CHANGED_USERNAME(4L, "CHANGED USERNAME");
+
+
+    private final Long id;
     private final String operation;
 
-    Operation(int id, String operation) {
+    Operation(Long id, String operation) {
         this.id = id;
         this.operation = operation;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getOperation() {
+        return operation;
     }
 }
