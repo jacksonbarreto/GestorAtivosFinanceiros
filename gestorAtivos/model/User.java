@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,7 +125,7 @@ public class User implements Serializable {
      * @param referenceValue  value to be applied when comparing the filter
      * @return collection of financial assets that meet the filter
      */
-    public static List<FinancialAsset> filterByAmountInvested(List<FinancialAsset> financialAssets, LogicalOperator logicalOperator, Double referenceValue) {
+    public static List<FinancialAsset> filterByAmountInvested(List<FinancialAsset> financialAssets, LogicalOperator logicalOperator, BigDecimal referenceValue) {
         List<FinancialAsset> filteredFinancialAssets = new ArrayList<>();
         for (FinancialAsset fa : financialAssets) {
             if (fa instanceof AssetWithInvestedValue) {
@@ -135,22 +136,22 @@ public class User implements Serializable {
                         }
                         break;
                     case LESS_THAN:
-                        if (((AssetWithInvestedValue) fa).getAmountInvested() < referenceValue) {
+                        if (((AssetWithInvestedValue) fa).getAmountInvested().compareTo(referenceValue) < 0) {
                             filteredFinancialAssets.add(fa);
                         }
                         break;
                     case BIGGER_THEN:
-                        if (((AssetWithInvestedValue) fa).getAmountInvested() > referenceValue) {
+                        if (((AssetWithInvestedValue) fa).getAmountInvested().compareTo(referenceValue) > 0) {
                             filteredFinancialAssets.add(fa);
                         }
                         break;
                     case LESS_OR_EQUAL:
-                        if (((AssetWithInvestedValue) fa).getAmountInvested() <= referenceValue) {
+                        if (((AssetWithInvestedValue) fa).getAmountInvested().compareTo(referenceValue) <= 0) {
                             filteredFinancialAssets.add(fa);
                         }
                         break;
                     case BIGGER_OR_EQUAL:
-                        if (((AssetWithInvestedValue) fa).getAmountInvested() >= referenceValue) {
+                        if (((AssetWithInvestedValue) fa).getAmountInvested().compareTo(referenceValue) >= 0) {
                             filteredFinancialAssets.add(fa);
                         }
                 }

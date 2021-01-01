@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -13,24 +14,24 @@ public class Payment implements Serializable {
     private Long id;
     private FinancialAsset financialAsset;
     private LocalDate dateOfPayment;
-    private double monthlyProfitability;
+    private BigDecimal monthlyProfitability;
 
     protected Payment() {
     }
 
 
-    public Payment(FinancialAsset financialAsset, LocalDate dateOfPayment, double monthlyProfitability) {
+    public Payment(FinancialAsset financialAsset, LocalDate dateOfPayment, BigDecimal monthlyProfitability) {
         this.financialAsset = financialAsset;
         this.dateOfPayment = dateOfPayment;
         this.monthlyProfitability = monthlyProfitability;
     }
 
     @Column(name = "RentabilidadeMensal", nullable = false)
-    public double getMonthlyProfitability() {
+    public BigDecimal getMonthlyProfitability() {
         return monthlyProfitability;
     }
 
-    public void setMonthlyProfitability(double monthlyProfitability) {
+    public void setMonthlyProfitability(BigDecimal monthlyProfitability) {
         this.monthlyProfitability = monthlyProfitability;
     }
 
@@ -69,7 +70,7 @@ public class Payment implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Payment)) return false;
         Payment payment = (Payment) o;
-        return Double.compare(payment.getMonthlyProfitability(), getMonthlyProfitability()) == 0 && getFinancialAsset().equals(payment.getFinancialAsset()) && getDateOfPayment().equals(payment.getDateOfPayment());
+        return Objects.equals(getId(), payment.getId()) && getFinancialAsset().equals(payment.getFinancialAsset()) && getDateOfPayment().equals(payment.getDateOfPayment()) && getMonthlyProfitability().equals(payment.getMonthlyProfitability());
     }
 
     @Override

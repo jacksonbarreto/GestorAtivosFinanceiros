@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 public interface AssetWithInvestedValue extends Comparable<FinancialAsset> {
-    Double getAmountInvested();
+    BigDecimal getAmountInvested();
 }

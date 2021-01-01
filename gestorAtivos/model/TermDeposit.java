@@ -1,9 +1,12 @@
 package model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static java.math.BigDecimal.ROUND_HALF_UP;
 
 @Entity
 @Table(name = "Deposito")
@@ -12,14 +15,14 @@ import java.util.Objects;
 @PrimaryKeyJoinColumn(name = "id")
 public class TermDeposit extends FinancialAsset implements AssetWithInvestedValue{
 
-    private Double depositedAmount;
-    private double annualProfitability;
+    private BigDecimal depositedAmount;
+    private BigDecimal annualProfitability;
     private String account;
 
     private Bank bank;
 
 
-    public TermDeposit(LocalDate startDate, int duration, float tax, String designation, ArrayList<Payment> payments, double depositedAmount, double annualProfitability, String account, Bank bank) {
+    public TermDeposit(LocalDate startDate, int duration, BigDecimal tax, String designation, ArrayList<Payment> payments, BigDecimal depositedAmount, BigDecimal annualProfitability, String account, Bank bank) {
         super(AssetType.DEPOSIT, startDate, duration, tax, designation, payments);
         this.depositedAmount = depositedAmount;
         this.annualProfitability = annualProfitability;
@@ -27,33 +30,33 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         this.bank = bank;
     }
 
-    public TermDeposit( int duration, float tax, String designation, double depositedAmount, double annualProfitability, String account, Bank bank) {
+    public TermDeposit(int duration, BigDecimal tax, String designation, BigDecimal depositedAmount, BigDecimal annualProfitability, String account, Bank bank) {
         super(AssetType.DEPOSIT, LocalDate.now(), duration, tax, designation, new ArrayList<>());
         this.depositedAmount = depositedAmount;
         this.annualProfitability = annualProfitability;
         this.account = account;
         this.bank = bank;
-        this.payments = this.createPayments(this.annualProfitability/12);
+        this.payments = this.createPayments(this.annualProfitability.divide(new BigDecimal(String.valueOf(12)),2, ROUND_HALF_UP));
     }
 
     @Override
     public void setDuration(int duration) {
         this.duration = duration;
-        this.payments = this.createPayments(this.annualProfitability/12);
+        this.payments = this.createPayments(this.annualProfitability.divide(new BigDecimal(String.valueOf(12)),2, ROUND_HALF_UP));
     }
     @Override
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
-        this.payments = this.createPayments(this.annualProfitability/12);
+        this.payments = this.createPayments(this.annualProfitability.divide(new BigDecimal(String.valueOf(12)),2, ROUND_HALF_UP));
     }
 
     @Column(name = "ValorDepositado", nullable = false)
-    public Double getDepositedAmount() {
+    public BigDecimal getDepositedAmount() {
         return depositedAmount;
     }
 
     @Column(name = "TaxaRendimentoAnual", nullable = false)
-    public double getAnnualProfitability() {
+    public BigDecimal getAnnualProfitability() {
         return annualProfitability;
     }
 
@@ -68,11 +71,11 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         return bank;
     }
 
-    public void setDepositedAmount(Double depositedAmount) {
+    public void setDepositedAmount(BigDecimal depositedAmount) {
         this.depositedAmount = depositedAmount;
     }
 
-    public void setAnnualProfitability(double annualProfitability) {
+    public void setAnnualProfitability(BigDecimal annualProfitability) {
         this.annualProfitability = annualProfitability;
     }
 
@@ -88,8 +91,9 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TermDeposit)) return false;
+        if (!super.equals(o)) return false;
         TermDeposit that = (TermDeposit) o;
-        return Double.compare(that.getDepositedAmount(), getDepositedAmount()) == 0 && Double.compare(that.getAnnualProfitability(), getAnnualProfitability()) == 0 && Objects.equals(getId(), that.getId()) && getAccount().equals(that.getAccount()) && getBank().equals(that.getBank());
+        return getDepositedAmount().equals(that.getDepositedAmount()) && getAnnualProfitability().equals(that.getAnnualProfitability()) && getAccount().equals(that.getAccount()) && getBank().equals(that.getBank());
     }
 
     @Override
@@ -98,7 +102,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     }
 
     @Override
-    public Double getAmountInvested() {
+    public BigDecimal getAmountInvested() {
         return this.getDepositedAmount();
     }
 

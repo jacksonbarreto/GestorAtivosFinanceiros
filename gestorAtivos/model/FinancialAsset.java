@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +19,14 @@ public abstract class FinancialAsset implements Serializable {
     protected AssetType assetType;
     protected LocalDate startDate;
     protected int duration;
-    protected float tax;
+    protected BigDecimal tax;
     protected String designation;
     protected List<Payment> payments;
 
     protected FinancialAsset() {
     }
 
-    public FinancialAsset(AssetType assetType, LocalDate startDate, int duration, float tax, String designation, ArrayList<Payment> payments) {
+    public FinancialAsset(AssetType assetType, LocalDate startDate, int duration, BigDecimal tax, String designation, ArrayList<Payment> payments) {
         this.startDate = startDate;
         this.duration = duration;
         this.tax = tax;
@@ -34,7 +35,7 @@ public abstract class FinancialAsset implements Serializable {
         this.assetType = assetType;
     }
 
-    protected ArrayList<Payment> createPayments(double monthlyProfitability) {
+    protected ArrayList<Payment> createPayments(BigDecimal monthlyProfitability) {
         ArrayList<Payment> payments = new ArrayList<>();
         for (int i = 0; i < this.duration; i++) {
             payments.add(new Payment(this, this.startDate.plusMonths(i), monthlyProfitability));
@@ -64,11 +65,11 @@ public abstract class FinancialAsset implements Serializable {
     public abstract void setDuration(int duration);
 
     @Column(name = "Imposto", nullable = false)
-    public float getTax() {
+    public BigDecimal getTax() {
         return tax;
     }
 
-    public void setTax(float tax) {
+    public void setTax(BigDecimal tax) {
         this.tax = tax;
     }
 
@@ -109,7 +110,7 @@ public abstract class FinancialAsset implements Serializable {
         if (this == o) return true;
         if (!(o instanceof FinancialAsset)) return false;
         FinancialAsset that = (FinancialAsset) o;
-        return getDuration() == that.getDuration() && Float.compare(that.getTax(), getTax()) == 0 && Objects.equals(getId(), that.getId()) && getAssetType() == that.getAssetType() && getStartDate().equals(that.getStartDate()) && getDesignation().equals(that.getDesignation()) && Objects.equals(getPayments(), that.getPayments());
+        return getDuration() == that.getDuration() && Objects.equals(getId(), that.getId()) && getAssetType() == that.getAssetType() && getStartDate().equals(that.getStartDate()) && getTax().equals(that.getTax()) && getDesignation().equals(that.getDesignation()) && getPayments().equals(that.getPayments());
     }
 
     @Override

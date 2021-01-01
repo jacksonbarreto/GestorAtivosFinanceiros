@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -12,13 +13,13 @@ import java.util.Objects;
 @PrimaryKeyJoinColumn(name = "id")
 public class RentalProperty extends FinancialAsset{
 
-    private double propertyValue;
-    private double rentAmount;
-    private double monthlyCostCondominium;
-    private double annualAmountOtherExpenses;
+    private BigDecimal propertyValue;
+    private BigDecimal rentAmount;
+    private BigDecimal monthlyCostCondominium;
+    private BigDecimal annualAmountOtherExpenses;
     private String location;
 
-    public RentalProperty(LocalDate startDate, int duration, float tax, String designation, ArrayList<Payment> payments, double propertyValue, double rentAmount, double monthlyCostCondominium, double annualAmountOtherExpenses, String location) {
+    public RentalProperty(LocalDate startDate, int duration, BigDecimal tax, String designation, ArrayList<Payment> payments, BigDecimal propertyValue, BigDecimal rentAmount, BigDecimal monthlyCostCondominium, BigDecimal annualAmountOtherExpenses, String location) {
         super(AssetType.PROPERTY, startDate, duration, tax, designation, payments);
         this.propertyValue = propertyValue;
         this.rentAmount = rentAmount;
@@ -27,44 +28,44 @@ public class RentalProperty extends FinancialAsset{
         this.location = location;
     }
 
-    public RentalProperty(int duration, float tax, String designation, double propertyValue, double rentAmount, double monthlyCostCondominium, double annualAmountOtherExpenses, String location) {
+    public RentalProperty(int duration, BigDecimal tax, String designation, BigDecimal propertyValue, BigDecimal rentAmount, BigDecimal monthlyCostCondominium, BigDecimal annualAmountOtherExpenses, String location) {
         super(AssetType.PROPERTY, LocalDate.now(), duration, tax, designation, new ArrayList<>());
         this.propertyValue = propertyValue;
         this.rentAmount = rentAmount;
         this.monthlyCostCondominium = monthlyCostCondominium;
         this.annualAmountOtherExpenses = annualAmountOtherExpenses;
         this.location = location;
-        this.payments = this.createPayments(0);
+        this.payments = this.createPayments(new BigDecimal("0"));
     }
 
     @Override
     public void setDuration(int duration) {
         this.duration = duration;
-        this.payments = this.createPayments(0);
+        this.payments = this.createPayments(new BigDecimal("0"));
     }
     @Override
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
-        this.payments = this.createPayments(0);
+        this.payments = this.createPayments(new BigDecimal("0"));
     }
 
     @Column(name = "ValorImovel", nullable = false)
-    public double getPropertyValue() {
+    public BigDecimal getPropertyValue() {
         return propertyValue;
     }
 
     @Column(name = "renda", nullable = false)
-    public double getRentAmount() {
+    public BigDecimal getRentAmount() {
         return rentAmount;
     }
 
     @Column(name = "CustoMensalCondominio", nullable = false)
-    public double getMonthlyCostCondominium() {
+    public BigDecimal getMonthlyCostCondominium() {
         return monthlyCostCondominium;
     }
 
     @Column(name = "CustoAnualOutrasDespesas", nullable = false)
-    public double getAnnualAmountOtherExpenses() {
+    public BigDecimal getAnnualAmountOtherExpenses() {
         return annualAmountOtherExpenses;
     }
 
@@ -73,19 +74,19 @@ public class RentalProperty extends FinancialAsset{
         return location;
     }
 
-    public void setPropertyValue(double propertyValue) {
+    public void setPropertyValue(BigDecimal propertyValue) {
         this.propertyValue = propertyValue;
     }
 
-    public void setRentAmount(double rentAmount) {
+    public void setRentAmount(BigDecimal rentAmount) {
         this.rentAmount = rentAmount;
     }
 
-    public void setMonthlyCostCondominium(double monthlyCostCondominium) {
+    public void setMonthlyCostCondominium(BigDecimal monthlyCostCondominium) {
         this.monthlyCostCondominium = monthlyCostCondominium;
     }
 
-    public void setAnnualAmountOtherExpenses(double annualAmountOtherExpenses) {
+    public void setAnnualAmountOtherExpenses(BigDecimal annualAmountOtherExpenses) {
         this.annualAmountOtherExpenses = annualAmountOtherExpenses;
     }
 
@@ -97,8 +98,9 @@ public class RentalProperty extends FinancialAsset{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RentalProperty)) return false;
+        if (!super.equals(o)) return false;
         RentalProperty that = (RentalProperty) o;
-        return Double.compare(that.getPropertyValue(), getPropertyValue()) == 0 && Double.compare(that.getRentAmount(), getRentAmount()) == 0 && Double.compare(that.getMonthlyCostCondominium(), getMonthlyCostCondominium()) == 0 && Double.compare(that.getAnnualAmountOtherExpenses(), getAnnualAmountOtherExpenses()) == 0 && Objects.equals(getId(), that.getId()) && getLocation().equals(that.getLocation());
+        return getPropertyValue().equals(that.getPropertyValue()) && getRentAmount().equals(that.getRentAmount()) && getMonthlyCostCondominium().equals(that.getMonthlyCostCondominium()) && getAnnualAmountOtherExpenses().equals(that.getAnnualAmountOtherExpenses()) && getLocation().equals(that.getLocation());
     }
 
     @Override

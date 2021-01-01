@@ -1,28 +1,32 @@
 package model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static java.math.BigDecimal.ROUND_HALF_UP;
+import static model.AssetType.FOUND;
+
 @Entity
 @Table(name = "Fundo")
 @Access(AccessType.PROPERTY)
-@DiscriminatorValue(value = "1")
+@DiscriminatorValue(value = "FOUND")
 @PrimaryKeyJoinColumn(name = "id")
 public class InvestmentFund extends FinancialAsset implements AssetWithInvestedValue {
 
-    private Double amountInvested;
-    private Double monthlyProfitability;
+    private BigDecimal amountInvested;
+    private BigDecimal monthlyProfitability;
 
-    public InvestmentFund(LocalDate startDate, int duration, float tax, String designation, ArrayList<Payment> payments, Double amountInvested, Double monthlyProfitability) {
-        super(AssetType.FOUND, startDate, duration, tax, designation, payments);
+    public InvestmentFund(LocalDate startDate, int duration, BigDecimal tax, String designation, ArrayList<Payment> payments, BigDecimal amountInvested, BigDecimal monthlyProfitability) {
+        super(FOUND, startDate, duration, tax, designation, payments);
         this.amountInvested = amountInvested;
         this.monthlyProfitability = monthlyProfitability;
     }
 
-    public InvestmentFund(int duration, float tax, String designation, Double amountInvested, Double monthlyProfitability) {
-        super(AssetType.FOUND, LocalDate.now(), duration, tax, designation, new ArrayList<>());
+    public InvestmentFund(int duration, BigDecimal tax, String designation, BigDecimal amountInvested, BigDecimal monthlyProfitability) {
+        super(FOUND, LocalDate.now(), duration, tax, designation, new ArrayList<>());
         this.amountInvested = amountInvested;
         this.monthlyProfitability = monthlyProfitability;
         this.payments = this.createPayments(this.monthlyProfitability);
@@ -34,12 +38,12 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return the gross profit
      */
-    public Double getGrossProfit() {
-        Double grossProfit = this.amountInvested;
+    public BigDecimal getGrossProfit() {
+        BigDecimal grossProfit = new BigDecimal(String.valueOf(this.amountInvested));
         for (Payment p : this.payments) {
-            grossProfit += grossProfit * p.getMonthlyProfitability();
+            grossProfit = grossProfit.add(grossProfit.multiply(p.getMonthlyProfitability()));
         }
-        return this.amountInvested - grossProfit;
+        return grossProfit.subtract(this.amountInvested);
     }
 
     /**
@@ -47,12 +51,12 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return net profit from financial asset
      */
-    public Double getNetProfit() {
-        Double grossProfit = this.getGrossProfit();
-        Double netProfit = grossProfit;
+    public BigDecimal getNetProfit() {
+        BigDecimal grossProfit = this.getGrossProfit();
+        BigDecimal netProfit = new BigDecimal(String.valueOf(grossProfit));
 
-        if (grossProfit > 0D) {
-            netProfit -= grossProfit * this.tax;
+        if (grossProfit.compareTo(new BigDecimal("0")) > 0) {
+            netProfit = netProfit.subtract(grossProfit.multiply(this.tax));
         }
         return netProfit;
     }
@@ -62,8 +66,8 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return average monthly net profit.
      */
-    public Double getAverageMonthlyNetProfit(){
-        return this.getNetProfit()/this.duration;
+    public BigDecimal getAverageMonthlyNetProfit(){
+        return this.getNetProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
     }
 
     /**
@@ -71,8 +75,8 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return average monthly gross profit.
      */
-    public Double getAverageMonthlyGrossProfit(){
-        return this.getGrossProfit()/this.duration;
+    public BigDecimal getAverageMonthlyGrossProfit(){
+        return this.getGrossProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
     }
 
     @Override
@@ -88,20 +92,20 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
     }
 
     @Column(name = "ValorInvestido", nullable = false)
-    public Double getAmountInvested() {
+    public BigDecimal getAmountInvested() {
         return amountInvested;
     }
 
     @Column(name = "RentabilidadeMensal", nullable = false)
-    public Double getMonthlyProfitability() {
+    public BigDecimal getMonthlyProfitability() {
         return monthlyProfitability;
     }
 
-    public void setAmountInvested(Double amountInvested) {
+    public void setAmountInvested(BigDecimal amountInvested) {
         this.amountInvested = amountInvested;
     }
 
-    public void setMonthlyProfitability(Double monthlyProfitability) {
+    public void setMonthlyProfitability(BigDecimal monthlyProfitability) {
         this.monthlyProfitability = monthlyProfitability;
     }
 
@@ -109,8 +113,9 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof InvestmentFund)) return false;
+        if (!super.equals(o)) return false;
         InvestmentFund that = (InvestmentFund) o;
-        return Double.compare(that.getAmountInvested(), getAmountInvested()) == 0 && Double.compare(that.getMonthlyProfitability(), getMonthlyProfitability()) == 0 && Objects.equals(getId(), that.getId());
+        return getAmountInvested().equals(that.getAmountInvested()) && getMonthlyProfitability().equals(that.getMonthlyProfitability());
     }
 
     @Override
