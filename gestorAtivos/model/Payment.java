@@ -70,7 +70,7 @@ public class Payment implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Payment)) return false;
         Payment payment = (Payment) o;
-        return Objects.equals(getId(), payment.getId()) && getFinancialAsset().equals(payment.getFinancialAsset()) && getDateOfPayment().equals(payment.getDateOfPayment()) && getMonthlyProfitability().equals(payment.getMonthlyProfitability());
+        return Objects.equals(getId(), payment.getId()) && getDateOfPayment().equals(payment.getDateOfPayment()) && getMonthlyProfitability().equals(payment.getMonthlyProfitability());
     }
 
     @Override

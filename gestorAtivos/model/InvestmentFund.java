@@ -43,7 +43,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         for (Payment p : this.payments) {
             grossProfit = grossProfit.add(grossProfit.multiply(p.getMonthlyProfitability()));
         }
-        return grossProfit.subtract(this.amountInvested);
+        return grossProfit.subtract(this.amountInvested).setScale(2,ROUND_HALF_UP);
     }
 
     /**
@@ -58,7 +58,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         if (grossProfit.compareTo(new BigDecimal("0")) > 0) {
             netProfit = netProfit.subtract(grossProfit.multiply(this.tax));
         }
-        return netProfit;
+        return netProfit.setScale(2,ROUND_HALF_UP);
     }
 
     /**
