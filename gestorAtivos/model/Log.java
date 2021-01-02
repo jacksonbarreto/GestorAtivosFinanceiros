@@ -14,7 +14,7 @@ public class Log implements Serializable {
     private LocalDateTime moment;
     private Operation operation;
 
-    protected Log() {
+    private Log() {
     }
 
     public Log(Operation operation) {

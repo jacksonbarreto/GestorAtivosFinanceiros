@@ -17,7 +17,7 @@ public class Payment implements Serializable {
     private BigDecimal monthlyProfitability;
     private BigDecimal amountPaid;
 
-    protected Payment() {
+    private Payment() {
     }
 
 

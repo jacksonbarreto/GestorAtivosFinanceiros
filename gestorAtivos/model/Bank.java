@@ -20,7 +20,7 @@ public class Bank implements Serializable {
     private String name;
     private List<TermDeposit> termDeposits;
 
-    protected Bank() {
+    private Bank() {
 
     }
 
@@ -39,6 +39,7 @@ public class Bank implements Serializable {
      *
      * @return the amount, in monetary units, deposited with the bank
      */
+    @Transient
     public BigDecimal getEquityInDeposits() {
         BigDecimal totalDeposited = new BigDecimal("0");
 
@@ -56,6 +57,7 @@ public class Bank implements Serializable {
      * @param finalDate   period end date.
      * @return the amount, in monetary units, deposited with the bank
      */
+    @Transient
     public BigDecimal getEquityInDeposits(LocalDate initialDate, LocalDate finalDate) {
         BigDecimal totalDeposited = new BigDecimal("0");
 
@@ -72,6 +74,7 @@ public class Bank implements Serializable {
      *
      * @return the total, in monetary units, paid by the bank to customers.
      */
+    @Transient
     public BigDecimal getTotalInterestPaid() {
         BigDecimal totalInterestPaid = new BigDecimal("0");
         for (TermDeposit termDeposit : this.termDeposits) {
@@ -90,6 +93,7 @@ public class Bank implements Serializable {
      * @param finalDate   period end date.
      * @return the total, in monetary units, paid by the bank to customers.
      */
+    @Transient
     public BigDecimal getTotalInterestPaid(LocalDate initialDate, LocalDate finalDate) {
 
         BigDecimal totalInterestPaid = new BigDecimal("0");

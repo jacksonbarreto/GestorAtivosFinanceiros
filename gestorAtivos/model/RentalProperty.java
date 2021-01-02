@@ -11,7 +11,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
 @Entity
 @Table(name = "Imovel")
 @Access(AccessType.PROPERTY)
-@DiscriminatorValue(value = "3")
+@DiscriminatorValue(value = "PROPERTY")
 @PrimaryKeyJoinColumn(name = "id")
 public class RentalProperty extends FinancialAsset{
 
@@ -20,6 +20,8 @@ public class RentalProperty extends FinancialAsset{
     private BigDecimal monthlyCostCondominium;
     private BigDecimal annualAmountOtherExpenses;
     private String location;
+
+    private RentalProperty(){}
 
     public RentalProperty(LocalDate startDate, int duration, BigDecimal tax, String designation, ArrayList<Payment> payments, BigDecimal propertyValue, BigDecimal rentAmount, BigDecimal monthlyCostCondominium, BigDecimal annualAmountOtherExpenses, String location) {
         super(AssetType.PROPERTY, startDate, duration, tax, designation, payments);

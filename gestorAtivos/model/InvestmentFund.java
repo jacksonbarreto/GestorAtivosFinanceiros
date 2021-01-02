@@ -19,11 +19,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
     private BigDecimal amountInvested;
     private BigDecimal monthlyProfitability;
 
-    public InvestmentFund(LocalDate startDate, int duration, BigDecimal tax, String designation, ArrayList<Payment> payments, BigDecimal amountInvested, BigDecimal monthlyProfitability) {
-        super(FOUND, startDate, duration, tax, designation, payments);
-        this.amountInvested = amountInvested;
-        this.monthlyProfitability = monthlyProfitability;
-    }
+    private InvestmentFund(){}
 
     public InvestmentFund(int duration, BigDecimal tax, String designation, BigDecimal amountInvested, BigDecimal monthlyProfitability) {
         super(FOUND, LocalDate.now(), duration, tax, designation, new ArrayList<>());
@@ -38,12 +34,13 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return the gross profit
      */
+    @Transient
     public BigDecimal getGrossProfit() {
         BigDecimal grossProfit = new BigDecimal("0");
         for (Payment p : this.payments) {
             grossProfit = grossProfit.add(p.getAmountPaid());
         }
-        return grossProfit.setScale(2,ROUND_HALF_UP);
+        return grossProfit.setScale(2, ROUND_HALF_UP);
     }
 
     /**
@@ -51,6 +48,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return net profit from financial asset
      */
+    @Transient
     public BigDecimal getNetProfit() {
         BigDecimal grossProfit = this.getGrossProfit();
         BigDecimal netProfit = new BigDecimal(String.valueOf(grossProfit));
@@ -58,7 +56,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         if (grossProfit.compareTo(new BigDecimal("0")) > 0) {
             netProfit = netProfit.subtract(grossProfit.multiply(this.tax));
         }
-        return netProfit.setScale(2,ROUND_HALF_UP);
+        return netProfit.setScale(2, ROUND_HALF_UP);
     }
 
     /**
@@ -66,7 +64,8 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return average monthly net profit.
      */
-    public BigDecimal getAverageMonthlyNetProfit(){
+    @Transient
+    public BigDecimal getAverageMonthlyNetProfit() {
         return this.getNetProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
     }
 
@@ -75,25 +74,26 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return average monthly gross profit.
      */
-    public BigDecimal getAverageMonthlyGrossProfit(){
+    @Transient
+    public BigDecimal getAverageMonthlyGrossProfit() {
         return this.getGrossProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
     }
+    @Transient
+    public void setMonthlyPaymentProfitability(LocalDate dateOfPayment, BigDecimal newMonthlyProfitability) {
 
-    public void setMonthlyPaymentProfitability(LocalDate dateOfPayment, BigDecimal newMonthlyProfitability){
-
-        for(Payment payment : this.payments){
-            if (payment.getDateOfPayment().isEqual(dateOfPayment)){
+        for (Payment payment : this.payments) {
+            if (payment.getDateOfPayment().isEqual(dateOfPayment)) {
                 payment.setMonthlyProfitability(newMonthlyProfitability);
             }
         }
         recalculatePayments();
     }
 
-    private void recalculatePayments(){
+    private void recalculatePayments() {
         ArrayList<Payment> payments = new ArrayList<>();
         BigDecimal amountPaid;
         BigDecimal amount = new BigDecimal(amountInvested.toString());
-        for(Payment payment : this.payments){
+        for (Payment payment : this.payments) {
             amountPaid = amount.multiply(payment.getMonthlyProfitability());
             payments.add(new Payment(this, payment.getDateOfPayment(), payment.getMonthlyProfitability(), amountPaid));
             amount = amount.add(amountPaid);

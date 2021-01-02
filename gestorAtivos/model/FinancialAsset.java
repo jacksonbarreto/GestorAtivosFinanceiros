@@ -12,7 +12,7 @@ import java.util.Objects;
 @Table(name = "AtivoFinanceiro")
 @Access(AccessType.PROPERTY)
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "TipoAtivo", discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "TipoAtivo", discriminatorType = DiscriminatorType.STRING)
 public abstract class FinancialAsset implements Serializable {
 
     protected Long id;

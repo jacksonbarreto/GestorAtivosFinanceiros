@@ -11,7 +11,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
 @Entity
 @Table(name = "Deposito")
 @Access(AccessType.PROPERTY)
-@DiscriminatorValue(value = "2")
+@DiscriminatorValue(value = "DEPOSIT")
 @PrimaryKeyJoinColumn(name = "id")
 public class TermDeposit extends FinancialAsset implements AssetWithInvestedValue{
 
@@ -21,14 +21,9 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
 
     private Bank bank;
 
+    private TermDeposit(){}
 
-    public TermDeposit(LocalDate startDate, int duration, BigDecimal tax, String designation, ArrayList<Payment> payments, BigDecimal depositedAmount, BigDecimal annualProfitability, String account, Bank bank) {
-        super(AssetType.DEPOSIT, startDate, duration, tax, designation, payments);
-        this.depositedAmount = depositedAmount;
-        this.annualProfitability = annualProfitability;
-        this.account = account;
-        this.bank = bank;
-    }
+
 
     public TermDeposit(int duration, BigDecimal tax, String designation, BigDecimal depositedAmount, BigDecimal annualProfitability, String account, Bank bank) {
         super(AssetType.DEPOSIT, LocalDate.now(), duration, tax, designation, new ArrayList<>());
@@ -117,6 +112,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     }
 
     @Override
+    @Transient
     public BigDecimal getAmountInvested() {
         return this.getDepositedAmount();
     }

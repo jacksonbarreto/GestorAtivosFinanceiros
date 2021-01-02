@@ -24,7 +24,7 @@ public class User implements Serializable {
     private List<FinancialAsset> financialAssets;
     private List<Log> logs;
 
-    public User() {
+    private User() {
     }
 
     public User(String username, String password, UserType userType) {
@@ -225,6 +225,7 @@ public class User implements Serializable {
      *
      * @return collection of financial assets in descending order.
      */
+    @Transient
     public List<FinancialAsset> getFinancialAssetsreverseOrderActive() {
         List<FinancialAsset> financialAssetsreverseOrderActive = new ArrayList<>();
         for (FinancialAsset fa : this.financialAssets) {
@@ -244,6 +245,7 @@ public class User implements Serializable {
      * @param finalDate End date of consultation
      * @return collection of financial assets active in the date range.
      */
+    @Transient
     public List<FinancialAsset> getFinancialAssetsActive(LocalDate initialDate, LocalDate finalDate) {
         LocalDate temp;
         List<FinancialAsset> financialAssetsActive = new ArrayList<>();
