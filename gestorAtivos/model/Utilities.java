@@ -1,5 +1,6 @@
 package model;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 
 final public class Utilities {
@@ -19,5 +20,12 @@ final public class Utilities {
                         (dateToCheck.isBefore(finalDate) ||
                                 dateToCheck.isEqual(finalDate))
         );
+    }
+
+    static public byte[] getSalt(){
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return salt;
     }
 }
