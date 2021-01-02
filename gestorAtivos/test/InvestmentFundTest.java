@@ -18,7 +18,7 @@ public class InvestmentFundTest {
     @Test
     void equalsTest() {
         assertEquals(investmentFund2, investmentFund1);
-        investmentFund2.setAssetType(AssetType.PROPERTY);
+        investmentFund2.setStartDate(LocalDate.now().plusMonths(1L));
         assertNotSame(investmentFund1, investmentFund2);
     }
 
