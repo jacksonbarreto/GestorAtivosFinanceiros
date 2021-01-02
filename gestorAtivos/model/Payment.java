@@ -15,17 +15,22 @@ public class Payment implements Serializable {
     private FinancialAsset financialAsset;
     private LocalDate dateOfPayment;
     private BigDecimal monthlyProfitability;
-    private BigDecimal amountPaid;
+    private BigDecimal interestReceived;
 
     private Payment() {
     }
 
 
-    public Payment(FinancialAsset financialAsset, LocalDate dateOfPayment, BigDecimal monthlyProfitability, BigDecimal amountPaid) {
+    public Payment(FinancialAsset financialAsset, LocalDate dateOfPayment, BigDecimal monthlyProfitability, BigDecimal interestReceived) {
         this.financialAsset = financialAsset;
         this.dateOfPayment = dateOfPayment;
         this.monthlyProfitability = monthlyProfitability;
-        this.amountPaid = amountPaid;
+        this.interestReceived = interestReceived;
+    }
+
+    @Transient
+    public BigDecimal getTaxDue(BigDecimal tax){
+        return this.interestReceived.multiply(tax);
     }
 
     @Column(name = "RentabilidadeMensal", nullable = false)
@@ -67,13 +72,13 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "ValorPago", nullable = false)
-    public BigDecimal getAmountPaid() {
-        return amountPaid;
+    @Column(name = "JurosRecebido", nullable = false)
+    public BigDecimal getInterestReceived() {
+        return interestReceived;
     }
 
-    public void setAmountPaid(BigDecimal amountPaid) {
-        this.amountPaid = amountPaid;
+    public void setInterestReceived(BigDecimal interestReceived) {
+        this.interestReceived = interestReceived;
     }
 
     @Override
@@ -81,11 +86,11 @@ public class Payment implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Payment)) return false;
         Payment payment = (Payment) o;
-        return Objects.equals(getId(), payment.getId()) && getDateOfPayment().equals(payment.getDateOfPayment()) && getMonthlyProfitability().equals(payment.getMonthlyProfitability()) && getAmountPaid().equals(payment.getAmountPaid());
+        return Objects.equals(getId(), payment.getId()) && getDateOfPayment().equals(payment.getDateOfPayment()) && getMonthlyProfitability().equals(payment.getMonthlyProfitability()) && getInterestReceived().equals(payment.getInterestReceived());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDateOfPayment(), getMonthlyProfitability(), getAmountPaid());
+        return Objects.hash(getId(), getDateOfPayment(), getMonthlyProfitability(), getInterestReceived());
     }
 }
