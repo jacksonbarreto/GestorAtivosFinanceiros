@@ -39,11 +39,11 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      * @return the gross profit
      */
     public BigDecimal getGrossProfit() {
-        BigDecimal grossProfit = new BigDecimal(String.valueOf(this.amountInvested));
+        BigDecimal grossProfit = new BigDecimal("0");
         for (Payment p : this.payments) {
-            grossProfit = grossProfit.add(grossProfit.multiply(p.getMonthlyProfitability()));
+            grossProfit = grossProfit.add(p.getAmountPaid());
         }
-        return grossProfit.subtract(this.amountInvested).setScale(2,ROUND_HALF_UP);
+        return grossProfit.setScale(2,ROUND_HALF_UP);
     }
 
     /**
