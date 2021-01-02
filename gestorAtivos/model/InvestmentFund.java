@@ -50,56 +50,6 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         this.payments = this.createPayments();
     }
 
-    /**
-     * This method returns the gross profit, that is,
-     * the amount invested initially plus interest for the investment period, without considering the tax discount.
-     *
-     * @return the gross profit
-     */
-    @Transient
-    public BigDecimal getGrossProfit() {
-        BigDecimal grossProfit = new BigDecimal("0");
-        for (Payment p : this.payments) {
-            grossProfit = grossProfit.add(p.getInterestReceived());
-        }
-        return grossProfit.setScale(2, ROUND_HALF_UP);
-    }
-
-    /**
-     * This method returns net income, that is, the amount invested initially plus interest for the investment period, after tax.
-     *
-     * @return net profit from financial asset
-     */
-    @Transient
-    public BigDecimal getNetProfit() {
-        BigDecimal grossProfit = this.getGrossProfit();
-        BigDecimal netProfit = new BigDecimal(String.valueOf(grossProfit));
-
-        if (grossProfit.compareTo(new BigDecimal("0")) > 0) {
-            netProfit = netProfit.subtract(grossProfit.multiply(this.tax));
-        }
-        return netProfit.setScale(2, ROUND_HALF_UP);
-    }
-
-    /**
-     * This method returns the average monthly net profit.
-     *
-     * @return average monthly net profit.
-     */
-    @Transient
-    public BigDecimal getAverageMonthlyNetProfit() {
-        return this.getNetProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
-    }
-
-    /**
-     * This method returns the average monthly gross profit.
-     *
-     * @return average monthly gross profit.
-     */
-    @Transient
-    public BigDecimal getAverageMonthlyGrossProfit() {
-        return this.getGrossProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
-    }
 
     /**
      * This method allows you to change the monthly profitability of a specific month (a given payment).

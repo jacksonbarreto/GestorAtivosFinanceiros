@@ -1,26 +1,14 @@
 package model;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static java.math.BigDecimal.ROUND_HALF_UP;
 
 @Entity
 @Table(name = "AtivoFinanceiro")
@@ -61,12 +49,66 @@ public abstract class FinancialAsset implements Serializable {
             throw new IllegalArgumentException();
         } else if (designation.isEmpty()) {
             throw new IllegalArgumentException();
+        } else if (designation.length() <= 3) {
+            throw new IllegalArgumentException();
         }
         this.startDate = startDate;
         this.duration = duration;
         this.tax = tax;
         this.designation = designation;
         this.assetType = assetType;
+    }
+
+
+    /**
+     * This method returns the gross profit, that is,
+     * the amount invested initially plus interest for the investment period, without considering the tax discount.
+     *
+     * @return the gross profit
+     */
+    @Transient
+    public BigDecimal getGrossProfit() {
+        BigDecimal grossProfit = new BigDecimal("0");
+        for (Payment p : this.payments) {
+            grossProfit = grossProfit.add(p.getInterestReceived());
+        }
+        return grossProfit.setScale(2, ROUND_HALF_UP);
+    }
+
+    /**
+     * This method returns net income, that is, the amount invested initially plus interest for the investment period, after tax.
+     *
+     * @return net profit from financial asset
+     */
+    @Transient
+    public BigDecimal getNetProfit() {
+        BigDecimal grossProfit = this.getGrossProfit();
+        BigDecimal netProfit = new BigDecimal(String.valueOf(grossProfit));
+
+        if (grossProfit.compareTo(new BigDecimal("0")) > 0) {
+            netProfit = netProfit.subtract(grossProfit.multiply(this.tax));
+        }
+        return netProfit.setScale(2, ROUND_HALF_UP);
+    }
+
+    /**
+     * This method returns the average monthly net profit.
+     *
+     * @return average monthly net profit.
+     */
+    @Transient
+    public BigDecimal getAverageMonthlyNetProfit() {
+        return this.getNetProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
+    }
+
+    /**
+     * This method returns the average monthly gross profit.
+     *
+     * @return average monthly gross profit.
+     */
+    @Transient
+    public BigDecimal getAverageMonthlyGrossProfit() {
+        return this.getGrossProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
     }
 
     /**
