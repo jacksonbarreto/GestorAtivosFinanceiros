@@ -67,7 +67,7 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "ValorPago")
+    @Column(name = "ValorPago", nullable = false)
     public BigDecimal getAmountPaid() {
         return amountPaid;
     }
