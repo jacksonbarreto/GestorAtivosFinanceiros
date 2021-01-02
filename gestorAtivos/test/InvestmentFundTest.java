@@ -102,5 +102,10 @@ public class InvestmentFundTest {
         assertThrows(IllegalArgumentException.class, () -> investmentFund1.setAmountInvested(new BigDecimal("-1")));
     }
 
+    @Test
+    void createPaymentsTest() {
+        assertEquals(2, investmentFund1.getPayments().size());
+        assertEquals(LocalDate.now().plusMonths(2L), investmentFund1.getPayments().get(1).getDateOfPayment());
+    }
 
 }

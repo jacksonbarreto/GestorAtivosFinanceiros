@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static java.math.BigDecimal.ROUND_HALF_UP;
 import static model.AssetType.FOUND;
 
 @Entity

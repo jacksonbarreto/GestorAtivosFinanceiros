@@ -79,7 +79,7 @@ public class Bank implements Serializable {
         BigDecimal totalInterestPaid = new BigDecimal("0");
         for (TermDeposit termDeposit : this.termDeposits) {
             for (Payment payment : termDeposit.getPayments()) {
-                totalInterestPaid = totalInterestPaid.add(payment.getAmountPaid());
+                totalInterestPaid = totalInterestPaid.add(payment.getInterestReceived());
             }
         }
         return totalInterestPaid.setScale(2, ROUND_HALF_UP);
@@ -100,7 +100,7 @@ public class Bank implements Serializable {
         for (TermDeposit termDeposit : this.termDeposits) {
             for (Payment payment : termDeposit.getPayments()) {
                 if (dateIsInThePeriod(initialDate, finalDate, payment.getDateOfPayment()))
-                    totalInterestPaid = totalInterestPaid.add(payment.getAmountPaid());
+                    totalInterestPaid = totalInterestPaid.add(payment.getInterestReceived());
             }
         }
         return totalInterestPaid.setScale(2, ROUND_HALF_UP);
