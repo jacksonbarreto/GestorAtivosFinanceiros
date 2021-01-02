@@ -3,11 +3,13 @@ package model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import static java.math.BigDecimal.ROUND_HALF_UP;
+import static model.Utilities.dateIsInThePeriod;
 
 @Entity
 @Table(name = "Banco")
@@ -32,17 +34,73 @@ public class Bank implements Serializable {
         termDeposits = new ArrayList<>();
     }
 
-    public BigDecimal getEquityInDeposits(){
+    /**
+     * This method returns the amount, in monetary units, deposited with the bank.
+     *
+     * @return the amount, in monetary units, deposited with the bank
+     */
+    public BigDecimal getEquityInDeposits() {
         BigDecimal totalDeposited = new BigDecimal("0");
 
-        for(TermDeposit termDeposit : this.termDeposits){
+        for (TermDeposit termDeposit : this.termDeposits) {
             totalDeposited = totalDeposited.add(termDeposit.getDepositedAmount());
         }
 
-        return totalDeposited.setScale(2,ROUND_HALF_UP);
+        return totalDeposited.setScale(2, ROUND_HALF_UP);
     }
 
+    /**
+     * This method returns the amount, in monetary units, deposited with the bank in a given period.
+     *
+     * @param initialDate period start date.
+     * @param finalDate   period end date.
+     * @return the amount, in monetary units, deposited with the bank
+     */
+    public BigDecimal getEquityInDeposits(LocalDate initialDate, LocalDate finalDate) {
+        BigDecimal totalDeposited = new BigDecimal("0");
 
+        for (TermDeposit termDeposit : this.termDeposits) {
+            if (dateIsInThePeriod(initialDate, finalDate, termDeposit.getStartDate()))
+                totalDeposited = totalDeposited.add(termDeposit.getDepositedAmount());
+        }
+
+        return totalDeposited.setScale(2, ROUND_HALF_UP);
+    }
+
+    /**
+     * This method returns the total, in monetary units, paid by the bank to customers, as interest on the amounts invested.
+     *
+     * @return the total, in monetary units, paid by the bank to customers.
+     */
+    public BigDecimal getTotalInterestPaid() {
+        BigDecimal totalInterestPaid = new BigDecimal("0");
+        for (TermDeposit termDeposit : this.termDeposits) {
+            for (Payment payment : termDeposit.getPayments()) {
+                totalInterestPaid = totalInterestPaid.add(payment.getAmountPaid());
+            }
+        }
+        return totalInterestPaid.setScale(2, ROUND_HALF_UP);
+    }
+
+    /**
+     * This method returns the total, in monetary units, paid by the bank to customers,
+     * as interest on the amounts invested, over a given period.
+     *
+     * @param initialDate period start date.
+     * @param finalDate   period end date.
+     * @return the total, in monetary units, paid by the bank to customers.
+     */
+    public BigDecimal getTotalInterestPaid(LocalDate initialDate, LocalDate finalDate) {
+
+        BigDecimal totalInterestPaid = new BigDecimal("0");
+        for (TermDeposit termDeposit : this.termDeposits) {
+            for (Payment payment : termDeposit.getPayments()) {
+                if (dateIsInThePeriod(initialDate, finalDate, payment.getDateOfPayment()))
+                    totalInterestPaid = totalInterestPaid.add(payment.getAmountPaid());
+            }
+        }
+        return totalInterestPaid.setScale(2, ROUND_HALF_UP);
+    }
 
     @OneToMany(mappedBy = "bank", fetch = FetchType.EAGER)
     public List<TermDeposit> getTermDeposits() {
