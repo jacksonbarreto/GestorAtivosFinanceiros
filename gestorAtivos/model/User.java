@@ -9,8 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static model.Utilities.getHashedPassword;
-import static model.Utilities.getSaltRandom;
+import static model.Utilities.*;
 
 @Entity
 @Table(name = "Utilizador")
@@ -254,12 +253,7 @@ public class User implements Serializable {
             initialDate = temp;
         }
         for (FinancialAsset fa : this.financialAssets) {
-            if (
-                    (fa.getStartDate().plusMonths(fa.getDuration()).isAfter(initialDate) ||
-                            fa.getStartDate().plusMonths(fa.getDuration()).isEqual(initialDate)) &&
-                    (fa.getStartDate().plusMonths(fa.getDuration()).isBefore(finalDate) ||
-                            fa.getStartDate().plusMonths(fa.getDuration()).isEqual(finalDate))
-            ){
+            if (dateIsInThePeriod(initialDate,finalDate,fa.getStartDate().plusMonths(fa.getDuration()))){
                 financialAssetsActive.add(fa);
             }
         }
