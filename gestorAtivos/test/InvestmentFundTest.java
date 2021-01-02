@@ -2,10 +2,12 @@ package test;
 
 import model.AssetType;
 import model.InvestmentFund;
+import model.Payment;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,19 +16,21 @@ public class InvestmentFundTest {
     InvestmentFund investmentFund2 = new InvestmentFund(2, new BigDecimal("0.15"), "Fundo Petro4", new BigDecimal("1500.78"), new BigDecimal("0.12"));
 
     @Test
-    void equalsTest(){
+    void equalsTest() {
         assertEquals(investmentFund2, investmentFund1);
         investmentFund2.setAssetType(AssetType.PROPERTY);
         assertNotSame(investmentFund1, investmentFund2);
     }
+
     @Test
-    void hashCodeTest(){
+    void hashCodeTest() {
         assertEquals(investmentFund1.hashCode(), investmentFund2.hashCode());
         investmentFund1.setMonthlyProfitability(new BigDecimal("0.13"));
         assertNotEquals(investmentFund1.hashCode(), investmentFund2.hashCode());
     }
+
     @Test
-    void  compareToTest(){
+    void compareToTest() {
         assertEquals(0, investmentFund2.compareTo(investmentFund1));
         investmentFund2.setAmountInvested(new BigDecimal("1500.79"));
         assertEquals(-1, investmentFund1.compareTo(investmentFund2));
@@ -50,26 +54,34 @@ public class InvestmentFundTest {
     }
 
     @Test
-    void getNetProfitTest(){
+    void getNetProfitTest() {
         assertEquals(0, investmentFund1.getNetProfit().compareTo(new BigDecimal("324.53")));
     }
 
     @Test
-    void getAverageMonthlyNetProfitTest(){
+    void getAverageMonthlyNetProfitTest() {
         assertEquals(0, investmentFund1.getAverageMonthlyNetProfit().compareTo(new BigDecimal("162.27")));
     }
 
     @Test
-    void getAverageMonthlyGrossProfitTest(){
+    void getAverageMonthlyGrossProfitTest() {
         assertEquals(0, investmentFund1.getAverageMonthlyGrossProfit().compareTo(new BigDecimal("190.90")));
     }
 
     @Test
-    void setDurationTest(){
+    void setDurationTest() {
         investmentFund1.setDuration(3);
         assertEquals(3, investmentFund1.getDuration());
         assertEquals(0, investmentFund1.getGrossProfit().compareTo(new BigDecimal("607.71")));
         assertEquals(0, investmentFund1.getNetProfit().compareTo(new BigDecimal("516.55")));
+    }
+
+    @Test
+    void setMonthlyPaymentProfitabilityTest() {
+        investmentFund1.setDuration(3);
+        investmentFund1.setMonthlyPaymentProfitability(LocalDate.now().plusMonths(2), new BigDecimal("0.15"));
+        assertEquals(0, investmentFund1.getGrossProfit().compareTo(new BigDecimal("664.19")));
+        assertEquals(0, investmentFund1.getPayments().get(1).getMonthlyProfitability().compareTo(new BigDecimal("0.15")));
     }
 
 

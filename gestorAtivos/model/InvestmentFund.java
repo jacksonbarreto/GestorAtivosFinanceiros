@@ -79,6 +79,28 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         return this.getGrossProfit().divide(new BigDecimal(String.valueOf(this.duration)), 2, ROUND_HALF_UP);
     }
 
+    public void setMonthlyPaymentProfitability(LocalDate dateOfPayment, BigDecimal newMonthlyProfitability){
+
+        for(Payment payment : this.payments){
+            if (payment.getDateOfPayment().isEqual(dateOfPayment)){
+                payment.setMonthlyProfitability(newMonthlyProfitability);
+            }
+        }
+        recalculatePayments();
+    }
+
+    private void recalculatePayments(){
+        ArrayList<Payment> payments = new ArrayList<>();
+        BigDecimal amountPaid;
+        BigDecimal amount = new BigDecimal(amountInvested.toString());
+        for(Payment payment : this.payments){
+            amountPaid = amount.multiply(payment.getMonthlyProfitability());
+            payments.add(new Payment(this, payment.getDateOfPayment(), payment.getMonthlyProfitability(), amountPaid));
+            amount = amount.add(amountPaid);
+        }
+        this.payments = payments;
+    }
+
     @Override
     protected ArrayList<Payment> createPayments() {
         ArrayList<Payment> payments = new ArrayList<>();
