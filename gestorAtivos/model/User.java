@@ -9,7 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static model.Utilities.getSalt;
+import static model.Utilities.getHashedPassword;
+import static model.Utilities.getSaltRandom;
 
 @Entity
 @Table(name = "Utilizador")
@@ -29,8 +30,8 @@ public class User implements Serializable {
 
     public User(String username, String password, UserType userType) {
         this.username = username;
-        this.password = password;
-        this.salt = getSalt();
+        this.salt = getSaltRandom();
+        this.password = getHashedPassword(password,this.salt);
         this.userType = userType;
         this.financialAssets = new ArrayList<>();
         this.logs = new ArrayList<>();
