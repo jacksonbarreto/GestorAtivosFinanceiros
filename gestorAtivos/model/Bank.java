@@ -2,9 +2,12 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static java.math.BigDecimal.ROUND_HALF_UP;
 
 @Entity
 @Table(name = "Banco")
@@ -28,6 +31,18 @@ public class Bank implements Serializable {
         this.name = name;
         termDeposits = new ArrayList<>();
     }
+
+    public BigDecimal getEquityInDeposits(){
+        BigDecimal totalDeposited = new BigDecimal("0");
+
+        for(TermDeposit termDeposit : this.termDeposits){
+            totalDeposited = totalDeposited.add(termDeposit.getDepositedAmount());
+        }
+
+        return totalDeposited.setScale(2,ROUND_HALF_UP);
+    }
+
+
 
     @OneToMany(mappedBy = "bank", fetch = FetchType.EAGER)
     public List<TermDeposit> getTermDeposits() {
