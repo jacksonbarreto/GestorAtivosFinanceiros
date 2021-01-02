@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static model.Utilities.getSalt;
+
 @Entity
 @Table(name = "Utilizador")
 @Access(AccessType.PROPERTY)
@@ -17,6 +19,7 @@ public class User implements Serializable {
     private Long id;
     private String username;
     private String password;
+    private byte[] salt;
     private UserType userType;
     private List<FinancialAsset> financialAssets;
     private List<Log> logs;
@@ -27,15 +30,17 @@ public class User implements Serializable {
     public User(String username, String password, UserType userType) {
         this.username = username;
         this.password = password;
+        this.salt = getSalt();
         this.userType = userType;
         this.financialAssets = new ArrayList<>();
         this.logs = new ArrayList<>();
     }
 
-    public User(Long id, String username, String password, UserType userType, ArrayList<FinancialAsset> financialAssets, ArrayList<Log> logs) {
+    public User(Long id, String username, String password, byte[] salt, UserType userType, ArrayList<FinancialAsset> financialAssets, ArrayList<Log> logs) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.salt = salt;
         this.userType = userType;
         this.financialAssets = financialAssets;
         this.logs = logs;
@@ -186,6 +191,15 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Column(name = "salt", nullable = false)
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
 
     @Column(name = "TipoUsuario", nullable = false)
