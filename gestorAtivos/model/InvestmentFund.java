@@ -29,7 +29,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         super(FOUND, LocalDate.now(), duration, tax, designation, new ArrayList<>());
         this.amountInvested = amountInvested;
         this.monthlyProfitability = monthlyProfitability;
-        this.payments = this.createPayments(this.monthlyProfitability);
+        this.payments = this.createPayments();
     }
 
     /**
@@ -80,15 +80,29 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
     }
 
     @Override
+    protected ArrayList<Payment> createPayments() {
+        ArrayList<Payment> payments = new ArrayList<>();
+        BigDecimal amountPaid;
+        BigDecimal amount = new BigDecimal(amountInvested.toString());
+
+        for (int i = 1; i <= this.duration; i++) {
+            amountPaid = amount.multiply(this.monthlyProfitability);
+            payments.add(new Payment(this, this.startDate.plusMonths(i), monthlyProfitability, amountPaid));
+            amount = amount.add(amountPaid);
+        }
+        return payments;
+    }
+
+    @Override
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
-        this.payments = this.createPayments(this.monthlyProfitability);
+        this.payments = this.createPayments();
     }
 
     @Override
     public void setDuration(int duration) {
         this.duration = duration;
-        this.payments = this.createPayments(this.monthlyProfitability);
+        this.payments = this.createPayments();
     }
 
     @Column(name = "ValorInvestido", nullable = false)

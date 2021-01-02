@@ -15,15 +15,17 @@ public class Payment implements Serializable {
     private FinancialAsset financialAsset;
     private LocalDate dateOfPayment;
     private BigDecimal monthlyProfitability;
+    private BigDecimal amountPaid;
 
     protected Payment() {
     }
 
 
-    public Payment(FinancialAsset financialAsset, LocalDate dateOfPayment, BigDecimal monthlyProfitability) {
+    public Payment(FinancialAsset financialAsset, LocalDate dateOfPayment, BigDecimal monthlyProfitability, BigDecimal amountPaid) {
         this.financialAsset = financialAsset;
         this.dateOfPayment = dateOfPayment;
         this.monthlyProfitability = monthlyProfitability;
+        this.amountPaid = amountPaid;
     }
 
     @Column(name = "RentabilidadeMensal", nullable = false)
@@ -65,16 +67,25 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
+    @Column(name = "ValorPago")
+    public BigDecimal getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(BigDecimal amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Payment)) return false;
         Payment payment = (Payment) o;
-        return Objects.equals(getId(), payment.getId()) && getDateOfPayment().equals(payment.getDateOfPayment()) && getMonthlyProfitability().equals(payment.getMonthlyProfitability());
+        return Objects.equals(getId(), payment.getId()) && getDateOfPayment().equals(payment.getDateOfPayment()) && getMonthlyProfitability().equals(payment.getMonthlyProfitability()) && getAmountPaid().equals(payment.getAmountPaid());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFinancialAsset(), getDateOfPayment(), getMonthlyProfitability());
+        return Objects.hash(getId(), getDateOfPayment(), getMonthlyProfitability(), getAmountPaid());
     }
 }

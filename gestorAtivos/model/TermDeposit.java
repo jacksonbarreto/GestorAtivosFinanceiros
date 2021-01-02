@@ -36,18 +36,33 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         this.annualProfitability = annualProfitability;
         this.account = account;
         this.bank = bank;
-        this.payments = this.createPayments(this.annualProfitability.divide(new BigDecimal(String.valueOf(12)),2, ROUND_HALF_UP));
+        this.payments = this.createPayments();
     }
 
     @Override
     public void setDuration(int duration) {
         this.duration = duration;
-        this.payments = this.createPayments(this.annualProfitability.divide(new BigDecimal(String.valueOf(12)),2, ROUND_HALF_UP));
+        this.payments = this.createPayments();
     }
+
+    @Override
+    protected ArrayList<Payment> createPayments() {
+        ArrayList<Payment> payments = new ArrayList<>();
+        BigDecimal amountPaid;
+        BigDecimal amount = new BigDecimal(depositedAmount.toString());
+
+        for (int i = 1; i <= this.duration; i++) {
+            amountPaid = amount.multiply(this.annualProfitability.divide(new BigDecimal(String.valueOf(12)),2, ROUND_HALF_UP));
+            payments.add(new Payment(this, this.startDate.plusMonths(i), annualProfitability.divide(new BigDecimal(String.valueOf(12)),2, ROUND_HALF_UP), amountPaid));
+            amount = amount.add(amountPaid);
+        }
+        return payments;
+    }
+
     @Override
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
-        this.payments = this.createPayments(this.annualProfitability.divide(new BigDecimal(String.valueOf(12)),2, ROUND_HALF_UP));
+        this.payments = this.createPayments();
     }
 
     @Column(name = "ValorDepositado", nullable = false)

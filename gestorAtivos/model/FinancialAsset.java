@@ -35,13 +35,7 @@ public abstract class FinancialAsset implements Serializable {
         this.assetType = assetType;
     }
 
-    protected ArrayList<Payment> createPayments(BigDecimal monthlyProfitability) {
-        ArrayList<Payment> payments = new ArrayList<>();
-        for (int i = 0; i < this.duration; i++) {
-            payments.add(new Payment(this, this.startDate.plusMonths(i), monthlyProfitability));
-        }
-        return payments;
-    }
+    protected abstract ArrayList<Payment> createPayments();
 
     @Id
     @GeneratedValue

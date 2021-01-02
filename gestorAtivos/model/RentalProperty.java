@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static java.math.BigDecimal.ROUND_HALF_UP;
+
 @Entity
 @Table(name = "Imovel")
 @Access(AccessType.PROPERTY)
@@ -35,18 +37,28 @@ public class RentalProperty extends FinancialAsset{
         this.monthlyCostCondominium = monthlyCostCondominium;
         this.annualAmountOtherExpenses = annualAmountOtherExpenses;
         this.location = location;
-        this.payments = this.createPayments(new BigDecimal("0"));
+        this.payments = this.createPayments();
     }
 
     @Override
     public void setDuration(int duration) {
         this.duration = duration;
-        this.payments = this.createPayments(new BigDecimal("0"));
+        this.payments = this.createPayments();
     }
+
+    @Override
+    protected ArrayList<Payment> createPayments() {
+        ArrayList<Payment> payments = new ArrayList<>();
+        for (int i = 1; i <= this.duration; i++) {
+            payments.add(new Payment(this, this.startDate.plusMonths(i), new BigDecimal("0"), this.rentAmount));
+        }
+        return payments;
+    }
+
     @Override
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
-        this.payments = this.createPayments(new BigDecimal("0"));
+        this.payments = this.createPayments();
     }
 
     @Column(name = "ValorImovel", nullable = false)
