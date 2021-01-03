@@ -42,7 +42,9 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      */
     public InvestmentFund(int duration, BigDecimal tax, String designation, BigDecimal amountInvested, BigDecimal monthlyProfitability) {
         super(FOUND, LocalDate.now(), duration, tax, designation);
-        if (amountInvested.compareTo(new BigDecimal("0")) <= 0)
+        if (amountInvested == null || amountInvested.compareTo(new BigDecimal("0")) <= 0)
+            throw new IllegalArgumentException();
+        if (monthlyProfitability == null)
             throw new IllegalArgumentException();
         this.amountInvested = amountInvested;
         this.monthlyProfitability = monthlyProfitability;
@@ -61,6 +63,8 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      */
     @Transient
     public void setIndividualMonthlyProfitability(LocalDate dateOfPayment, BigDecimal newMonthlyProfitability) {
+        if (dateOfPayment == null || newMonthlyProfitability == null)
+            throw new IllegalArgumentException();
         for (Payment payment : this.payments) {
             if (payment.getDateOfPayment().isEqual(dateOfPayment)) {
                 payment.setMonthlyProfitability(newMonthlyProfitability);
@@ -76,6 +80,8 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      * @param monthlyProfitability New standard profitability in percentage.
      */
     public void setMonthlyProfitability(BigDecimal monthlyProfitability) {
+        if (monthlyProfitability == null)
+            throw new IllegalArgumentException();
         this.monthlyProfitability = monthlyProfitability;
     }
 
@@ -121,6 +127,8 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      */
     @Override
     public void setStartDate(LocalDate startDate) {
+        if (startDate == null)
+            throw new IllegalArgumentException();
         this.startDate = startDate;
         this.payments = this.createPayments();
     }
@@ -180,7 +188,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      * @param amountInvested New amount invested.
      */
     public void setAmountInvested(BigDecimal amountInvested) {
-        if (amountInvested.compareTo(new BigDecimal("0")) <= 0)
+        if (amountInvested == null || amountInvested.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
         this.amountInvested = amountInvested;
         recalculatePayments();
@@ -202,6 +210,6 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
 
     @Override
     public int compareTo(FinancialAsset financialAsset) {
-        return this.amountInvested.compareTo(((InvestmentFund) financialAsset).getAmountInvested());
+        return this.amountInvested.compareTo(((AssetWithInvestedValue) financialAsset).getAmountInvested());
     }
 }

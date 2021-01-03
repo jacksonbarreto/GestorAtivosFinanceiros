@@ -1,4 +1,5 @@
 package test;
+
 import model.Bank;
 import model.TermDeposit;
 import org.junit.jupiter.api.Test;
@@ -56,11 +57,11 @@ public class TermDepositTest {
     }
 
     @Test
-    void setDurationTest(){
+    void setDurationTest() {
         assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDuration(0));
         assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDuration(-3));
         termDeposit1.setDuration(9);
-        assertEquals(9,termDeposit1.getPayments().size());
+        assertEquals(9, termDeposit1.getPayments().size());
         assertEquals(9, termDeposit1.getDuration());
     }
 
@@ -72,27 +73,30 @@ public class TermDepositTest {
     }
 
     @Test
-    void setAmountInvestedTest() {
+    void setDepositedAmountTest() {
+        BigDecimal depositeAmountNull = null;
         termDeposit1.setDuration(3);
         termDeposit1.setDepositedAmount(new BigDecimal("1800"));
         assertEquals(0, termDeposit1.getGrossProfit().compareTo(new BigDecimal("110.17")));
         assertEquals(0, termDeposit1.getPayments().get(1).getMonthlyProfitability().compareTo(new BigDecimal("0.02")));
         assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDepositedAmount(new BigDecimal("0")));
         assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDepositedAmount(new BigDecimal("-1")));
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDepositedAmount(depositeAmountNull));
     }
 
     @Test
     void setAnnualProfitabilityTest() {
+        BigDecimal annualProfitability = null;
         termDeposit1.setDuration(3);
         termDeposit1.setAnnualProfitability(new BigDecimal("0.15"));
         assertEquals(0, termDeposit1.getGrossProfit().compareTo(new BigDecimal("189.85")));
         assertEquals(0, termDeposit1.getPayments().get(1).getMonthlyProfitability().compareTo(new BigDecimal("0.0125")));
         assertEquals(0, termDeposit1.getAnnualProfitability().compareTo(new BigDecimal("0.15")));
-
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setAnnualProfitability(annualProfitability));
     }
 
     @Test
-    void setAccountTest(){
+    void setAccountTest() {
         String stringNull = null;
         assertThrows(IllegalArgumentException.class, () -> termDeposit1.setAccount(stringNull));
         assertThrows(IllegalArgumentException.class, () -> termDeposit1.setAccount(""));
@@ -102,11 +106,41 @@ public class TermDepositTest {
     }
 
     @Test
-    void setBankTest(){
+    void setBankTest() {
         Bank bankNull = null;
         assertThrows(IllegalArgumentException.class, () -> termDeposit1.setBank(bankNull));
         termDeposit1.setBank(bank2);
         assertEquals(bank2, termDeposit1.getBank());
+    }
+
+    @Test
+    void setStartDateTest() {
+        LocalDate dateNull = null;
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setStartDate(dateNull));
+    }
+
+    @Test
+    void creationWithAmountNull() {
+        BigDecimal amountNull = null;
+        assertThrows(IllegalArgumentException.class, () -> new TermDeposit(5,
+                new BigDecimal("0.15"),
+                "Casa de Praia",
+                amountNull,
+                new BigDecimal("0.24"),
+                "adfgg",
+                bank1));
+    }
+
+    @Test
+    void creationAnnualProfitabilityNull() {
+        BigDecimal amountNull = null;
+        assertThrows(IllegalArgumentException.class, () -> new TermDeposit(5,
+                new BigDecimal("0.15"),
+                "Casa de Praia",
+                new BigDecimal("19805"),
+                amountNull,
+                "adfgg",
+                bank1));
     }
 
     @Test

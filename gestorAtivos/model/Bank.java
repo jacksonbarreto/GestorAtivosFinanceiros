@@ -20,16 +20,26 @@ public class Bank implements Serializable {
     private String name;
     private List<TermDeposit> termDeposits;
 
+    /**
+     * Bank builder, exclusively for the ORM
+     */
     private Bank() {
 
     }
 
-    public Bank(String name, ArrayList<TermDeposit> termDeposits) {
-        this.name = name;
-        this.termDeposits = termDeposits;
-    }
-
+    /**
+     * Bank Builder
+     *
+     * @param name Bank name
+     */
     public Bank(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException();
+        } else if (name.isEmpty()) {
+            throw new IllegalArgumentException();
+        } else if (name.length() < 3) {
+            throw new IllegalArgumentException();
+        }
         this.name = name;
         termDeposits = new ArrayList<>();
     }
@@ -106,11 +116,33 @@ public class Bank implements Serializable {
         return totalInterestPaid.setScale(2, ROUND_HALF_UP);
     }
 
+    /**
+     * Method for adding a deposit in the bank's caution.
+     *
+     * @param termDeposit A term deposit.
+     */
+    @Transient
+    public void addDeposit(TermDeposit termDeposit) {
+        if (termDeposit == null)
+            throw new IllegalArgumentException();
+        this.termDeposits.add(termDeposit);
+    }
+
+    /**
+     * Method for obtaining all deposits secured in the bank.
+     *
+     * @return Collection of cautioned deposits at the bank.
+     */
     @OneToMany(mappedBy = "bank", fetch = FetchType.EAGER)
     public List<TermDeposit> getTermDeposits() {
         return termDeposits;
     }
 
+    /**
+     * Method to obtain the ID (from the database) of the bank.
+     *
+     * @return The ID (of the database) of the bank.
+     */
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -118,24 +150,48 @@ public class Bank implements Serializable {
         return id;
     }
 
-    @Column(name = "Nome", nullable = false)
+    /**
+     * Method to obtain the bank name.
+     *
+     * @return The name of the bank.
+     */
+    @Column(name = "Nome", nullable = false, unique = true)
     public String getName() {
         return name;
     }
 
-    public void setId(Long id) {
+    /**
+     * Method for assigning the database ID, exclusive use of ORM.
+     *
+     * @param id The database ID.
+     */
+    private void setId(Long id) {
         this.id = id;
     }
 
-    public void setTermDeposits(ArrayList<TermDeposit> termDeposits) {
-        this.termDeposits = termDeposits;
-    }
 
+    /**
+     * Method for changing the bank name.
+     *
+     * @param name New bank name.
+     */
     public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException();
+        } else if (name.isEmpty()) {
+            throw new IllegalArgumentException();
+        } else if (name.length() < 3) {
+            throw new IllegalArgumentException();
+        }
         this.name = name;
     }
 
-    public void setTermDeposits(List<TermDeposit> termDeposits) {
+    /**
+     * Method for assigning a set of deposits to the bank's caution. Exclusive use of ORM.
+     *
+     * @param termDeposits Bank deposits cautioned collection.
+     */
+    private void setTermDeposits(List<TermDeposit> termDeposits) {
         this.termDeposits = termDeposits;
     }
 
@@ -144,11 +200,11 @@ public class Bank implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Bank)) return false;
         Bank bank = (Bank) o;
-        return Objects.equals(getId(), bank.getId()) && getName().equals(bank.getName()) && getTermDeposits().equals(bank.getTermDeposits());
+        return Objects.equals(getId(), bank.getId()) && getName().equals(bank.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getTermDeposits());
+        return Objects.hash(getId(), getName());
     }
 }

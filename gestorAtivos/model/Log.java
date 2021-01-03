@@ -14,20 +14,30 @@ public class Log implements Serializable {
     private LocalDateTime moment;
     private Operation operation;
 
+    /**
+     * Log builder for exclusive use of ORM.
+     */
     private Log() {
     }
 
+    /**
+     * Log Builder.
+     *
+     * @param operation Operation to be registered.
+     */
     public Log(Operation operation) {
+        if (operation == null)
+            throw new IllegalArgumentException();
         this.operation = operation;
         this.moment = LocalDateTime.now();
     }
 
-    public Log(Long id, LocalDateTime moment, Operation operation) {
-        this.id = id;
-        this.moment = moment;
-        this.operation = operation;
-    }
 
+    /**
+     * Method for obtaining the log (database) ID.
+     *
+     * @return The log (database) ID.
+     */
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -35,26 +45,51 @@ public class Log implements Serializable {
         return id;
     }
 
+    /**
+     * Method for obtaining the record date and time.
+     *
+     * @return The date and time of registration.
+     */
     @Column(name = "Momento", nullable = false)
     public LocalDateTime getMoment() {
         return moment;
     }
 
+    /**
+     * Method for obtaining the registration operation.
+     *
+     * @return The registration operation.
+     */
     @Column(name = "Operacao", nullable = false)
     @Enumerated(EnumType.STRING)
     public Operation getOperation() {
         return operation;
     }
 
-    public void setId(Long id) {
+    /**
+     * Method for setting the ID (of the database). Exclusive use of ORM.
+     *
+     * @param id The ID (of the database).
+     */
+    private void setId(Long id) {
         this.id = id;
     }
 
-    public void setOperation(Operation operation) {
+    /**
+     * Method to define the operation of the log. Exclusive use of ORM.
+     *
+     * @param operation The operation of the log.
+     */
+    private void setOperation(Operation operation) {
         this.operation = operation;
     }
 
-    public void setMoment(LocalDateTime moment) {
+    /**
+     * Method for setting the log record date and time. Exclusive use of ORM.
+     *
+     * @param moment The log record date and time.
+     */
+    private void setMoment(LocalDateTime moment) {
         this.moment = moment;
     }
 

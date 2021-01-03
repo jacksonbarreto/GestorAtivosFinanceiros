@@ -1,11 +1,10 @@
 package model;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 
 public enum UserType implements Serializable {
-    SIMPLE(1L,"SIMPLE"), MANAGER(2L, "MANAGER"), ROOT(3L, "ROOT");
+    SIMPLE(1L, "SIMPLE"), MANAGER(2L, "MANAGER"), ROOT(3L, "ROOT");
 
 
     private final Long id;

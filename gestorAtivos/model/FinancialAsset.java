@@ -43,7 +43,9 @@ public abstract class FinancialAsset implements Serializable {
     public FinancialAsset(AssetType assetType, LocalDate startDate, int duration, BigDecimal tax, String designation) {
         if (duration <= 0)
             throw new IllegalArgumentException();
-        if (tax.compareTo(new BigDecimal("0")) < 0)
+        if (startDate == null)
+            throw new IllegalArgumentException();
+        if (tax == null || tax.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
         if (designation == null) {
             throw new IllegalArgumentException();
@@ -175,7 +177,7 @@ public abstract class FinancialAsset implements Serializable {
      * @param tax percentage annual tax.
      */
     public void setTax(BigDecimal tax) {
-        if (tax.compareTo(new BigDecimal("0")) < 0)
+        if (tax == null || tax.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
         this.tax = tax;
     }
@@ -199,6 +201,8 @@ public abstract class FinancialAsset implements Serializable {
         if (designation == null) {
             throw new IllegalArgumentException();
         } else if (designation.isEmpty()) {
+            throw new IllegalArgumentException();
+        } else if (designation.length() <= 3) {
             throw new IllegalArgumentException();
         }
         this.designation = designation;

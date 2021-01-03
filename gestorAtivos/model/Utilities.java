@@ -13,6 +13,9 @@ final public class Utilities {
     }
 
     static public boolean dateIsInThePeriod(LocalDate initialDate, LocalDate finalDate, LocalDate dateToCheck){
+        if (initialDate == null || finalDate == null || dateToCheck == null)
+            throw new IllegalArgumentException();
+
         LocalDate temp;
         if (initialDate.isAfter(finalDate)) {
             temp = finalDate;
@@ -25,6 +28,20 @@ final public class Utilities {
                         (dateToCheck.isBefore(finalDate) ||
                                 dateToCheck.isEqual(finalDate))
         );
+    }
+
+    static public boolean dateIsBeforeOrEqual(LocalDate milestoneDate, LocalDate dateToCheck){
+        if (milestoneDate == null || dateToCheck == null)
+            throw new IllegalArgumentException();
+
+        return  ((dateToCheck.isBefore(milestoneDate) || dateToCheck.isEqual(milestoneDate)));
+    }
+
+    static public boolean dateIsAfterOrEqual(LocalDate milestoneDate, LocalDate dateToCheck){
+        if (milestoneDate == null || dateToCheck == null)
+            throw new IllegalArgumentException();
+
+        return  ((dateToCheck.isAfter(milestoneDate) || dateToCheck.isEqual(milestoneDate)));
     }
 
     static public byte[] getSaltRandom(){

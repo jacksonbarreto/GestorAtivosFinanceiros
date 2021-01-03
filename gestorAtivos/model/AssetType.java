@@ -1,11 +1,10 @@
 package model;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 
 public enum AssetType implements Serializable {
-    FOUND(1L,"FOUND"), DEPOSIT(2L, "DEPOSIT"), PROPERTY(3L, "PROPERTY");
+    FOUND(1L, "FOUND"), DEPOSIT(2L, "DEPOSIT"), PROPERTY(3L, "PROPERTY");
 
 
     private final Long id;

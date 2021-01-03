@@ -6,12 +6,13 @@ public class LogSystem {
     private static LogSystem INSTANCE;
     ArrayList<Operation> operations;
 
-    private LogSystem(){}
+    private LogSystem() {
+    }
 
-    public static LogSystem getInstance(){
-        if (INSTANCE == null){
-            synchronized (LogSystem.class){
-                if (INSTANCE == null){
+    public static LogSystem getInstance() {
+        if (INSTANCE == null) {
+            synchronized (LogSystem.class) {
+                if (INSTANCE == null) {
                     INSTANCE = new LogSystem();
                 }
             }
@@ -19,7 +20,7 @@ public class LogSystem {
         return INSTANCE;
     }
 
-    public void addEvent(Operation event){
+    public void addEvent(Operation event) {
         this.operations.add(event);
     }
 

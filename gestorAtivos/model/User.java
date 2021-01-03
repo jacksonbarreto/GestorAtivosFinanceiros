@@ -9,7 +9,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static model.AssetType.DEPOSIT;
+import static model.AssetType.FOUND;
+import static model.Operation.*;
 import static model.Utilities.*;
+import static model.Utilities.dateIsAfterOrEqual;
 
 @Entity
 @Table(name = "Utilizador")
@@ -24,26 +28,66 @@ public class User implements Serializable {
     private List<FinancialAsset> financialAssets;
     private List<Log> logs;
 
+    /**
+     * User builder. Exclusively for ORM.
+     */
     private User() {
     }
 
+    /**
+     * User builder.
+     *
+     * @param username login name.
+     * @param password access password.
+     * @param userType user profile.
+     */
     public User(String username, String password, UserType userType) {
+        if (username == null || password == null || userType == null) {
+            throw new IllegalArgumentException();
+        } else if (username.isEmpty() || password.isEmpty()) {
+            throw new IllegalArgumentException();
+        } else if (username.length() <= 3 || password.length() <= 3) {
+            throw new IllegalArgumentException();
+        }
         this.username = username;
         this.salt = getSaltRandom();
-        this.password = getHashedPassword(password,this.salt);
+        this.password = getHashedPassword(password, this.salt);
         this.userType = userType;
         this.financialAssets = new ArrayList<>();
         this.logs = new ArrayList<>();
+        addLog(CREATED_USER);
     }
 
-    public User(Long id, String username, String password, byte[] salt, UserType userType, ArrayList<FinancialAsset> financialAssets, ArrayList<Log> logs) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.salt = salt;
-        this.userType = userType;
-        this.financialAssets = financialAssets;
-        this.logs = logs;
+    /**
+     * Method to record a user log.
+     *
+     * @param operation Operation.
+     */
+    public void addLog(Operation operation) {
+        if (operation == null)
+            throw new IllegalArgumentException();
+        this.logs.add(new Log(operation));
+    }
+
+    /**
+     * Method for adding a financial asset to the user's asset collection.
+     *
+     * @param financialAsset A financial asset.
+     */
+    public void addActiveFinancial(FinancialAsset financialAsset) {
+        if (financialAsset == null)
+            throw new IllegalArgumentException();
+        this.financialAssets.add(financialAsset);
+        switch (financialAsset.getAssetType()) {
+            case FOUND:
+                addLog(ADDED_INVESTMENT_FUND);
+                break;
+            case DEPOSIT:
+                addLog(ADDED_DEPOSIT);
+                break;
+            case PROPERTY:
+                addLog(ADDED_PROPERTY);
+        }
     }
 
     /**
@@ -62,6 +106,14 @@ public class User implements Serializable {
      * @return asset collection
      */
     public List<FinancialAsset> findFinancialAsset(String designation) {
+        if (designation == null) {
+            throw new IllegalArgumentException();
+        } else if (designation.isEmpty()) {
+            throw new IllegalArgumentException();
+        } else if (designation.length() <= 3) {
+            throw new IllegalArgumentException();
+        }
+
         List<FinancialAsset> financialAssets = new ArrayList<>();
 
         for (FinancialAsset fa : this.financialAssets) {
@@ -81,6 +133,8 @@ public class User implements Serializable {
      * @return asset collection
      */
     public List<FinancialAsset> findFinancialAsset(AssetType assetType) {
+        if (assetType == null)
+            throw new IllegalArgumentException();
         List<FinancialAsset> financialAssets = new ArrayList<>();
         for (FinancialAsset fa : this.financialAssets) {
             if (fa.getAssetType() == assetType) {
@@ -108,6 +162,13 @@ public class User implements Serializable {
      * @return asset collection
      */
     public List<FinancialAsset> findFinancialAsset(String designation, AssetType assetType) {
+        if (designation == null || assetType == null) {
+            throw new IllegalArgumentException();
+        } else if (designation.isEmpty()) {
+            throw new IllegalArgumentException();
+        } else if (designation.length() <= 3) {
+            throw new IllegalArgumentException();
+        }
         List<FinancialAsset> financialAssets = new ArrayList<>();
         for (FinancialAsset fa : this.financialAssets) {
             if (fa.getDesignation().toLowerCase().matches("(.*)" + designation.toLowerCase() + "(.*)") && fa.getAssetType() == assetType) {
@@ -131,9 +192,12 @@ public class User implements Serializable {
      * @return collection of financial assets that meet the filter
      */
     public static List<FinancialAsset> filterByAmountInvested(List<FinancialAsset> financialAssets, LogicalOperator logicalOperator, BigDecimal referenceValue) {
+        if (financialAssets == null || referenceValue == null || logicalOperator == null || referenceValue.compareTo(new BigDecimal("0")) <= 0) {
+            throw new IllegalArgumentException();
+        }
         List<FinancialAsset> filteredFinancialAssets = new ArrayList<>();
         for (FinancialAsset fa : financialAssets) {
-            if (fa instanceof AssetWithInvestedValue) {
+            if (fa instanceof AssetWithInvestedValue && (fa.getAssetType() == FOUND || fa.getAssetType() == DEPOSIT)) {
                 switch (logicalOperator) {
                     case EQUAL:
                         if (((AssetWithInvestedValue) fa).getAmountInvested().equals(referenceValue)) {
@@ -165,53 +229,111 @@ public class User implements Serializable {
         return filteredFinancialAssets;
     }
 
-    //padroes
 
+    /**
+     * Method to obtain the ID (from the database) of the user.
+     *
+     * @return The ID (of the database) of the user.
+     */
     @Id
     @GeneratedValue
     @Column(name = "id")
-    public Long getId() {
+    private Long getId() {
         return id;
     }
 
-    @Column(name = "Username", nullable = false)
+    /**
+     * Method to obtain the user's login name.
+     *
+     * @return The user's login name.
+     */
+    @Column(name = "Username", nullable = false, unique = true)
     public String getUsername() {
         return username;
     }
 
-
+    /**
+     * Method for changing the user's login name.
+     *
+     * @param username New user login name.
+     */
     public void setUsername(String username) {
+        if (username == null || username.isEmpty() || username.length() <= 3)
+            throw new IllegalArgumentException();
         this.username = username;
+        addLog(CHANGED_USERNAME);
     }
 
+    /**
+     * Method to obtain the user's password.
+     *
+     * @return The user's encrypted access password.
+     */
     @Column(name = "Password", nullable = false)
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Method for changing the user's password.
+     *
+     * @param password New user access password.
+     */
     public void setPassword(String password) {
-        this.password = password;
+        if (password == null || password.isEmpty() || password.length() <= 3)
+            throw new IllegalArgumentException();
+        this.salt = getSaltRandom();
+        this.password = getHashedPassword(password, this.salt);
+        addLog(CHANGED_PASSWORD);
     }
 
+    /**
+     * Method to obtain salt from the user.
+     *
+     * @return The user's salt.
+     */
     @Column(name = "salt", nullable = false)
     public byte[] getSalt() {
         return salt;
     }
 
-    public void setSalt(byte[] salt) {
+    /**
+     * Method to define the user's salt. Exclusive use of ORM
+     *
+     * @param salt the user's salt
+     */
+    private void setSalt(byte[] salt) {
         this.salt = salt;
     }
 
+    /**
+     * Method to obtain the type of user profile.
+     *
+     * @return The type of the user.
+     */
     @Column(name = "TipoUsuario", nullable = false)
     @Enumerated(EnumType.STRING)
     public UserType getUserType() {
         return userType;
     }
 
+    /**
+     * Method for changing the type of user profile.
+     *
+     * @param userType new user type.
+     */
     public void setUserType(UserType userType) {
+        if (userType == null)
+            throw new IllegalArgumentException();
         this.userType = userType;
+        addLog(CHANGED_USER_TYPE);
     }
 
+    /**
+     * Method to obtain all the financial assets of the user.
+     *
+     * @return collection of financial assets.
+     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "AtivoUtilizador", joinColumns = @JoinColumn(name = "Utilizador", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "AtivoFinanceiro", referencedColumnName = "id"))
@@ -229,8 +351,8 @@ public class User implements Serializable {
     public List<FinancialAsset> getFinancialAssetsreverseOrderActive() {
         List<FinancialAsset> financialAssetsreverseOrderActive = new ArrayList<>();
         for (FinancialAsset fa : this.financialAssets) {
-            if (fa.getStartDate().plusMonths(fa.getDuration()).isAfter(LocalDate.now()) ||
-                    fa.getStartDate().plusMonths(fa.getDuration()).isEqual(LocalDate.now())) {
+            if (dateIsBeforeOrEqual(LocalDate.now(), fa.getStartDate()) &&
+                    dateIsAfterOrEqual(LocalDate.now(), fa.getStartDate().plusMonths(fa.getDuration()))) {
                 financialAssetsreverseOrderActive.add(fa);
             }
         }
@@ -240,43 +362,71 @@ public class User implements Serializable {
 
     /**
      * This method returns a collection of financial assets that are active over a two-date range.
-     * Equal start and end date return the financial assets that end their duration, on the date informed.
+     * Being active means having your creation date equal to or before the start date and having your
+     * last payment on or after the end date.
+     *
      * @param initialDate Start date of consultation
-     * @param finalDate End date of consultation
+     * @param finalDate   End date of consultation
      * @return collection of financial assets active in the date range.
      */
     @Transient
     public List<FinancialAsset> getFinancialAssetsActive(LocalDate initialDate, LocalDate finalDate) {
-        LocalDate temp;
+        if (initialDate == null | finalDate == null)
+            throw new IllegalArgumentException();
+
         List<FinancialAsset> financialAssetsActive = new ArrayList<>();
-        if (initialDate.isAfter(finalDate)) {
-            temp = finalDate;
-            finalDate = initialDate;
-            initialDate = temp;
-        }
+
         for (FinancialAsset fa : this.financialAssets) {
-            if (dateIsInThePeriod(initialDate,finalDate,fa.getStartDate().plusMonths(fa.getDuration()))){
+            if (
+                    dateIsBeforeOrEqual(initialDate, fa.getStartDate()) &&
+                            dateIsAfterOrEqual(finalDate, fa.getStartDate().plusMonths(fa.getDuration()))
+
+            ) {
                 financialAssetsActive.add(fa);
             }
         }
         return financialAssetsActive;
     }
 
+    /**
+     * Method to obtain the listing of user logs.
+     *
+     * @return Collection of user logs.
+     */
     @OneToMany
     @JoinColumn(name = "Utilizador", referencedColumnName = "id", nullable = false)
     public List<Log> getLogs() {
         return logs;
     }
 
-    public void setId(Long id) {
+    /**
+     * Method for setting the ID (of the database). Exclusive use of ORM.
+     *
+     * @param id The ID (of the database).
+     */
+    private void setId(Long id) {
         this.id = id;
     }
 
-    public void setFinancialAssets(ArrayList<FinancialAsset> financialAssets) {
+    /**
+     * Method for defining the user's list of financial assets. Exclusive use of ORM.
+     *
+     * @param financialAssets The user's list of financial assets.
+     */
+    private void setFinancialAssets(ArrayList<FinancialAsset> financialAssets) {
+        if (financialAssets == null)
+            throw new IllegalArgumentException();
         this.financialAssets = financialAssets;
     }
 
-    public void setLogs(ArrayList<Log> logs) {
+    /**
+     * Method to define the list of user logs. Exclusive use of ORM.
+     *
+     * @param logs The list of user logs.
+     */
+    private void setLogs(ArrayList<Log> logs) {
+        if (logs == null)
+            throw new IllegalArgumentException();
         this.logs = logs;
     }
 

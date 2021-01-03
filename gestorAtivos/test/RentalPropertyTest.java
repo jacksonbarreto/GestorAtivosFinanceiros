@@ -51,30 +51,49 @@ public class RentalPropertyTest {
 
     @Test
     void setPropertyValueTest() {
+        BigDecimal propertyValueNull = null;
         assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setPropertyValue(new BigDecimal("0")));
         assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setPropertyValue(new BigDecimal("-23")));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setPropertyValue(propertyValueNull));
         rentalProperty1.setPropertyValue(new BigDecimal("245000.35"));
         assertEquals(new BigDecimal("245000.35"), rentalProperty1.getPropertyValue());
     }
 
     @Test
     void setRentAmountTest() {
+        BigDecimal rentAmountNull = null;
         assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setRentAmount(new BigDecimal("0")));
         assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setRentAmount(new BigDecimal("-453.99")));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setRentAmount(rentAmountNull));
         rentalProperty1.setRentAmount(new BigDecimal("678.49"));
         assertEquals(new BigDecimal("678.49"), rentalProperty1.getRentAmount());
     }
 
     @Test
     void setAnnualAmountOtherExpensesTest() {
+        BigDecimal annualAmountOtherExpensesNull = null;
         assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setAnnualAmountOtherExpenses(new BigDecimal("-178.62")));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setAnnualAmountOtherExpenses(annualAmountOtherExpensesNull));
         rentalProperty1.setAnnualAmountOtherExpenses(new BigDecimal("29.77"));
         assertEquals(new BigDecimal("29.77"), rentalProperty1.getAnnualAmountOtherExpenses());
     }
 
     @Test
+    void setTaxTest() {
+        BigDecimal taxNull = null;
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setTax(taxNull));
+    }
+
+    @Test
+    void setDesignationShortTest() {
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setDesignation("xpt"));
+    }
+
+    @Test
     void setMonthlyCostCondominiumTest() {
+        BigDecimal monthlyCostCondominiumNull = null;
         assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setMonthlyCostCondominium(new BigDecimal("-191.73")));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setMonthlyCostCondominium(monthlyCostCondominiumNull));
         rentalProperty1.setMonthlyCostCondominium(new BigDecimal("123.97"));
         assertEquals(new BigDecimal("123.97"), rentalProperty1.getMonthlyCostCondominium());
     }
@@ -100,6 +119,77 @@ public class RentalPropertyTest {
     void setDurationTest() {
         assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setDuration(0));
         assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setDuration(-1));
+    }
+
+    @Test
+    void setStartDateTest() {
+        LocalDate dateNull = null;
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setStartDate(dateNull));
+    }
+
+    @Test
+    void creationPropertyValueNull() {
+        BigDecimal valueNull = null;
+        assertThrows(IllegalArgumentException.class, () -> new RentalProperty(5,
+                new BigDecimal("0.15"),
+                "Apartamento em Viana",
+                valueNull,
+                new BigDecimal("450.70"),
+                new BigDecimal("63.50"),
+                new BigDecimal("28.90"),
+                "Rua Nogueira de Melo, 10, 3º Direito"));
+    }
+
+    @Test
+    void creationRentAmountNull() {
+        BigDecimal valueNull = null;
+        assertThrows(IllegalArgumentException.class, () -> new RentalProperty(5,
+                new BigDecimal("0.15"),
+                "Apartamento em Viana",
+                new BigDecimal("158000"),
+                valueNull,
+                new BigDecimal("63.50"),
+                new BigDecimal("28.90"),
+                "Rua Nogueira de Melo, 10, 3º Direito"));
+    }
+
+    @Test
+    void creationMonthlyCostCondominiumNull() {
+        BigDecimal valueNull = null;
+        assertThrows(IllegalArgumentException.class, () -> new RentalProperty(5,
+                new BigDecimal("0.15"),
+                "Apartamento em Viana",
+                new BigDecimal("158000"),
+                new BigDecimal("450.70"),
+                valueNull,
+                new BigDecimal("28.90"),
+                "Rua Nogueira de Melo, 10, 3º Direito"));
+    }
+
+    @Test
+    void creationAnnualAmountOtherExpensesNull() {
+        BigDecimal valueNull = null;
+        assertThrows(IllegalArgumentException.class, () -> new RentalProperty(5,
+                new BigDecimal("0.15"),
+                "Apartamento em Viana",
+                new BigDecimal("158000"),
+                new BigDecimal("450.70"),
+                new BigDecimal("63.50"),
+                valueNull,
+                "Rua Nogueira de Melo, 10, 3º Direito"));
+    }
+
+    @Test
+    void creationTaxNull() {
+        BigDecimal valueNull = null;
+        assertThrows(IllegalArgumentException.class, () -> new RentalProperty(5,
+                valueNull,
+                "Apartamento em Viana",
+                new BigDecimal("158000"),
+                new BigDecimal("450.70"),
+                new BigDecimal("63.50"),
+                new BigDecimal("28.90"),
+                "Rua Nogueira de Melo, 10, 3º Direito"));
     }
 
     @Test

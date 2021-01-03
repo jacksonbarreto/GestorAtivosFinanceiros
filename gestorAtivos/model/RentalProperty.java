@@ -11,7 +11,7 @@ import java.util.Objects;
 @Access(AccessType.PROPERTY)
 @DiscriminatorValue(value = "PROPERTY")
 @PrimaryKeyJoinColumn(name = "id")
-public class RentalProperty extends FinancialAsset {
+public class RentalProperty extends FinancialAsset implements AssetWithInvestedValue {
 
     private BigDecimal propertyValue;
     private BigDecimal rentAmount;
@@ -39,13 +39,13 @@ public class RentalProperty extends FinancialAsset {
      */
     public RentalProperty(int duration, BigDecimal tax, String designation, BigDecimal propertyValue, BigDecimal rentAmount, BigDecimal monthlyCostCondominium, BigDecimal annualAmountOtherExpenses, String location) {
         super(AssetType.PROPERTY, LocalDate.now(), duration, tax, designation);
-        if (propertyValue.compareTo(new BigDecimal("0")) <= 0)
+        if (propertyValue == null || propertyValue.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
-        if (rentAmount.compareTo(new BigDecimal("0")) <= 0)
+        if (rentAmount == null || rentAmount.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
-        if (monthlyCostCondominium.compareTo(new BigDecimal("0")) < 0)
+        if (monthlyCostCondominium == null || monthlyCostCondominium.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
-        if (annualAmountOtherExpenses.compareTo(new BigDecimal("0")) < 0)
+        if (annualAmountOtherExpenses == null || annualAmountOtherExpenses.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
         if (location == null) {
             throw new IllegalArgumentException();
@@ -98,6 +98,8 @@ public class RentalProperty extends FinancialAsset {
      */
     @Override
     public void setStartDate(LocalDate startDate) {
+        if (startDate == null)
+            throw new IllegalArgumentException();
         this.startDate = startDate;
         this.payments = this.createPayments();
     }
@@ -158,7 +160,7 @@ public class RentalProperty extends FinancialAsset {
      * @param propertyValue New value, in monetary units, of the property.
      */
     public void setPropertyValue(BigDecimal propertyValue) {
-        if (propertyValue.compareTo(new BigDecimal("0")) <= 0)
+        if (propertyValue == null || propertyValue.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
         this.propertyValue = propertyValue;
     }
@@ -170,7 +172,7 @@ public class RentalProperty extends FinancialAsset {
      * @param rentAmount New monthly value, in monetary units, of the rental of the property.
      */
     public void setRentAmount(BigDecimal rentAmount) {
-        if (rentAmount.compareTo(new BigDecimal("0")) <= 0)
+        if (rentAmount == null || rentAmount.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
         this.rentAmount = rentAmount;
         this.payments = createPayments();
@@ -182,7 +184,7 @@ public class RentalProperty extends FinancialAsset {
      * @param monthlyCostCondominium New monthly cost, in monetary unit, of the condominium.
      */
     public void setMonthlyCostCondominium(BigDecimal monthlyCostCondominium) {
-        if (monthlyCostCondominium.compareTo(new BigDecimal("0")) < 0)
+        if (monthlyCostCondominium == null || monthlyCostCondominium.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
         this.monthlyCostCondominium = monthlyCostCondominium;
     }
@@ -193,7 +195,7 @@ public class RentalProperty extends FinancialAsset {
      * @param annualAmountOtherExpenses New annual cost, in monetary unit, with other expenses.
      */
     public void setAnnualAmountOtherExpenses(BigDecimal annualAmountOtherExpenses) {
-        if (annualAmountOtherExpenses.compareTo(new BigDecimal("0")) < 0)
+        if (annualAmountOtherExpenses == null || annualAmountOtherExpenses.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
         this.annualAmountOtherExpenses = annualAmountOtherExpenses;
     }
@@ -226,5 +228,16 @@ public class RentalProperty extends FinancialAsset {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getPropertyValue(), getRentAmount(), getMonthlyCostCondominium(), getAnnualAmountOtherExpenses(), getLocation());
+    }
+
+    @Transient
+    @Override
+    public BigDecimal getAmountInvested() {
+        return this.propertyValue;
+    }
+
+    @Override
+    public int compareTo(FinancialAsset financialAsset) {
+        return this.propertyValue.compareTo(((AssetWithInvestedValue) financialAsset).getAmountInvested());
     }
 }

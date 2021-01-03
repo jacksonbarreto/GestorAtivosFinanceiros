@@ -39,7 +39,9 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      */
     public TermDeposit(int duration, BigDecimal tax, String designation, BigDecimal depositedAmount, BigDecimal annualProfitability, String account, Bank bank) {
         super(AssetType.DEPOSIT, LocalDate.now(), duration, tax, designation);
-        if (depositedAmount.compareTo(new BigDecimal("0")) <= 0)
+        if (depositedAmount == null || depositedAmount.compareTo(new BigDecimal("0")) <= 0)
+            throw new IllegalArgumentException();
+        if (annualProfitability == null)
             throw new IllegalArgumentException();
         if (account == null) {
             throw new IllegalArgumentException();
@@ -48,10 +50,13 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         } else if (account.length() <= 3) {
             throw new IllegalArgumentException();
         }
+        if (bank == null)
+            throw new IllegalArgumentException();
         this.depositedAmount = depositedAmount;
         this.annualProfitability = annualProfitability;
         this.account = account;
         this.bank = bank;
+        bank.addDeposit(this);
         this.payments = this.createPayments();
     }
 
@@ -95,6 +100,8 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      */
     @Override
     public void setStartDate(LocalDate startDate) {
+        if (startDate == null)
+            throw new IllegalArgumentException();
         this.startDate = startDate;
         this.payments = this.createPayments();
     }
@@ -159,7 +166,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      * @param depositedAmount New amount deposited.
      */
     public void setDepositedAmount(BigDecimal depositedAmount) {
-        if (depositedAmount.compareTo(new BigDecimal("0")) <= 0)
+        if (depositedAmount == null || depositedAmount.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
         this.depositedAmount = depositedAmount;
         this.payments = createPayments();
@@ -171,6 +178,8 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      * @param annualProfitability New annual income, in percentage.
      */
     public void setAnnualProfitability(BigDecimal annualProfitability) {
+        if (annualProfitability == null)
+            throw new IllegalArgumentException();
         this.annualProfitability = annualProfitability;
         this.payments = createPayments();
     }
@@ -219,6 +228,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
 
     @Override
     public int compareTo(FinancialAsset financialAsset) {
-        return this.depositedAmount.compareTo(((TermDeposit) financialAsset).getAmountInvested());
+        return this.depositedAmount.compareTo(((AssetWithInvestedValue) financialAsset).getAmountInvested());
     }
 }
