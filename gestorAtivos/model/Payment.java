@@ -136,7 +136,7 @@ public class Payment implements Serializable {
      *
      * @param id New ID.
      */
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

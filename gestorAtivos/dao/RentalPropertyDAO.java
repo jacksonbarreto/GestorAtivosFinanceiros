@@ -1,16 +1,20 @@
 package dao;
 
-import model.FinancialAsset;
+import model.RentalProperty;
 
 import javax.persistence.EntityManager;
 
-public class FinancialAssetDao {
+public class RentalPropertyDAO {
 
-    public FinancialAsset save(FinancialAsset financialAsset){
+    public RentalProperty save(RentalProperty rentalProperty){
         EntityManager em = new ConnectionFactory().getConnection();
         try {
             em.getTransaction().begin();
-            em.persist(financialAsset);
+            if (rentalProperty.getId() == null) {
+                em.persist(rentalProperty);
+            }else {
+                em.merge(rentalProperty);
+            }
             em.getTransaction().commit();
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -18,6 +22,6 @@ public class FinancialAssetDao {
         }finally {
             em.close();
         }
-        return financialAsset;
+        return rentalProperty;
     }
 }

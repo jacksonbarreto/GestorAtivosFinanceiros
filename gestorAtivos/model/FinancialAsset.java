@@ -223,7 +223,7 @@ public abstract class FinancialAsset implements Serializable {
      *
      * @param id The ID (Primary Key) of the financial asset.
      */
-    protected void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

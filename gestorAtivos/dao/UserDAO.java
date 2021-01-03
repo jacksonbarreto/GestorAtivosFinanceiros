@@ -1,15 +1,21 @@
 package dao;
 
-import model.Bank;
+import model.User;
+
 import javax.persistence.EntityManager;
 
-public class BankDao {
+public class UserDAO {
 
-    public Bank save(Bank bank){
+    public User save(User user){
         EntityManager em = new ConnectionFactory().getConnection();
+
         try {
             em.getTransaction().begin();
-            em.persist(bank);
+            if (user.getId() == null){
+                em.persist(user);
+            }else {
+                em.merge(user);
+            }
             em.getTransaction().commit();
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -17,6 +23,6 @@ public class BankDao {
         }finally {
             em.close();
         }
-        return bank;
+        return user;
     }
 }

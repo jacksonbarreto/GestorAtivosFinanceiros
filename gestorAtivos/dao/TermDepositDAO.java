@@ -1,16 +1,20 @@
 package dao;
 
-import model.InvestmentFund;
+import model.TermDeposit;
 
 import javax.persistence.EntityManager;
 
-public class InvestmentFundDao {
+public class TermDepositDAO {
 
-    public InvestmentFund save (InvestmentFund investmentFund){
+    public TermDeposit save(TermDeposit termDeposit){
         EntityManager em = new ConnectionFactory().getConnection();
         try {
             em.getTransaction().begin();
-            em.persist(investmentFund);
+            if (termDeposit.getId() == null) {
+                em.persist(termDeposit);
+            }else {
+                em.merge(termDeposit);
+            }
             em.getTransaction().commit();
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -18,6 +22,6 @@ public class InvestmentFundDao {
         }finally {
             em.close();
         }
-        return investmentFund;
+        return termDeposit;
     }
 }

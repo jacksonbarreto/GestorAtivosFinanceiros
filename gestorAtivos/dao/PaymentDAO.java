@@ -4,13 +4,17 @@ import model.Payment;
 
 import javax.persistence.EntityManager;
 
-public class PaymentDao {
+public class PaymentDAO {
 
     public Payment save(Payment payment){
         EntityManager em = new ConnectionFactory().getConnection();
         try {
             em.getTransaction().begin();
-            em.persist(payment);
+            if (payment.getId() == null){
+                em.persist(payment);
+            }else {
+                em.merge(payment);
+            }
             em.getTransaction().commit();
         }catch (Exception e){
             System.out.println(e.getMessage());

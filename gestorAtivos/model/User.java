@@ -404,7 +404,7 @@ public class User implements Serializable {
      *
      * @param id The ID (of the database).
      */
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

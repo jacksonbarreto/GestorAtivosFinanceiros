@@ -165,7 +165,7 @@ public class Bank implements Serializable {
      *
      * @param id The database ID.
      */
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,16 +1,20 @@
 package dao;
 
-import model.Log;
+import model.FinancialAsset;
 
 import javax.persistence.EntityManager;
 
-public class LogDao {
+public class FinancialAssetDAO {
 
-    public Log save(Log log){
+    public FinancialAsset save(FinancialAsset financialAsset){
         EntityManager em = new ConnectionFactory().getConnection();
         try {
             em.getTransaction().begin();
-            em.persist(log);
+            if (financialAsset.getId() == null){
+                em.persist(financialAsset);
+            }else {
+                em.merge(financialAsset);
+            }
             em.getTransaction().commit();
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -18,6 +22,6 @@ public class LogDao {
         }finally {
             em.close();
         }
-        return log;
+        return financialAsset;
     }
 }
