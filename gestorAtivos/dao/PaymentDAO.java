@@ -3,38 +3,52 @@ package dao;
 import model.Payment;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class PaymentDAO {
 
-    public Payment save(Payment payment){
+    public Payment save(Payment payment) {
         EntityManager em = new ConnectionFactory().getConnection();
         try {
             em.getTransaction().begin();
-            if (payment.getId() == null){
+            if (payment.getId() == null) {
                 em.persist(payment);
-            }else {
+            } else {
                 em.merge(payment);
             }
             em.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             em.getTransaction().rollback();
-        }finally {
+        } finally {
             em.close();
         }
         return payment;
     }
 
-    public Payment findById(Long id){
+    public Payment findById(Long id) {
         EntityManager em = new ConnectionFactory().getConnection();
         Payment payment = null;
         try {
             payment = em.find(Payment.class, id);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
-        }finally {
+        } finally {
             em.close();
         }
         return payment;
+    }
+
+    public List<Payment> findAll() {
+        EntityManager em = new ConnectionFactory().getConnection();
+        List<Payment> payments = null;
+        try {
+            payments = em.createQuery("from Payment").getResultList();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return payments;
     }
 }

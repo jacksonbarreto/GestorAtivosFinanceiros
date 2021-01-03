@@ -22,12 +22,16 @@ public class testBank {
         System.out.println(bank.getId());
         bank = bankDao.save(bank);
         System.out.println(bank.getId());
-         */
+
 
         bank = bankDao.findById(7L);
         System.out.println(bank.getName());
         System.out.println(bank.getId());
+            */
 
+        for (Bank b : bankDao.findAll()){
+            System.out.println(b.getId() + " - " + b.getName());
+        }
 
 
     }

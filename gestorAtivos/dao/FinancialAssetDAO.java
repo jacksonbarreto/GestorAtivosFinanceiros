@@ -3,38 +3,52 @@ package dao;
 import model.FinancialAsset;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class FinancialAssetDAO {
 
-    public FinancialAsset save(FinancialAsset financialAsset){
+    public FinancialAsset save(FinancialAsset financialAsset) {
         EntityManager em = new ConnectionFactory().getConnection();
         try {
             em.getTransaction().begin();
-            if (financialAsset.getId() == null){
+            if (financialAsset.getId() == null) {
                 em.persist(financialAsset);
-            }else {
+            } else {
                 em.merge(financialAsset);
             }
             em.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             em.getTransaction().rollback();
-        }finally {
+        } finally {
             em.close();
         }
         return financialAsset;
     }
 
-    public FinancialAsset findById(Long id){
+    public FinancialAsset findById(Long id) {
         EntityManager em = new ConnectionFactory().getConnection();
         FinancialAsset financialAsset = null;
         try {
             financialAsset = em.find(FinancialAsset.class, id);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
-        }finally {
+        } finally {
             em.close();
         }
         return financialAsset;
+    }
+
+    public List<FinancialAsset> findAll() {
+        EntityManager em = new ConnectionFactory().getConnection();
+        List<FinancialAsset> financialAssets = null;
+        try {
+            financialAssets = em.createQuery("from FinancialAsset").getResultList();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return financialAssets;
     }
 }
