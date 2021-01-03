@@ -17,8 +17,21 @@ public class TermDepositDAO {
             }
             em.getTransaction().commit();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return termDeposit;
+    }
+
+    public TermDeposit findById(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        TermDeposit termDeposit = null;
+        try {
+            termDeposit = em.find(TermDeposit.class, id);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }finally {
             em.close();
         }

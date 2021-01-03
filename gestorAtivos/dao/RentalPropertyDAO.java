@@ -17,8 +17,20 @@ public class RentalPropertyDAO {
             }
             em.getTransaction().commit();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return rentalProperty;
+    }
+    public RentalProperty FindById(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        RentalProperty rentalProperty = null;
+        try {
+            rentalProperty = em.find(RentalProperty.class,id);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }finally {
             em.close();
         }

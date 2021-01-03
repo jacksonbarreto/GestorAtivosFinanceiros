@@ -17,8 +17,21 @@ public class PaymentDAO {
             }
             em.getTransaction().commit();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return payment;
+    }
+
+    public Payment findById(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        Payment payment = null;
+        try {
+            payment = em.find(Payment.class, id);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }finally {
             em.close();
         }

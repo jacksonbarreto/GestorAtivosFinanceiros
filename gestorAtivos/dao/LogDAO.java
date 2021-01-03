@@ -17,8 +17,21 @@ public class LogDAO {
             }
             em.getTransaction().commit();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return log;
+    }
+
+    public Log findById(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        Log log = null;
+        try {
+            log = em.find(Log.class, id);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }finally {
             em.close();
         }

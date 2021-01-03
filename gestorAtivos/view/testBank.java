@@ -17,12 +17,16 @@ public class testBank {
         //user1 = userDao.save(user1);
         //System.out.println(user1.getId());
 
-
         BankDAO bankDao = new BankDAO();
+        /*
         System.out.println(bank.getId());
         bank = bankDao.save(bank);
         System.out.println(bank.getId());
+         */
 
+        bank = bankDao.findById(7L);
+        System.out.println(bank.getName());
+        System.out.println(bank.getId());
 
 
 

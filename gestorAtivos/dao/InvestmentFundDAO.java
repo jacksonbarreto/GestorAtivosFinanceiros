@@ -17,8 +17,21 @@ public class InvestmentFundDAO {
             }
             em.getTransaction().commit();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return investmentFund;
+    }
+
+    public InvestmentFund findById(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        InvestmentFund investmentFund = null;
+        try {
+            investmentFund = em.find(InvestmentFund.class, id);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }finally {
             em.close();
         }

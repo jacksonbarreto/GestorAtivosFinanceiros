@@ -17,8 +17,21 @@ public class FinancialAssetDAO {
             }
             em.getTransaction().commit();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return financialAsset;
+    }
+
+    public FinancialAsset findById(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        FinancialAsset financialAsset = null;
+        try {
+            financialAsset = em.find(FinancialAsset.class, id);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }finally {
             em.close();
         }

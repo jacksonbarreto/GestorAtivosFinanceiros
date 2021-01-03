@@ -1,6 +1,7 @@
 package dao;
 
 import model.Bank;
+
 import javax.persistence.EntityManager;
 
 public class BankDAO {
@@ -16,8 +17,21 @@ public class BankDAO {
             }
             em.getTransaction().commit();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return bank;
+    }
+
+    public Bank findById(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        Bank bank = null;
+        try{
+            bank = em.find(Bank.class,id);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }finally {
             em.close();
         }
