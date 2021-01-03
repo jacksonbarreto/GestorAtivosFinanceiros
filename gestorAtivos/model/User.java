@@ -238,7 +238,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long getId() {
+    public Long getId() {
         return id;
     }
 
