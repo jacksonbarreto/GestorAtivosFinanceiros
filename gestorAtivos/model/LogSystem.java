@@ -1,15 +1,17 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LogSystem {
     private static LogSystem INSTANCE;
-    ArrayList<Operation> operations;
+    private final List<SystemOperation> systemOperations;
 
-    private LogSystem() {
+    private LogSystem(){
+        this.systemOperations = new ArrayList<>();
     }
 
-    public static LogSystem getInstance() {
+    private static LogSystem getInstance() {
         if (INSTANCE == null) {
             synchronized (LogSystem.class) {
                 if (INSTANCE == null) {
@@ -20,8 +22,13 @@ public class LogSystem {
         return INSTANCE;
     }
 
-    public void addEvent(Operation event) {
-        this.operations.add(event);
+    public void registerOcurrence(SystemOperation systemOperation) {
+        if (systemOperation == null)
+            throw new IllegalArgumentException();
+        getInstance().systemOperations.add(systemOperation);
     }
 
+    public List<SystemOperation> getSystemOperations() {
+        return systemOperations;
+    }
 }
