@@ -43,12 +43,29 @@ public class TermDepositDAO {
         EntityManager em = new ConnectionFactory().getConnection();
         List<TermDeposit> termDeposits = null;
         try {
-            termDeposits = em.createQuery("from TermDeposit").getResultList();
+            termDeposits = em.createQuery("from TermDeposit", TermDeposit.class).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
         return termDeposits;
+    }
+
+    public TermDeposit remove(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        TermDeposit termDeposit = null;
+        try {
+            termDeposit = em.find(TermDeposit.class, id);
+            em.getTransaction().begin();
+            em.remove(termDeposit);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return termDeposit;
     }
 }

@@ -43,12 +43,29 @@ public class RentalPropertyDAO {
         EntityManager em = new ConnectionFactory().getConnection();
         List<RentalProperty> rentalProperties = null;
         try {
-            rentalProperties = em.createQuery("from RentalProperty").getResultList();
+            rentalProperties = em.createQuery("from RentalProperty", RentalProperty.class).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
         return rentalProperties;
+    }
+
+    public RentalProperty remove(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        RentalProperty rentalProperty = null;
+        try {
+            rentalProperty = em.find(RentalProperty.class, id);
+            em.getTransaction().begin();
+            em.remove(rentalProperty);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return rentalProperty;
     }
 }

@@ -44,12 +44,29 @@ public class UserDAO {
         EntityManager em = new ConnectionFactory().getConnection();
         List<User> users = null;
         try {
-            users = em.createQuery("from User").getResultList();
+            users = em.createQuery("from User", User.class).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
         return users;
+    }
+
+    public User remove(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        User user = null;
+        try {
+            user = em.find(User.class, id);
+            em.getTransaction().begin();
+            em.remove(user);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return user;
     }
 }

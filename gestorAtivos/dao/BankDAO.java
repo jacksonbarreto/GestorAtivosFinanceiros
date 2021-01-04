@@ -43,12 +43,29 @@ public class BankDAO {
         EntityManager em = new ConnectionFactory().getConnection();
         List<Bank> banks = null;
         try {
-            banks = em.createQuery("from Bank").getResultList();
+            banks = em.createQuery("from Bank", Bank.class).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
         return banks;
+    }
+
+    public Bank remove(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        Bank bank = null;
+        try{
+            bank = em.find(Bank.class,id);
+            em.getTransaction().begin();
+            em.remove(bank);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return bank;
     }
 }

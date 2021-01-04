@@ -43,12 +43,29 @@ public class InvestmentFundDAO {
         EntityManager em = new ConnectionFactory().getConnection();
         List<InvestmentFund> investmentFunds = null;
         try {
-            investmentFunds = em.createQuery("from InvestmentFund").getResultList();
+            investmentFunds = em.createQuery("from InvestmentFund", InvestmentFund.class).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
         return investmentFunds;
+    }
+
+    public InvestmentFund remove(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        InvestmentFund investmentFund = null;
+        try {
+            investmentFund = em.find(InvestmentFund.class, id);
+            em.getTransaction().begin();
+            em.remove(investmentFund);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return investmentFund;
     }
 }

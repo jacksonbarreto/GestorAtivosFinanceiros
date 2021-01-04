@@ -43,12 +43,28 @@ public class LogDAO {
         EntityManager em = new ConnectionFactory().getConnection();
         List<Log> logs = null;
         try {
-            logs = em.createQuery("from Log").getResultList();
+            logs = em.createQuery("from Log",Log.class).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
         return logs;
+    }
+    public Log remove(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        Log log = null;
+        try {
+            log = em.find(Log.class, id);
+            em.getTransaction().begin();
+            em.remove(log);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return log;
     }
 }

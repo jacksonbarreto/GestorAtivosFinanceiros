@@ -43,12 +43,28 @@ public class PaymentDAO {
         EntityManager em = new ConnectionFactory().getConnection();
         List<Payment> payments = null;
         try {
-            payments = em.createQuery("from Payment").getResultList();
+            payments = em.createQuery("from Payment", Payment.class).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
         return payments;
+    }
+    public Payment remove(Long id){
+        EntityManager em = new ConnectionFactory().getConnection();
+        Payment payment = null;
+        try {
+            payment = em.find(Payment.class, id);
+            em.getTransaction().begin();
+            em.remove(payment);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
+        return payment;
     }
 }
