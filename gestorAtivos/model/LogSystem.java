@@ -1,5 +1,7 @@
 package model;
 
+import dao.SystemOperationDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +24,18 @@ public class LogSystem {
         return INSTANCE;
     }
 
-    public void registerOccurrence(String message) {
+    public static void registerOccurrence(String message) {
             getInstance().systemOperations.add(new SystemOperation(message));
     }
 
     public List<SystemOperation> getSystemOperations() {
         return systemOperations;
+    }
+
+    public static void record(){
+        SystemOperationDAO dao = new SystemOperationDAO();
+        for (SystemOperation so : getInstance().systemOperations){
+                dao.save(so);
+        }
     }
 }

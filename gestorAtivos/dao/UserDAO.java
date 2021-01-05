@@ -1,10 +1,13 @@
 package dao;
 
+import model.LogSystem;
 import model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import java.util.List;
+
+import static model.LogSystem.*;
 
 public class UserDAO {
 
@@ -20,7 +23,8 @@ public class UserDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in UserDAO");
+            //System.err.println(e.getMessage());
             em.getTransaction().rollback();
         } finally {
             em.close();

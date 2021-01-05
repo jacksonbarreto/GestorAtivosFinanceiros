@@ -133,7 +133,7 @@ public class Bank implements Serializable {
      *
      * @return Collection of cautioned deposits at the bank.
      */
-    @OneToMany(mappedBy = "bank", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "bank", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<TermDeposit> getTermDeposits() {
         return termDeposits;
     }

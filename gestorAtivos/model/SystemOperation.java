@@ -63,6 +63,7 @@ public class SystemOperation implements Serializable {
      * Method to get the message of the occurrence.
      * @return The occurrence message.
      */
+    @Column(name = "Mensagem", nullable = false, length = 500)
     public String getMessage() {
         return message;
     }

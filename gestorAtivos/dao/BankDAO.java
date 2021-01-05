@@ -5,6 +5,8 @@ import model.Bank;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static model.LogSystem.registerOccurrence;
+
 public class BankDAO {
 
     public Bank save(Bank bank) {
@@ -18,7 +20,7 @@ public class BankDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in BankDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();

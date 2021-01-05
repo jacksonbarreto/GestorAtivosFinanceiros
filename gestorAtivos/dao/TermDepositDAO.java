@@ -5,6 +5,8 @@ import model.TermDeposit;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static model.LogSystem.registerOccurrence;
+
 public class TermDepositDAO {
 
     public TermDeposit save(TermDeposit termDeposit) {
@@ -18,7 +20,7 @@ public class TermDepositDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in TermDeposit.DAO");
             em.getTransaction().rollback();
         } finally {
             em.close();

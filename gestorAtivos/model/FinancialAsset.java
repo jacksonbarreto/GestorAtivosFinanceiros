@@ -14,7 +14,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
 @Table(name = "AtivoFinanceiro")
 @Access(AccessType.PROPERTY)
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "TipoAtivo", discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorColumn(name = "TipoAtivo", discriminatorType = DiscriminatorType.STRING)
 public abstract class FinancialAsset implements Serializable {
 
     protected Long id;
@@ -142,7 +142,9 @@ public abstract class FinancialAsset implements Serializable {
      *
      * @param startDate Financial asset start date.
      */
-    public abstract void setStartDate(LocalDate startDate);
+    protected void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
 
     /**
      * Method that obtains the duration of the Financial Asset.
@@ -159,7 +161,10 @@ public abstract class FinancialAsset implements Serializable {
      *
      * @param duration New duration, in months, of the financial asset.
      */
-    public abstract void setDuration(int duration);
+    protected void setDuration(int duration) {
+        this.duration = duration;
+    }
+
 
     /**
      * Method for obtaining the annual tax index.
@@ -181,12 +186,13 @@ public abstract class FinancialAsset implements Serializable {
             throw new IllegalArgumentException();
         this.tax = tax;
     }
+
     /**
      * Method to change the annual tax. Exclusive use of ORM.
      *
      * @param tax percentage annual tax.
      */
-    private void setTax(BigDecimal tax){
+    protected void setTax(BigDecimal tax) {
         this.tax = tax;
     }
 
@@ -222,7 +228,7 @@ public abstract class FinancialAsset implements Serializable {
      *
      * @return Financial asset payment collection.
      */
-    @OneToMany(mappedBy = "financialAsset", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "financialAsset", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<Payment> getPayments() {
         return payments;
     }
@@ -241,7 +247,7 @@ public abstract class FinancialAsset implements Serializable {
      *
      * @param payments Financial asset payment collection.
      */
-    protected void setPayments(ArrayList<Payment> payments) {
+    protected void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
 

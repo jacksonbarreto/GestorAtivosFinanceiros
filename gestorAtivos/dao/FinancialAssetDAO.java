@@ -6,12 +6,15 @@ import model.FinancialAsset;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static model.LogSystem.registerOccurrence;
+
 public class FinancialAssetDAO {
 
     public FinancialAsset save(FinancialAsset financialAsset) {
         EntityManager em = new ConnectionFactory().getConnection();
         try {
             em.getTransaction().begin();
+            registerOccurrence( " entrou em financialAssets");
             if (financialAsset.getId() == null) {
                 em.persist(financialAsset);
             } else {
@@ -19,7 +22,7 @@ public class FinancialAssetDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in FinancialAssetDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();

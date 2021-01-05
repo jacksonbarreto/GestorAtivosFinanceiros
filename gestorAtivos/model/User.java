@@ -4,10 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static model.AssetType.DEPOSIT;
 import static model.AssetType.FOUND;
@@ -88,6 +85,16 @@ public class User implements Serializable {
                 break;
             case PROPERTY:
                 addLog(ADDED_PROPERTY);
+        }
+    }
+
+    public void removeAssetFinancial(Long id) {
+        if (id == null)
+            throw new IllegalArgumentException();
+        for (FinancialAsset fa : this.financialAssets) {
+            if (fa.getId() == id) {
+                this.financialAssets.remove(fa);
+            }
         }
     }
 
@@ -296,12 +303,13 @@ public class User implements Serializable {
         this.password = getHashedPassword(password, this.salt);
         addLog(CHANGED_PASSWORD);
     }
+
     /**
      * Method for changing the user's password. Exclusive use of ORM
      *
      * @param password New user access password.
      */
-    private void setPassword(String password){
+    private void setPassword(String password) {
         this.password = password;
     }
 
@@ -356,7 +364,7 @@ public class User implements Serializable {
      *
      * @return collection of financial assets.
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "AtivoUtilizador", joinColumns = @JoinColumn(name = "Utilizador", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "AtivoFinanceiro", referencedColumnName = "id"))
     public List<FinancialAsset> getFinancialAssets() {
@@ -415,7 +423,7 @@ public class User implements Serializable {
      *
      * @return Collection of user logs.
      */
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "Utilizador", referencedColumnName = "id", nullable = false)
     public List<Log> getLogs() {
         return logs;
@@ -459,5 +467,18 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getUsername(), getPassword(), getUserType(), getFinancialAssets(), getLogs());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", salt=" + Arrays.toString(salt) +
+                ", userType=" + userType +
+                ", financialAssets=" + financialAssets +
+                ", logs=" +
+                '}';
     }
 }

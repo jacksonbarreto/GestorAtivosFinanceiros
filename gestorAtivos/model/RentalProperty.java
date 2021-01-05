@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "Imovel")
 @Access(AccessType.PROPERTY)
-@DiscriminatorValue(value = "PROPERTY")
+//@DiscriminatorValue(value = "PROPERTY")
 @PrimaryKeyJoinColumn(name = "id")
 public class RentalProperty extends FinancialAsset implements AssetWithInvestedValue {
 
@@ -68,8 +68,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      *
      * @param duration New duration, in months, of the financial asset.
      */
-    @Override
-    public void setDuration(int duration) {
+    public void changeDuration(int duration) {
         if (duration <= 0)
             throw new IllegalArgumentException();
         this.duration = duration;
@@ -96,8 +95,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      *
      * @param startDate Financial asset start date.
      */
-    @Override
-    public void setStartDate(LocalDate startDate) {
+    public void changeStartDate(LocalDate startDate) {
         if (startDate == null)
             throw new IllegalArgumentException();
         this.startDate = startDate;

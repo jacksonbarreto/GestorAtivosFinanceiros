@@ -24,7 +24,7 @@ public class InvestmentFundTest {
     @Test
     void equalsTest() {
         assertEquals(investmentFund2, investmentFund1);
-        investmentFund2.setStartDate(LocalDate.now().plusMonths(1L));
+        investmentFund2.changeStartDate(LocalDate.now().plusMonths(1L));
         assertNotSame(investmentFund1, investmentFund2);
     }
 
@@ -38,7 +38,7 @@ public class InvestmentFundTest {
     @Test
     void compareToTest() {
         assertEquals(0, investmentFund2.compareTo(investmentFund1));
-        investmentFund2.setAmountInvested(new BigDecimal("1500.79"));
+        investmentFund2.changeAmountInvested(new BigDecimal("1500.79"));
         assertEquals(-1, investmentFund1.compareTo(investmentFund2));
         assertEquals(1, investmentFund2.compareTo(investmentFund1));
     }
@@ -90,7 +90,7 @@ public class InvestmentFundTest {
     @Test
     void setStartDateTest() {
         LocalDate dateNull = null;
-        assertThrows(IllegalArgumentException.class, () -> investmentFund1.setStartDate(dateNull));
+        assertThrows(IllegalArgumentException.class, () -> investmentFund1.changeStartDate(dateNull));
     }
 
     @Test
@@ -115,12 +115,12 @@ public class InvestmentFundTest {
 
     @Test
     void setDurationTest() {
-        investmentFund1.setDuration(3);
+        investmentFund1.changeDuration(3);
         assertEquals(3, investmentFund1.getDuration());
         assertEquals(0, investmentFund1.getGrossProfit().compareTo(new BigDecimal("607.71")));
         assertEquals(0, investmentFund1.getNetProfit().compareTo(new BigDecimal("516.55")));
-        assertThrows(IllegalArgumentException.class, () -> investmentFund1.setDuration(-1));
-        assertThrows(IllegalArgumentException.class, () -> investmentFund1.setDuration(-1));
+        assertThrows(IllegalArgumentException.class, () -> investmentFund1.changeDuration(-1));
+        assertThrows(IllegalArgumentException.class, () -> investmentFund1.changeDuration(-1));
     }
 
     @Test
@@ -128,7 +128,7 @@ public class InvestmentFundTest {
         BigDecimal monthlyProfitabilityNull = null;
         LocalDate dateNull = null;
 
-        investmentFund1.setDuration(3);
+        investmentFund1.changeDuration(3);
         investmentFund1.setIndividualMonthlyProfitability(LocalDate.now().plusMonths(2), new BigDecimal("0.15"));
         assertEquals(0, investmentFund1.getGrossProfit().compareTo(new BigDecimal("664.19")));
         assertEquals(0, investmentFund1.getPayments().get(1).getMonthlyProfitability().compareTo(new BigDecimal("0.15")));
@@ -139,16 +139,16 @@ public class InvestmentFundTest {
 
     @Test
     void setAmountInvestedTest() {
-        investmentFund1.setDuration(3);
+        investmentFund1.changeDuration(3);
         investmentFund1.setIndividualMonthlyProfitability(LocalDate.now().plusMonths(2L), new BigDecimal("0.15"));
         assertEquals(0, investmentFund1.getGrossProfit().compareTo(new BigDecimal("664.19")));
-        investmentFund1.setAmountInvested(new BigDecimal("1800"));
+        investmentFund1.changeAmountInvested(new BigDecimal("1800"));
         assertEquals(0, investmentFund1.getGrossProfit().compareTo(new BigDecimal("796.61")));
         assertEquals(0, investmentFund1.getPayments().get(1).getMonthlyProfitability().compareTo(new BigDecimal("0.15")));
-        assertThrows(IllegalArgumentException.class, () -> investmentFund1.setAmountInvested(new BigDecimal("0")));
-        assertThrows(IllegalArgumentException.class, () -> investmentFund1.setAmountInvested(new BigDecimal("-1")));
+        assertThrows(IllegalArgumentException.class, () -> investmentFund1.changeAmountInvested(new BigDecimal("0")));
+        assertThrows(IllegalArgumentException.class, () -> investmentFund1.changeAmountInvested(new BigDecimal("-1")));
         BigDecimal amountNull = null;
-        assertThrows(IllegalArgumentException.class, () -> investmentFund1.setAmountInvested(amountNull));
+        assertThrows(IllegalArgumentException.class, () -> investmentFund1.changeAmountInvested(amountNull));
     }
 
     @Test

@@ -63,7 +63,7 @@ public class BankTest {
     @Test
     void testGetEquityInDeposits() {
         assertEquals(0, bank1.getEquityInDeposits().compareTo(new BigDecimal("7000")));
-        termDeposit1.setStartDate(LocalDate.now().plusMonths(3L));
+        termDeposit1.changeStartDate(LocalDate.now().plusMonths(3L));
         assertEquals(0, bank1.getEquityInDeposits(LocalDate.now(), LocalDate.now().plusMonths(2L)).compareTo(new BigDecimal("2000")));
         assertEquals(0, bank3.getEquityInDeposits().compareTo(new BigDecimal("5000")));
     }

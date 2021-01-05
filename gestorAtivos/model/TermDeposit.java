@@ -11,7 +11,7 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
 @Entity
 @Table(name = "Deposito")
 @Access(AccessType.PROPERTY)
-@DiscriminatorValue(value = "DEPOSIT")
+//@DiscriminatorValue(value = "DEPOSIT")
 @PrimaryKeyJoinColumn(name = "id")
 public class TermDeposit extends FinancialAsset implements AssetWithInvestedValue {
 
@@ -65,8 +65,8 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      *
      * @param duration New duration, in months, of the financial asset.
      */
-    @Override
-    public void setDuration(int duration) {
+
+    public void changeDuration(int duration) {
         if (duration <= 0)
             throw new IllegalArgumentException();
         this.duration = duration;
@@ -98,8 +98,8 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      *
      * @param startDate Financial asset start date.
      */
-    @Override
-    public void setStartDate(LocalDate startDate) {
+
+    public void changeStartDate(LocalDate startDate) {
         if (startDate == null)
             throw new IllegalArgumentException();
         this.startDate = startDate;
@@ -153,7 +153,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      *
      * @return The bank responsible for the term deposit.
      */
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "Banco", referencedColumnName = "id", nullable = false)
     public Bank getBank() {
         return bank;
@@ -165,7 +165,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      *
      * @param depositedAmount New amount deposited.
      */
-    public void setDepositedAmount(BigDecimal depositedAmount) {
+    public void changeDepositedAmount(BigDecimal depositedAmount) {
         if (depositedAmount == null || depositedAmount.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
         this.depositedAmount = depositedAmount;
@@ -173,15 +173,35 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     }
 
     /**
+     * Exclusive use of ORM.
+     * Method to change the amount deposited.
+     *
+     * @param depositedAmount New amount deposited.
+     */
+    private void setDepositedAmount(BigDecimal depositedAmount) {
+        this.depositedAmount = depositedAmount;
+    }
+
+    /**
      * Method to change the annual return on the term deposit.
      *
      * @param annualProfitability New annual income, in percentage.
      */
-    public void setAnnualProfitability(BigDecimal annualProfitability) {
+    public void changeAnnualProfitability(BigDecimal annualProfitability) {
         if (annualProfitability == null)
             throw new IllegalArgumentException();
         this.annualProfitability = annualProfitability;
         this.payments = createPayments();
+    }
+
+    /**
+     * Exclusive use of ORM.
+     * Method to change the annual return on the term deposit.
+     *
+     * @param annualProfitability New annual income, in percentage.
+     */
+    private void setAnnualProfitability(BigDecimal annualProfitability) {
+        this.annualProfitability = annualProfitability;
     }
 
     /**

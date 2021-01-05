@@ -37,7 +37,7 @@ public class TermDepositTest {
     @Test
     void equalsTest() {
         assertEquals(termDeposit3, termDeposit1);
-        termDeposit1.setStartDate(LocalDate.now().plusMonths(1L));
+        termDeposit1.changeStartDate(LocalDate.now().plusMonths(1L));
         assertNotSame(termDeposit3, termDeposit1);
     }
 
@@ -51,23 +51,23 @@ public class TermDepositTest {
     @Test
     void compareToTest() {
         assertEquals(0, termDeposit3.compareTo(termDeposit1));
-        termDeposit3.setDepositedAmount(new BigDecimal("6500.79"));
+        termDeposit3.changeDepositedAmount(new BigDecimal("6500.79"));
         assertEquals(-1, termDeposit1.compareTo(termDeposit3));
         assertEquals(1, termDeposit3.compareTo(termDeposit1));
     }
 
     @Test
     void setDurationTest() {
-        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDuration(0));
-        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDuration(-3));
-        termDeposit1.setDuration(9);
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.changeDuration(0));
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.changeDuration(-3));
+        termDeposit1.changeDuration(9);
         assertEquals(9, termDeposit1.getPayments().size());
         assertEquals(9, termDeposit1.getDuration());
     }
 
     @Test
     void createPaymentsTest() {
-        termDeposit1.setDuration(2);
+        termDeposit1.changeDuration(2);
         assertEquals(2, termDeposit1.getPayments().size());
         assertEquals(LocalDate.now().plusMonths(2L), termDeposit1.getPayments().get(1).getDateOfPayment());
     }
@@ -75,24 +75,24 @@ public class TermDepositTest {
     @Test
     void setDepositedAmountTest() {
         BigDecimal depositeAmountNull = null;
-        termDeposit1.setDuration(3);
-        termDeposit1.setDepositedAmount(new BigDecimal("1800"));
+        termDeposit1.changeDuration(3);
+        termDeposit1.changeDepositedAmount(new BigDecimal("1800"));
         assertEquals(0, termDeposit1.getGrossProfit().compareTo(new BigDecimal("110.17")));
         assertEquals(0, termDeposit1.getPayments().get(1).getMonthlyProfitability().compareTo(new BigDecimal("0.02")));
-        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDepositedAmount(new BigDecimal("0")));
-        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDepositedAmount(new BigDecimal("-1")));
-        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setDepositedAmount(depositeAmountNull));
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.changeDepositedAmount(new BigDecimal("0")));
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.changeDepositedAmount(new BigDecimal("-1")));
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.changeDepositedAmount(depositeAmountNull));
     }
 
     @Test
     void setAnnualProfitabilityTest() {
         BigDecimal annualProfitability = null;
-        termDeposit1.setDuration(3);
-        termDeposit1.setAnnualProfitability(new BigDecimal("0.15"));
+        termDeposit1.changeDuration(3);
+        termDeposit1.changeAnnualProfitability(new BigDecimal("0.15"));
         assertEquals(0, termDeposit1.getGrossProfit().compareTo(new BigDecimal("189.85")));
         assertEquals(0, termDeposit1.getPayments().get(1).getMonthlyProfitability().compareTo(new BigDecimal("0.0125")));
         assertEquals(0, termDeposit1.getAnnualProfitability().compareTo(new BigDecimal("0.15")));
-        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setAnnualProfitability(annualProfitability));
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.changeAnnualProfitability(annualProfitability));
     }
 
     @Test
@@ -116,7 +116,7 @@ public class TermDepositTest {
     @Test
     void setStartDateTest() {
         LocalDate dateNull = null;
-        assertThrows(IllegalArgumentException.class, () -> termDeposit1.setStartDate(dateNull));
+        assertThrows(IllegalArgumentException.class, () -> termDeposit1.changeStartDate(dateNull));
     }
 
     @Test

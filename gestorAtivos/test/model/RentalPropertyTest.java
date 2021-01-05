@@ -38,7 +38,7 @@ public class RentalPropertyTest {
     @Test
     void equalsTest() {
         assertEquals(rentalProperty3, rentalProperty1);
-        rentalProperty1.setStartDate(LocalDate.now().plusMonths(1L));
+        rentalProperty1.changeStartDate(LocalDate.now().plusMonths(1L));
         assertNotSame(rentalProperty3, rentalProperty1);
     }
 
@@ -117,14 +117,14 @@ public class RentalPropertyTest {
 
     @Test
     void setDurationTest() {
-        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setDuration(0));
-        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setDuration(-1));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.changeDuration(0));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.changeDuration(-1));
     }
 
     @Test
     void setStartDateTest() {
         LocalDate dateNull = null;
-        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setStartDate(dateNull));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.changeStartDate(dateNull));
     }
 
     @Test

@@ -207,10 +207,10 @@ public class UserTest {
         user1.addAssetFinancial(investmentFund1);
         user1.addAssetFinancial(rentalProperty1);
         user1.addAssetFinancial(rentalProperty2);
-        termDeposit1.setStartDate(LocalDate.now().plusMonths(9L));
+        termDeposit1.changeStartDate(LocalDate.now().plusMonths(9L));
 
         assertEquals(3, user1.getFinancialAssetsActive(LocalDate.now(), LocalDate.now().plusMonths(2L)).size());
-        termDeposit1.setStartDate(LocalDate.now().plusDays(1L));
+        termDeposit1.changeStartDate(LocalDate.now().plusDays(1L));
         assertEquals(3, user1.getFinancialAssetsActive(LocalDate.now(), LocalDate.now().plusMonths(2L)).size());
     }
 
@@ -220,7 +220,7 @@ public class UserTest {
         user1.addAssetFinancial(investmentFund1);
         user1.addAssetFinancial(rentalProperty1);
         user1.addAssetFinancial(rentalProperty2);
-        termDeposit1.setStartDate(LocalDate.now().plusMonths(9L));
+        termDeposit1.changeStartDate(LocalDate.now().plusMonths(9L));
         assertEquals(3, user1.getFinancialAssetsreverseOrderActive().size());
         assertEquals(0, ((AssetWithInvestedValue) user1.getFinancialAssetsreverseOrderActive().get(0)).getAmountInvested().compareTo(new BigDecimal("450000")));
     }

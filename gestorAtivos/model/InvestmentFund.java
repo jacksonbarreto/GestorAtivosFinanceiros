@@ -18,7 +18,7 @@ import static model.AssetType.FOUND;
 @Entity
 @Table(name = "Fundo")
 @Access(AccessType.PROPERTY)
-@DiscriminatorValue(value = "FOUND")
+//@DiscriminatorValue(value = "FOUND")
 @PrimaryKeyJoinColumn(name = "id")
 public class InvestmentFund extends FinancialAsset implements AssetWithInvestedValue {
 
@@ -125,8 +125,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @param startDate Financial asset start date.
      */
-    @Override
-    public void setStartDate(LocalDate startDate) {
+    public void changeStartDate(LocalDate startDate) {
         if (startDate == null)
             throw new IllegalArgumentException();
         this.startDate = startDate;
@@ -139,8 +138,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @param duration New duration, in months, of the financial asset.
      */
-    @Override
-    public void setDuration(int duration) {
+    public void changeDuration(int duration) {
         if (duration <= 0)
             throw new IllegalArgumentException();
         this.duration = duration;
@@ -187,11 +185,19 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @param amountInvested New amount invested.
      */
-    public void setAmountInvested(BigDecimal amountInvested) {
+    public void changeAmountInvested(BigDecimal amountInvested) {
         if (amountInvested == null || amountInvested.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
         this.amountInvested = amountInvested;
         recalculatePayments();
+    }
+    /**
+     * Method to change the amount invested.  Exclusive use of ORM.
+     *
+     * @param amountInvested New amount invested.
+     */
+    private void setAmountInvested(BigDecimal amountInvested) {
+        this.amountInvested = amountInvested;
     }
 
     @Override
