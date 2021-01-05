@@ -105,4 +105,13 @@ public class Log implements Serializable {
     public int hashCode() {
         return Objects.hash(getId(), getMoment(), getOperation());
     }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", moment=" + moment +
+                ", operation=" + operation +
+                '}';
+    }
 }

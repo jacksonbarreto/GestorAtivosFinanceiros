@@ -22,10 +22,8 @@ public class LogSystem {
         return INSTANCE;
     }
 
-    public void registerOcurrence(SystemOperation systemOperation) {
-        if (systemOperation == null)
-            throw new IllegalArgumentException();
-        getInstance().systemOperations.add(systemOperation);
+    public void registerOccurrence(String message) {
+            getInstance().systemOperations.add(new SystemOperation(message));
     }
 
     public List<SystemOperation> getSystemOperations() {

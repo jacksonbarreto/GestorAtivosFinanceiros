@@ -55,6 +55,7 @@ public class User implements Serializable {
         this.userType = userType;
         this.financialAssets = new ArrayList<>();
         this.logs = new ArrayList<>();
+        this.id = null;
         addLog(CREATED_USER);
     }
 
@@ -74,7 +75,7 @@ public class User implements Serializable {
      *
      * @param financialAsset A financial asset.
      */
-    public void addActiveFinancial(FinancialAsset financialAsset) {
+    public void addAssetFinancial(FinancialAsset financialAsset) {
         if (financialAsset == null)
             throw new IllegalArgumentException();
         this.financialAssets.add(financialAsset);
@@ -257,11 +258,20 @@ public class User implements Serializable {
      *
      * @param username New user login name.
      */
-    public void setUsername(String username) {
+    public void changeUsername(String username) {
         if (username == null || username.isEmpty() || username.length() <= 3)
             throw new IllegalArgumentException();
         this.username = username;
         addLog(CHANGED_USERNAME);
+    }
+
+    /**
+     * Method for changing the user's login name. Exclusive use of ORM
+     *
+     * @param username New user login name.
+     */
+    private void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -279,12 +289,20 @@ public class User implements Serializable {
      *
      * @param password New user access password.
      */
-    public void setPassword(String password) {
+    public void changePassword(String password) {
         if (password == null || password.isEmpty() || password.length() <= 3)
             throw new IllegalArgumentException();
         this.salt = getSaltRandom();
         this.password = getHashedPassword(password, this.salt);
         addLog(CHANGED_PASSWORD);
+    }
+    /**
+     * Method for changing the user's password. Exclusive use of ORM
+     *
+     * @param password New user access password.
+     */
+    private void setPassword(String password){
+        this.password = password;
     }
 
     /**
@@ -322,11 +340,15 @@ public class User implements Serializable {
      *
      * @param userType new user type.
      */
-    public void setUserType(UserType userType) {
+    public void changeUserType(UserType userType) {
         if (userType == null)
             throw new IllegalArgumentException();
         this.userType = userType;
         addLog(CHANGED_USER_TYPE);
+    }
+
+    private void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     /**
@@ -413,9 +435,7 @@ public class User implements Serializable {
      *
      * @param financialAssets The user's list of financial assets.
      */
-    private void setFinancialAssets(ArrayList<FinancialAsset> financialAssets) {
-        if (financialAssets == null)
-            throw new IllegalArgumentException();
+    private void setFinancialAssets(List<FinancialAsset> financialAssets) {
         this.financialAssets = financialAssets;
     }
 
@@ -424,9 +444,7 @@ public class User implements Serializable {
      *
      * @param logs The list of user logs.
      */
-    private void setLogs(ArrayList<Log> logs) {
-        if (logs == null)
-            throw new IllegalArgumentException();
+    private void setLogs(List<Log> logs) {
         this.logs = logs;
     }
 

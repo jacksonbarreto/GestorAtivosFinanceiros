@@ -176,11 +176,20 @@ public abstract class FinancialAsset implements Serializable {
      *
      * @param tax percentage annual tax.
      */
-    public void setTax(BigDecimal tax) {
+    public void DefineNewTax(BigDecimal tax) {
         if (tax == null || tax.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
         this.tax = tax;
     }
+    /**
+     * Method to change the annual tax. Exclusive use of ORM.
+     *
+     * @param tax percentage annual tax.
+     */
+    private void setTax(BigDecimal tax){
+        this.tax = tax;
+    }
+
 
     /**
      * Method for obtaining the designation of the financial asset.

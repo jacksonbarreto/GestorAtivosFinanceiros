@@ -1,4 +1,4 @@
-package test;
+package test.model;
 
 import model.*;
 import org.junit.jupiter.api.Test;
@@ -77,19 +77,19 @@ public class UserTest {
     void
     testSetUsername() {
         String stringNull = null;
-        assertThrows(IllegalArgumentException.class, () -> user1.setUsername(""));
-        assertThrows(IllegalArgumentException.class, () -> user1.setUsername("jtr"));
-        assertThrows(IllegalArgumentException.class, () -> user1.setUsername(stringNull));
-        user1.setUsername("Mateus Rocha");
+        assertThrows(IllegalArgumentException.class, () -> user1.changeUsername(""));
+        assertThrows(IllegalArgumentException.class, () -> user1.changeUsername("jtr"));
+        assertThrows(IllegalArgumentException.class, () -> user1.changeUsername(stringNull));
+        user1.changeUsername("Mateus Rocha");
         assertEquals("Mateus Rocha", user1.getUsername());
     }
 
     @Test
     void testSetPassword() {
         String stringNull = null;
-        assertThrows(IllegalArgumentException.class, () -> user1.setPassword(""));
-        assertThrows(IllegalArgumentException.class, () -> user1.setPassword("iks"));
-        assertThrows(IllegalArgumentException.class, () -> user1.setPassword(stringNull));
+        assertThrows(IllegalArgumentException.class, () -> user1.changePassword(""));
+        assertThrows(IllegalArgumentException.class, () -> user1.changePassword("iks"));
+        assertThrows(IllegalArgumentException.class, () -> user1.changePassword(stringNull));
         assertNotEquals(user1.getPassword(), user2.getPassword());
     }
 
@@ -101,17 +101,17 @@ public class UserTest {
     @Test
     void testSetUserType() {
         UserType userType = null;
-        assertThrows(IllegalArgumentException.class, () -> user1.setUserType(userType));
-        user1.setUserType(SIMPLE);
+        assertThrows(IllegalArgumentException.class, () -> user1.changeUserType(userType));
+        user1.changeUserType(SIMPLE);
         assertEquals(SIMPLE, user1.getUserType());
-        user1.setUserType(MANAGER);
+        user1.changeUserType(MANAGER);
         assertEquals(MANAGER, user1.getUserType());
     }
 
     @Test
     void testLog() {
-        user1.setUserType(SIMPLE);
-        user1.setUserType(MANAGER);
+        user1.changeUserType(SIMPLE);
+        user1.changeUserType(MANAGER);
         assertEquals(3, user1.getLogs().size());
     }
 
@@ -129,22 +129,22 @@ public class UserTest {
     }
 
     @Test
-    void testAddActiveFinancial() {
+    void testAddAssetFinancial() {
         TermDeposit termDepositNull = null;
-        assertThrows(IllegalArgumentException.class, () -> user1.addActiveFinancial(termDepositNull));
-        user1.addActiveFinancial(termDeposit1);
-        user1.addActiveFinancial(investmentFund1);
-        user1.addActiveFinancial(rentalProperty1);
+        assertThrows(IllegalArgumentException.class, () -> user1.addAssetFinancial(termDepositNull));
+        user1.addAssetFinancial(termDeposit1);
+        user1.addAssetFinancial(investmentFund1);
+        user1.addAssetFinancial(rentalProperty1);
         assertEquals(3, user1.getFinancialAssets().size());
         assertEquals(4, user1.getLogs().size());
     }
 
     @Test
     void testFindFinancialAssetByType() {
-        user1.addActiveFinancial(termDeposit1);
-        user1.addActiveFinancial(investmentFund1);
-        user1.addActiveFinancial(rentalProperty1);
-        user1.addActiveFinancial(rentalProperty2);
+        user1.addAssetFinancial(termDeposit1);
+        user1.addAssetFinancial(investmentFund1);
+        user1.addAssetFinancial(rentalProperty1);
+        user1.addAssetFinancial(rentalProperty2);
         assertEquals(1, user1.findFinancialAsset(FOUND).size());
         assertEquals(1, user1.findFinancialAsset(DEPOSIT).size());
         assertEquals(2, user1.findFinancialAsset(PROPERTY).size());
@@ -153,10 +153,10 @@ public class UserTest {
     @Test
     void testFindFinancialAssetByName() {
         String stringNull = null;
-        user1.addActiveFinancial(termDeposit1);
-        user1.addActiveFinancial(investmentFund1);
-        user1.addActiveFinancial(rentalProperty1);
-        user1.addActiveFinancial(rentalProperty2);
+        user1.addAssetFinancial(termDeposit1);
+        user1.addAssetFinancial(investmentFund1);
+        user1.addAssetFinancial(rentalProperty1);
+        user1.addAssetFinancial(rentalProperty2);
         assertEquals(1, user1.findFinancialAsset("Fundo Petro4").size());
         assertEquals(1, user1.findFinancialAsset("Praia").size());
         assertEquals(1, user1.findFinancialAsset("praia").size());
@@ -169,10 +169,10 @@ public class UserTest {
     @Test
     void testFindFinancialAssetByNameAndType() {
         String stringNull = null;
-        user1.addActiveFinancial(termDeposit1);
-        user1.addActiveFinancial(investmentFund1);
-        user1.addActiveFinancial(rentalProperty1);
-        user1.addActiveFinancial(rentalProperty2);
+        user1.addAssetFinancial(termDeposit1);
+        user1.addAssetFinancial(investmentFund1);
+        user1.addAssetFinancial(rentalProperty1);
+        user1.addAssetFinancial(rentalProperty2);
         assertEquals(1, user1.findFinancialAsset("Fundo Petro4", FOUND).size());
         assertEquals(0, user1.findFinancialAsset("Fundo Petro4", DEPOSIT).size());
         assertEquals(1, user1.findFinancialAsset("Praia", DEPOSIT).size());
@@ -186,10 +186,10 @@ public class UserTest {
 
     @Test
     void testFilterByAmountInvested() {
-        user1.addActiveFinancial(termDeposit1);
-        user1.addActiveFinancial(investmentFund1);
-        user1.addActiveFinancial(rentalProperty1);
-        user1.addActiveFinancial(rentalProperty2);
+        user1.addAssetFinancial(termDeposit1);
+        user1.addAssetFinancial(investmentFund1);
+        user1.addAssetFinancial(rentalProperty1);
+        user1.addAssetFinancial(rentalProperty2);
         assertEquals(1, filterByAmountInvested(user1.getFinancialAssets(), EQUAL, new BigDecimal("5000")).size());
         assertEquals(2, filterByAmountInvested(user1.getFinancialAssets(), BIGGER_OR_EQUAL, new BigDecimal("1500.78")).size());
         assertEquals(1, filterByAmountInvested(user1.getFinancialAssets(), BIGGER_THEN, new BigDecimal("1500.78")).size());
@@ -203,10 +203,10 @@ public class UserTest {
 
     @Test
     void testGetFinancialAssetsActive() {
-        user1.addActiveFinancial(termDeposit1);
-        user1.addActiveFinancial(investmentFund1);
-        user1.addActiveFinancial(rentalProperty1);
-        user1.addActiveFinancial(rentalProperty2);
+        user1.addAssetFinancial(termDeposit1);
+        user1.addAssetFinancial(investmentFund1);
+        user1.addAssetFinancial(rentalProperty1);
+        user1.addAssetFinancial(rentalProperty2);
         termDeposit1.setStartDate(LocalDate.now().plusMonths(9L));
 
         assertEquals(3, user1.getFinancialAssetsActive(LocalDate.now(), LocalDate.now().plusMonths(2L)).size());
@@ -216,10 +216,10 @@ public class UserTest {
 
     @Test
     void testGetFinancialAssetsreverseOrderActive() {
-        user1.addActiveFinancial(termDeposit1);
-        user1.addActiveFinancial(investmentFund1);
-        user1.addActiveFinancial(rentalProperty1);
-        user1.addActiveFinancial(rentalProperty2);
+        user1.addAssetFinancial(termDeposit1);
+        user1.addAssetFinancial(investmentFund1);
+        user1.addAssetFinancial(rentalProperty1);
+        user1.addAssetFinancial(rentalProperty2);
         termDeposit1.setStartDate(LocalDate.now().plusMonths(9L));
         assertEquals(3, user1.getFinancialAssetsreverseOrderActive().size());
         assertEquals(0, ((AssetWithInvestedValue) user1.getFinancialAssetsreverseOrderActive().get(0)).getAmountInvested().compareTo(new BigDecimal("450000")));

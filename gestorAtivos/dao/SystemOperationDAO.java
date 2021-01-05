@@ -1,22 +1,20 @@
 package dao;
 
-import model.User;
+import model.SystemOperation;
 
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 import java.util.List;
 
-public class UserDAO {
+public class SystemOperationDAO {
 
-    public User save(User user) {
+    public SystemOperation save(SystemOperation systemOperation) {
         EntityManager em = new ConnectionFactory().getConnection();
-
         try {
             em.getTransaction().begin();
-            if (user.getId() == null || user.getId() == 0) {
-                em.persist(user);
+            if (systemOperation.getId() == null) {
+                em.persist(systemOperation);
             } else {
-                em.merge(user);
+                em.merge(systemOperation);
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -25,49 +23,49 @@ public class UserDAO {
         } finally {
             em.close();
         }
-        return user;
+        return systemOperation;
     }
 
-    public User findById(Long id) {
+    public SystemOperation findById(Long id) {
         EntityManager em = new ConnectionFactory().getConnection();
-        User user = null;
+        SystemOperation systemOperation = null;
         try {
-            user = em.find(User.class, id);
+            systemOperation = em.find(SystemOperation.class, id);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
-        return user;
+        return systemOperation;
     }
 
-    public List<User> findAll() {
+    public List<SystemOperation> findAll() {
         EntityManager em = new ConnectionFactory().getConnection();
-        List<User> users = null;
+        List<SystemOperation> systemOperations = null;
         try {
-            users = em.createQuery("from User", User.class).getResultList();
+            systemOperations = em.createQuery("from SystemOperation", SystemOperation.class).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             em.close();
         }
-        return users;
+        return systemOperations;
     }
 
-    public User remove(Long id){
+    public SystemOperation remove(Long id) {
         EntityManager em = new ConnectionFactory().getConnection();
-        User user = null;
+        SystemOperation systemOperation = null;
         try {
-            user = em.find(User.class, id);
+            systemOperation = em.find(SystemOperation.class, id);
             em.getTransaction().begin();
-            em.remove(user);
+            em.remove(systemOperation);
             em.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             em.getTransaction().rollback();
-        }finally {
+        } finally {
             em.close();
         }
-        return user;
+        return systemOperation;
     }
 }

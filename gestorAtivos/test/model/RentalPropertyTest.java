@@ -1,4 +1,4 @@
-package test;
+package test.model;
 
 import model.RentalProperty;
 import org.junit.jupiter.api.Test;
@@ -81,7 +81,7 @@ public class RentalPropertyTest {
     @Test
     void setTaxTest() {
         BigDecimal taxNull = null;
-        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setTax(taxNull));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.DefineNewTax(taxNull));
     }
 
     @Test
