@@ -110,9 +110,12 @@ public class testBank {
         user1 = userDao.save(user1);
         System.out.println(user1.getId());
 */
+     BankDAO mileDao = new BankDAO();
+     Bank millenium = mileDao.findById(410L);
      User carlos = userDao.findById(408L);
      //carlos.removeAssetFinancial(425L);
      System.out.println("==================================");
+     System.out.println("Depositos milenium : "+millenium.getTermDeposits().size());
      System.out.println(carlos);
      System.out.println("===================================");
         List<FinancialAsset> ativos = carlos.findFinancialAsset(AssetType.FOUND);
