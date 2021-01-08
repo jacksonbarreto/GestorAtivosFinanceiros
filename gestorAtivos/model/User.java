@@ -1,5 +1,8 @@
 package model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -364,6 +367,7 @@ public class User implements Serializable {
      *
      * @return collection of financial assets.
      */
+    @Fetch(FetchMode.SELECT)
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "AtivoUtilizador", joinColumns = @JoinColumn(name = "Utilizador", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "AtivoFinanceiro", referencedColumnName = "id"))

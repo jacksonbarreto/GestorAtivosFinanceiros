@@ -92,10 +92,6 @@ public class testBank {
 
         System.out.println("deposito 1: "+termDeposit1.getId());
 
-
-
-
-
         user1.addAssetFinancial(termDeposit1);
         user1.addAssetFinancial(termDeposit2);
         user1.addAssetFinancial(termDeposit3);
@@ -118,11 +114,16 @@ public class testBank {
      System.out.println("Depositos milenium : "+millenium.getTermDeposits().size());
      System.out.println(carlos);
      System.out.println("===================================");
-        List<FinancialAsset> ativos = carlos.findFinancialAsset(AssetType.FOUND);
+        List<FinancialAsset> ativos = carlos.findFinancialAsset(AssetType.DEPOSIT);
         System.out.println("Tamanho: " +ativos.size());
         for (FinancialAsset fa : ativos){
 
             System.out.println(fa.getAssetType() + " - " + fa.getDesignation());
+            System.out.println("----pagamentos--------");
+            for (Payment p : fa.getPayments()){
+                System.out.println(p);
+            }
+            System.out.println("-----------------");
         }
 
 

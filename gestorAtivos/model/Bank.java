@@ -1,5 +1,8 @@
 package model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -133,6 +136,7 @@ public class Bank implements Serializable {
      *
      * @return Collection of cautioned deposits at the bank.
      */
+    @Fetch(FetchMode.SELECT)
     @OneToMany(mappedBy = "bank", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<TermDeposit> getTermDeposits() {
         return termDeposits;
