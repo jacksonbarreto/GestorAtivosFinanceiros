@@ -114,8 +114,18 @@ public class testBank {
      System.out.println("Depositos milenium : "+millenium.getTermDeposits().size());
      System.out.println(carlos);
      System.out.println("===================================");
-        List<FinancialAsset> ativos = carlos.findFinancialAsset(AssetType.DEPOSIT);
-        System.out.println("Tamanho: " +ativos.size());
+        List<FinancialAsset> ativos = carlos.findFinancialAsset(AssetType.PROPERTY);
+        System.out.println("Total de Imóveis (3): " +ativos.size());
+         ativos = carlos.findFinancialAsset(AssetType.FOUND);
+        System.out.println("Total de Fundos (2): " +ativos.size());
+        ativos = carlos.findFinancialAsset(AssetType.DEPOSIT);
+        System.out.println("Total de Depósitos (3): " +ativos.size());
+        System.out.println("Total de Logs (9): " + carlos.getLogs().size());
+        System.out.println("-----Logs-----------");
+        for (Log l : carlos.getLogs()){
+            System.out.println(l);
+        }
+        System.out.println("------fimLog-----");
         for (FinancialAsset fa : ativos){
 
             System.out.println(fa.getAssetType() + " - " + fa.getDesignation());

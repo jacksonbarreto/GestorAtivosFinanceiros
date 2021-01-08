@@ -427,7 +427,8 @@ public class User implements Serializable {
      *
      * @return Collection of user logs.
      */
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "Utilizador", referencedColumnName = "id", nullable = false)
     public List<Log> getLogs() {
         return logs;
@@ -482,7 +483,7 @@ public class User implements Serializable {
                 ", salt=" + Arrays.toString(salt) +
                 ", userType=" + userType +
                 ", financialAssets=" + financialAssets +
-                ", logs=" +
+                ", logs=" + logs +
                 '}';
     }
 }
