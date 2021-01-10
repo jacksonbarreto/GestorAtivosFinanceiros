@@ -2,9 +2,16 @@ package dao;
 
 import model.LogSystem;
 import model.User;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
+
 
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
+import javax.persistence.TypedQuery;
+
 import java.util.List;
 
 import static model.LogSystem.*;
@@ -43,6 +50,20 @@ public class UserDAO {
             em.close();
         }
         return user;
+    }
+
+    public List<User> findByUsername(String username){
+        EntityManager em = new ConnectionFactory().getConnection();
+        List<User> users = null;
+        try {
+            TypedQuery<User> query = em.createQuery("SELECT u from User u where u.username = :username", User.class);
+            users = query.setParameter("username",username).getResultList();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+
+        return users;
     }
 
     public List<User> findAll() {

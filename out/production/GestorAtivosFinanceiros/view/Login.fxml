@@ -10,6 +10,7 @@
 <?import javafx.scene.effect.SepiaTone?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -26,8 +27,8 @@
                      </font>
                   </Label>
                   <JFXTextField fx:id="inpUsername" focusColor="#4ffbca" labelFloat="true" layoutX="89.0" layoutY="101.0" prefColumnCount="15" prefHeight="35.0" prefWidth="279.0" promptText="Username" unFocusColor="#845ec2" AnchorPane.leftAnchor="108.80000000000001" AnchorPane.rightAnchor="20.0" />
-                  <JFXPasswordField fx:id="inpPassword" focusColor="#4ffbca" labelFloat="true" layoutX="108.0" layoutY="177.0" prefColumnCount="15" prefHeight="35.0" prefWidth="279.0" promptText="Password" unFocusColor="#845ec2" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.80000000000001" />
-                  <JFXButton fx:id="btnLogIn" buttonType="RAISED" layoutX="108.0" layoutY="301.0" onAction="#handleLogIn" prefHeight="35.0" prefWidth="279.0" ripplerFill="WHITE" style="-fx-background-color: orange; -fx-background-radius: 1em;" text="Log In" />
+                  <JFXPasswordField fx:id="inpPassword" focusColor="#4ffbca" labelFloat="true" layoutX="108.0" layoutY="177.0" prefColumnCount="15" prefHeight="35.0" prefWidth="279.0" promptText="Password" unFocusColor="#845ec2" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.0" />
+                  <JFXButton fx:id="btnLogIn" buttonType="RAISED" layoutX="108.0" layoutY="301.0" onAction="#handleLogIn" prefHeight="35.0" prefWidth="279.0" ripplerFill="WHITE" style="-fx-background-color: orange; -fx-background-radius: 1em;" text="Log In" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.0" />
                   <FontIcon layoutX="213.0" layoutY="19.0" />
                   <HBox layoutX="348.0" layoutY="22.0" prefHeight="16.0" prefWidth="40.0">
                      <children>
@@ -45,6 +46,15 @@
                         <FontAwesomeIconView fx:id="btnClose" glyphName="TIMES" onMouseClicked="#handleMouseEvent" size="13" text="" />
                      </children>
                   </HBox>
+                  <Pane layoutX="108.0" layoutY="255.0" prefHeight="35.0" prefWidth="279.0" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="20.0">
+                     <children>
+                        <Label fx:id="alert" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="280.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="40.0" layoutY="17.0" prefHeight="440.0" prefWidth="340.0" style="-fx-background-color: linear-gradient(to right top, #051937, #1b2b59, #393d7d, #5c4ea0, #845ec2); -fx-background-radius: 1em;" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="17.0">
