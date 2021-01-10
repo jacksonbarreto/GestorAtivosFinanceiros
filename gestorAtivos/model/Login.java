@@ -16,7 +16,7 @@ public class Login {
 
         users = userDAO.findByUsername(username);
         if (users != null) {
-            for (User us : users){
+            for (User us : users) {
                 String passwordInputHash = getHashedPassword(password, us.getSalt());
                 if (us.getPassword().equals(passwordInputHash)) {
                     user = us;

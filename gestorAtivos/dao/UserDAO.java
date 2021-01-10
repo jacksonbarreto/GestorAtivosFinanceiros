@@ -52,17 +52,15 @@ public class UserDAO {
         return user;
     }
 
-    public List<User> findByUsername(String username){
+    public List<User> findByUsername(String username) {
         EntityManager em = new ConnectionFactory().getConnection();
         List<User> users = null;
         try {
             TypedQuery<User> query = em.createQuery("SELECT u from User u where u.username = :username", User.class);
-            users = query.setParameter("username",username).getResultList();
+            users = query.setParameter("username", username).getResultList();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-
-
         return users;
     }
 
@@ -79,7 +77,7 @@ public class UserDAO {
         return users;
     }
 
-    public User remove(Long id){
+    public User remove(Long id) {
         EntityManager em = new ConnectionFactory().getConnection();
         User user = null;
         try {
@@ -87,10 +85,10 @@ public class UserDAO {
             em.getTransaction().begin();
             em.remove(user);
             em.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             em.getTransaction().rollback();
-        }finally {
+        } finally {
             em.close();
         }
         return user;
