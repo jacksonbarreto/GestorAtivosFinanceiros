@@ -94,9 +94,11 @@ public class User implements Serializable {
     public void removeAssetFinancial(Long id) {
         if (id == null)
             throw new IllegalArgumentException();
-        for (FinancialAsset fa : this.financialAssets) {
-            if (fa.getId() == id) {
-                this.financialAssets.remove(fa);
+        Iterator<FinancialAsset> it = this.financialAssets.iterator();
+        while (it.hasNext()) {
+            FinancialAsset fa = it.next();
+            if (fa.getId().equals(id)) {
+                it.remove();
             }
         }
     }
