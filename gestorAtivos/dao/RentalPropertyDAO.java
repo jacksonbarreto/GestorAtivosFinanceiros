@@ -5,6 +5,8 @@ import model.RentalProperty;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static model.LogSystem.registerOccurrence;
+
 public class RentalPropertyDAO {
 
     public RentalProperty save(RentalProperty rentalProperty) {
@@ -18,7 +20,7 @@ public class RentalPropertyDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in save within RentalPropertyDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -32,7 +34,7 @@ public class RentalPropertyDAO {
         try {
             rentalProperty = em.find(RentalProperty.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in save FindById RentalPropertyDAO");
         } finally {
             em.close();
         }
@@ -45,7 +47,7 @@ public class RentalPropertyDAO {
         try {
             rentalProperties = em.createQuery("from RentalProperty", RentalProperty.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in save findAll RentalPropertyDAO");
         } finally {
             em.close();
         }
@@ -61,7 +63,7 @@ public class RentalPropertyDAO {
             em.remove(rentalProperty);
             em.getTransaction().commit();
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in save remove RentalPropertyDAO");
             em.getTransaction().rollback();
         }finally {
             em.close();

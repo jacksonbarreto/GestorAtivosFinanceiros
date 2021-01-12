@@ -181,7 +181,7 @@ public abstract class FinancialAsset implements Serializable {
      *
      * @param tax percentage annual tax.
      */
-    public void DefineNewTax(BigDecimal tax) {
+    public void defineNewTax(BigDecimal tax) {
         if (tax == null || tax.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
         this.tax = tax;

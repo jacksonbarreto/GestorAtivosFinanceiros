@@ -14,7 +14,6 @@ public class FinancialAssetDAO {
         EntityManager em = new ConnectionFactory().getConnection();
         try {
             em.getTransaction().begin();
-            registerOccurrence( " entrou em financialAssets");
             if (financialAsset.getId() == null) {
                 em.persist(financialAsset);
             } else {
@@ -22,7 +21,7 @@ public class FinancialAssetDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            registerOccurrence(e.getMessage() + " in FinancialAssetDAO");
+            registerOccurrence(e.getMessage() + " in save within FinancialAssetDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -36,7 +35,7 @@ public class FinancialAssetDAO {
         try {
             financialAsset = em.find(FinancialAsset.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findById within FinancialAssetDAO");
         } finally {
             em.close();
         }
@@ -49,7 +48,7 @@ public class FinancialAssetDAO {
         try {
             financialAssets = em.createQuery("from FinancialAsset", FinancialAsset.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findAll within FinancialAssetDAO");
         } finally {
             em.close();
         }
@@ -65,7 +64,7 @@ public class FinancialAssetDAO {
             em.remove(financialAsset);
             em.getTransaction().commit();
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in remove within FinancialAssetDAO");
             em.getTransaction().rollback();
         }finally {
             em.close();

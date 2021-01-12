@@ -94,7 +94,8 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         BigDecimal amount = new BigDecimal(amountInvested.toString());
         for (Payment payment : this.payments) {
             interestReceived = amount.multiply(payment.getMonthlyProfitability());
-            payments.add(new Payment(this, payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
+            //editar esse pagamento diretamente
+            payments.add(new Payment(payment.getId(),this, payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
             amount = amount.add(interestReceived);
         }
         this.payments = payments;

@@ -20,18 +20,16 @@ public class UserDAO {
 
     public User save(User user) {
         EntityManager em = new ConnectionFactory().getConnection();
-
         try {
             em.getTransaction().begin();
-            if (user.getId() == null || user.getId() == 0) {
+            if (user.getId() == null) {
                 em.persist(user);
             } else {
                 em.merge(user);
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            registerOccurrence(e.getMessage() + " in UserDAO");
-            //System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in SAVE within UserDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -45,7 +43,7 @@ public class UserDAO {
         try {
             user = em.find(User.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findById within UserDAO");
         } finally {
             em.close();
         }
@@ -59,7 +57,7 @@ public class UserDAO {
             TypedQuery<User> query = em.createQuery("SELECT u from User u where u.username = :username", User.class);
             users = query.setParameter("username", username).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findByUsername within UserDAO");
         }
         return users;
     }
@@ -70,7 +68,7 @@ public class UserDAO {
         try {
             users = em.createQuery("from User", User.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findAll within UserDAO");
         } finally {
             em.close();
         }
@@ -86,7 +84,7 @@ public class UserDAO {
             em.remove(user);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in remove within UserDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();

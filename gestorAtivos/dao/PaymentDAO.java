@@ -5,6 +5,8 @@ import model.Payment;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static model.LogSystem.registerOccurrence;
+
 public class PaymentDAO {
 
     public Payment save(Payment payment) {
@@ -18,7 +20,7 @@ public class PaymentDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in save within PaymentDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -32,7 +34,7 @@ public class PaymentDAO {
         try {
             payment = em.find(Payment.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findById within PaymentDAO");
         } finally {
             em.close();
         }
@@ -45,7 +47,7 @@ public class PaymentDAO {
         try {
             payments = em.createQuery("from Payment", Payment.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findAll within PaymentDAO");
         } finally {
             em.close();
         }
@@ -60,11 +62,26 @@ public class PaymentDAO {
             em.remove(payment);
             em.getTransaction().commit();
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in remove within PaymentDAO");
             em.getTransaction().rollback();
         }finally {
             em.close();
         }
         return payment;
+    }
+    public void removeAll(List<Payment> payments){
+        EntityManager em = new ConnectionFactory().getConnection();
+        try {
+            em.getTransaction().begin();
+            for (Payment p : payments){
+                em.remove(p);
+            }
+            em.getTransaction().commit();
+        }catch (Exception e){
+            registerOccurrence(e.getMessage() + " in removeAll within PaymentDAO");
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
     }
 }

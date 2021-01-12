@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
+// , uniqueConstraints = @UniqueConstraint(columnNames = {"AtivoFinanceiro", "DataPagamento"})
 @Entity
 @Table(name = "Pagamento", uniqueConstraints = @UniqueConstraint(columnNames = {"AtivoFinanceiro", "DataPagamento"}))
 @Access(AccessType.PROPERTY)
@@ -36,6 +37,25 @@ public class Payment implements Serializable {
     public Payment(FinancialAsset financialAsset, LocalDate dateOfPayment, BigDecimal monthlyProfitability, BigDecimal interestReceived) {
         if (financialAsset == null || dateOfPayment == null || monthlyProfitability == null || interestReceived == null)
             throw new IllegalArgumentException();
+        this.financialAsset = financialAsset;
+        this.dateOfPayment = dateOfPayment;
+        this.monthlyProfitability = monthlyProfitability;
+        this.interestReceived = interestReceived;
+    }
+
+    /**
+     * Payment builder.
+     *
+     * @param id                   id from database.
+     * @param financialAsset       Financial asset.
+     * @param dateOfPayment        Date of payment.
+     * @param monthlyProfitability Monthly profitability, in percentage.
+     * @param interestReceived     Interest received (the payment itself).
+     */
+    public Payment(Long id, FinancialAsset financialAsset, LocalDate dateOfPayment, BigDecimal monthlyProfitability, BigDecimal interestReceived) {
+        if (id == null || financialAsset == null || dateOfPayment == null || monthlyProfitability == null || interestReceived == null)
+            throw new IllegalArgumentException();
+        this.id = id;
         this.financialAsset = financialAsset;
         this.dateOfPayment = dateOfPayment;
         this.monthlyProfitability = monthlyProfitability;
@@ -166,7 +186,7 @@ public class Payment implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Payment)) return false;
         Payment payment = (Payment) o;
-        return Objects.equals(getId(), payment.getId()) && getDateOfPayment().equals(payment.getDateOfPayment()) && getMonthlyProfitability().equals(payment.getMonthlyProfitability()) && getInterestReceived().equals(payment.getInterestReceived());
+        return Objects.equals(getId(), payment.getId()) && Objects.equals(getFinancialAsset(), payment.getFinancialAsset()) && Objects.equals(getDateOfPayment(), payment.getDateOfPayment()) && Objects.equals(getMonthlyProfitability(), payment.getMonthlyProfitability()) && Objects.equals(getInterestReceived(), payment.getInterestReceived());
     }
 
     @Override

@@ -370,7 +370,7 @@ public class User implements Serializable {
      * @return collection of financial assets.
      */
     @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name = "AtivoUtilizador", joinColumns = @JoinColumn(name = "Utilizador", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "AtivoFinanceiro", referencedColumnName = "id"))
     public List<FinancialAsset> getFinancialAssets() {

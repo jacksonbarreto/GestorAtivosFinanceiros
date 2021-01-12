@@ -1,9 +1,13 @@
 package model;
 
+import dao.PaymentDAO;
+import dao.RentalPropertyDAO;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -169,11 +173,20 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      *
      * @param rentAmount New monthly value, in monetary units, of the rental of the property.
      */
-    public void setRentAmount(BigDecimal rentAmount) {
+    public void changeRentAmount(BigDecimal rentAmount) {
         if (rentAmount == null || rentAmount.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
         this.rentAmount = rentAmount;
         this.payments = createPayments();
+    }
+
+    /**
+     * Method to change the monthly rental value of the property. exclusive use of ORM.
+     *
+     * @param rentAmount New monthly value, in monetary units, of the rental of the property.
+     */
+    private void setRentAmount(BigDecimal rentAmount){
+        this.rentAmount = rentAmount;
     }
 
     /**

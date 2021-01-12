@@ -5,6 +5,8 @@ import model.InvestmentFund;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static model.LogSystem.registerOccurrence;
+
 public class InvestmentFundDAO {
 
     public InvestmentFund save(InvestmentFund investmentFund) {
@@ -18,7 +20,7 @@ public class InvestmentFundDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in save within InvestmentFundDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -32,7 +34,7 @@ public class InvestmentFundDAO {
         try {
             investmentFund = em.find(InvestmentFund.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findById within InvestmentFundDAO");
         } finally {
             em.close();
         }
@@ -45,7 +47,7 @@ public class InvestmentFundDAO {
         try {
             investmentFunds = em.createQuery("from InvestmentFund", InvestmentFund.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findAll within InvestmentFundDAO");
         } finally {
             em.close();
         }
@@ -61,7 +63,7 @@ public class InvestmentFundDAO {
             em.remove(investmentFund);
             em.getTransaction().commit();
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in remove within InvestmentFundDAO");
             em.getTransaction().rollback();
         }finally {
             em.close();

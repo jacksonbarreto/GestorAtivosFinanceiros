@@ -1,5 +1,7 @@
 package model;
 
+import dao.PaymentDAO;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -74,6 +76,21 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     }
 
     /**
+     * This method recalculates payments. Must be used when making a change to the monthly fee for a payment.
+     */
+    private void recalculatePayments() {
+        ArrayList<Payment> payments = new ArrayList<>();
+        BigDecimal interestReceived;
+        BigDecimal amount = new BigDecimal(depositedAmount.toString());
+        for (Payment payment : this.payments) {
+            interestReceived = amount.multiply(payment.getMonthlyProfitability());
+            payments.add(new Payment(payment.getId(),this, payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
+            amount = amount.add(interestReceived);
+        }
+        this.payments = payments;
+    }
+
+    /**
      * This method creates the sequence of investment payments, according to the specifics of each investment.
      *
      * @return A collection of payments.
@@ -103,6 +120,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         if (startDate == null)
             throw new IllegalArgumentException();
         this.startDate = startDate;
+        //apagar tudo no banco antes
         this.payments = this.createPayments();
     }
 

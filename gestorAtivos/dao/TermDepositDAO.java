@@ -20,7 +20,7 @@ public class TermDepositDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            registerOccurrence(e.getMessage() + " in TermDeposit.DAO");
+            registerOccurrence(e.getMessage() + " in save TermDepositDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -34,7 +34,7 @@ public class TermDepositDAO {
         try {
             termDeposit = em.find(TermDeposit.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findById TermDepositDAO");
         } finally {
             em.close();
         }
@@ -47,7 +47,7 @@ public class TermDepositDAO {
         try {
             termDeposits = em.createQuery("from TermDeposit", TermDeposit.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findAll TermDepositDAO");
         } finally {
             em.close();
         }
@@ -63,7 +63,7 @@ public class TermDepositDAO {
             em.remove(termDeposit);
             em.getTransaction().commit();
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in remove TermDepositDAO");
             em.getTransaction().rollback();
         }finally {
             em.close();

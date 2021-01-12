@@ -5,6 +5,8 @@ import model.SystemOperation;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static model.LogSystem.registerOccurrence;
+
 public class SystemOperationDAO {
 
     public SystemOperation save(SystemOperation systemOperation) {
@@ -18,7 +20,7 @@ public class SystemOperationDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in save SystemOperationDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -32,7 +34,7 @@ public class SystemOperationDAO {
         try {
             systemOperation = em.find(SystemOperation.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findById SystemOperationDAO");
         } finally {
             em.close();
         }
@@ -45,7 +47,7 @@ public class SystemOperationDAO {
         try {
             systemOperations = em.createQuery("from SystemOperation", SystemOperation.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findAll SystemOperationDAO");
         } finally {
             em.close();
         }
@@ -61,7 +63,7 @@ public class SystemOperationDAO {
             em.remove(systemOperation);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in remove SystemOperationDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();

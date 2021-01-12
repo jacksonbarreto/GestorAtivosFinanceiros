@@ -5,6 +5,8 @@ import model.Log;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static model.LogSystem.registerOccurrence;
+
 public class LogDAO {
 
     public Log save(Log log) {
@@ -18,7 +20,7 @@ public class LogDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in save within LogDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -32,7 +34,7 @@ public class LogDAO {
         try {
             log = em.find(Log.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findById within LogDAO");
         } finally {
             em.close();
         }
@@ -45,7 +47,7 @@ public class LogDAO {
         try {
             logs = em.createQuery("from Log",Log.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findAll within LogDAO");
         } finally {
             em.close();
         }
@@ -60,7 +62,7 @@ public class LogDAO {
             em.remove(log);
             em.getTransaction().commit();
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in remove within LogDAO");
             em.getTransaction().rollback();
         }finally {
             em.close();

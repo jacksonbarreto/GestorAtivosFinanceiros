@@ -55,9 +55,9 @@ public class InvestmentFundTest {
         assertThrows(IllegalArgumentException.class, () -> investmentFund1.setDesignation(""));
         String string = null;
         assertThrows(IllegalArgumentException.class, () -> investmentFund1.setDesignation(string));
-        investmentFund1.DefineNewTax(new BigDecimal("0"));
+        investmentFund1.defineNewTax(new BigDecimal("0"));
         assertEquals(0, investmentFund1.getTax().compareTo(new BigDecimal("0")));
-        assertThrows(IllegalArgumentException.class, () -> investmentFund1.DefineNewTax(new BigDecimal("-234.98")));
+        assertThrows(IllegalArgumentException.class, () -> investmentFund1.defineNewTax(new BigDecimal("-234.98")));
     }
 
     @Test

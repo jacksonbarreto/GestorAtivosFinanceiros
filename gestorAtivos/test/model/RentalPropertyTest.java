@@ -45,7 +45,7 @@ public class RentalPropertyTest {
     @Test
     void hashCodeTest() {
         assertEquals(rentalProperty1.hashCode(), rentalProperty3.hashCode());
-        rentalProperty1.setRentAmount(new BigDecimal("725.48"));
+        rentalProperty1.changeRentAmount(new BigDecimal("725.48"));
         assertNotEquals(rentalProperty1.hashCode(), rentalProperty3.hashCode());
     }
 
@@ -62,10 +62,10 @@ public class RentalPropertyTest {
     @Test
     void setRentAmountTest() {
         BigDecimal rentAmountNull = null;
-        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setRentAmount(new BigDecimal("0")));
-        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setRentAmount(new BigDecimal("-453.99")));
-        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.setRentAmount(rentAmountNull));
-        rentalProperty1.setRentAmount(new BigDecimal("678.49"));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.changeRentAmount(new BigDecimal("0")));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.changeRentAmount(new BigDecimal("-453.99")));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.changeRentAmount(rentAmountNull));
+        rentalProperty1.changeRentAmount(new BigDecimal("678.49"));
         assertEquals(new BigDecimal("678.49"), rentalProperty1.getRentAmount());
     }
 
@@ -81,7 +81,7 @@ public class RentalPropertyTest {
     @Test
     void setTaxTest() {
         BigDecimal taxNull = null;
-        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.DefineNewTax(taxNull));
+        assertThrows(IllegalArgumentException.class, () -> rentalProperty1.defineNewTax(taxNull));
     }
 
     @Test

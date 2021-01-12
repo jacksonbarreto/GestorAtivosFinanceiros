@@ -20,7 +20,7 @@ public class BankDAO {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            registerOccurrence(e.getMessage() + " in BankDAO");
+            registerOccurrence(e.getMessage() + " in save within BankDAO");
             em.getTransaction().rollback();
         } finally {
             em.close();
@@ -34,7 +34,7 @@ public class BankDAO {
         try {
             bank = em.find(Bank.class, id);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findById within BankDAO");
         } finally {
             em.close();
         }
@@ -47,7 +47,7 @@ public class BankDAO {
         try {
             banks = em.createQuery("from Bank", Bank.class).getResultList();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in findAll within BankDAO");
         } finally {
             em.close();
         }
@@ -63,7 +63,7 @@ public class BankDAO {
             em.remove(bank);
             em.getTransaction().commit();
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            registerOccurrence(e.getMessage() + " in remove within BankDAO");
             em.getTransaction().rollback();
         }finally {
             em.close();
