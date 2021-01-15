@@ -14,7 +14,7 @@ public class Bank implements Serializable {
 
     private String name;
     private final List<TermDeposit> termDeposits;
-    public static List<Bank> banks;
+
 
     /**
      * Bank Builder
