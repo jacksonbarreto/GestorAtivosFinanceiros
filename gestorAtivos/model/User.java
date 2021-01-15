@@ -1,9 +1,5 @@
 package model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,24 +11,15 @@ import static model.Operation.*;
 import static model.Utilities.*;
 import static model.Utilities.dateIsAfterOrEqual;
 
-@Entity
-@Table(name = "Utilizador")
-@Access(AccessType.PROPERTY)
+
 public class User implements Serializable {
 
-    private Long id;
     private String username;
     private String password;
     private byte[] salt;
     private UserType userType;
-    private List<FinancialAsset> financialAssets;
-    private List<Log> logs;
-
-    /**
-     * User builder. Exclusively for ORM.
-     */
-    private User() {
-    }
+    private final List<FinancialAsset> financialAssets;
+    private final List<Log> logs;
 
     /**
      * User builder.
@@ -55,7 +42,6 @@ public class User implements Serializable {
         this.userType = userType;
         this.financialAssets = new ArrayList<>();
         this.logs = new ArrayList<>();
-        this.id = null;
         addLog(CREATED_USER);
     }
 
@@ -91,13 +77,13 @@ public class User implements Serializable {
         }
     }
 
-    public void removeAssetFinancial(Long id) {
-        if (id == null)
+    public void removeAssetFinancial(FinancialAsset financialAsset) {
+        if (financialAsset == null)
             throw new IllegalArgumentException();
         Iterator<FinancialAsset> it = this.financialAssets.iterator();
         while (it.hasNext()) {
             FinancialAsset fa = it.next();
-            if (fa.getId().equals(id)) {
+            if (fa.equals(financialAsset)) {
                 it.remove();
             }
         }
@@ -244,23 +230,10 @@ public class User implements Serializable {
 
 
     /**
-     * Method to obtain the ID (from the database) of the user.
-     *
-     * @return The ID (of the database) of the user.
-     */
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    /**
      * Method to obtain the user's login name.
      *
      * @return The user's login name.
      */
-    @Column(name = "Username", nullable = false, unique = true)
     public String getUsername() {
         return username;
     }
@@ -291,7 +264,6 @@ public class User implements Serializable {
      *
      * @return The user's encrypted access password.
      */
-    @Column(name = "Password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -310,40 +282,20 @@ public class User implements Serializable {
     }
 
     /**
-     * Method for changing the user's password. Exclusive use of ORM
-     *
-     * @param password New user access password.
-     */
-    private void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
      * Method to obtain salt from the user.
      *
      * @return The user's salt.
      */
-    @Column(name = "salt", nullable = false)
     public byte[] getSalt() {
         return salt;
     }
 
-    /**
-     * Method to define the user's salt. Exclusive use of ORM
-     *
-     * @param salt the user's salt
-     */
-    private void setSalt(byte[] salt) {
-        this.salt = salt;
-    }
 
     /**
      * Method to obtain the type of user profile.
      *
      * @return The type of the user.
      */
-    @Column(name = "TipoUsuario", nullable = false)
-    @Enumerated(EnumType.STRING)
     public UserType getUserType() {
         return userType;
     }
@@ -360,19 +312,11 @@ public class User implements Serializable {
         addLog(CHANGED_USER_TYPE);
     }
 
-    private void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
     /**
      * Method to obtain all the financial assets of the user.
      *
      * @return collection of financial assets.
      */
-    @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JoinTable(name = "AtivoUtilizador", joinColumns = @JoinColumn(name = "Utilizador", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "AtivoFinanceiro", referencedColumnName = "id"))
     public List<FinancialAsset> getFinancialAssets() {
         return financialAssets;
     }
@@ -383,7 +327,6 @@ public class User implements Serializable {
      *
      * @return collection of financial assets in descending order.
      */
-    @Transient
     public List<FinancialAsset> getFinancialAssetsreverseOrderActive() {
         List<FinancialAsset> financialAssetsreverseOrderActive = new ArrayList<>();
         for (FinancialAsset fa : this.financialAssets) {
@@ -405,7 +348,6 @@ public class User implements Serializable {
      * @param finalDate   End date of consultation
      * @return collection of financial assets active in the date range.
      */
-    @Transient
     public List<FinancialAsset> getFinancialAssetsActive(LocalDate initialDate, LocalDate finalDate) {
         if (initialDate == null | finalDate == null)
             throw new IllegalArgumentException();
@@ -429,57 +371,15 @@ public class User implements Serializable {
      *
      * @return Collection of user logs.
      */
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "Utilizador", referencedColumnName = "id", nullable = false)
     public List<Log> getLogs() {
         return logs;
     }
 
-    /**
-     * Method for setting the ID (of the database). Exclusive use of ORM.
-     *
-     * @param id The ID (of the database).
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    /**
-     * Method for defining the user's list of financial assets. Exclusive use of ORM.
-     *
-     * @param financialAssets The user's list of financial assets.
-     */
-    private void setFinancialAssets(List<FinancialAsset> financialAssets) {
-        this.financialAssets = financialAssets;
-    }
-
-    /**
-     * Method to define the list of user logs. Exclusive use of ORM.
-     *
-     * @param logs The list of user logs.
-     */
-    private void setLogs(List<Log> logs) {
-        this.logs = logs;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return Objects.equals(getId(), user.getId()) && getUsername().equals(user.getUsername()) && getPassword().equals(user.getPassword()) && getUserType() == user.getUserType() && Objects.equals(getFinancialAssets(), user.getFinancialAssets()) && Objects.equals(getLogs(), user.getLogs());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), getUserType(), getFinancialAssets(), getLogs());
-    }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", salt=" + Arrays.toString(salt) +
@@ -487,5 +387,20 @@ public class User implements Serializable {
                 ", financialAssets=" + financialAssets +
                 ", logs=" + logs +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getUsername().equals(user.getUsername()) && getPassword().equals(user.getPassword()) && Arrays.equals(getSalt(), user.getSalt()) && getUserType() == user.getUserType() && getFinancialAssets().equals(user.getFinancialAssets()) && getLogs().equals(user.getLogs());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getUsername(), getPassword(), getUserType(), getFinancialAssets(), getLogs());
+        result = 31 * result + Arrays.hashCode(getSalt());
+        return result;
     }
 }

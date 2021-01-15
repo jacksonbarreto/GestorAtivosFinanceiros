@@ -1,9 +1,5 @@
 package model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,21 +10,11 @@ import java.util.Objects;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 import static model.Utilities.dateIsInThePeriod;
 
-@Entity
-@Table(name = "Banco")
-@Access(AccessType.PROPERTY)
 public class Bank implements Serializable {
 
-    private Long id;
     private String name;
-    private List<TermDeposit> termDeposits;
-
-    /**
-     * Bank builder, exclusively for the ORM
-     */
-    private Bank() {
-
-    }
+    private final List<TermDeposit> termDeposits;
+    public static List<Bank> banks;
 
     /**
      * Bank Builder
@@ -52,7 +38,6 @@ public class Bank implements Serializable {
      *
      * @return the amount, in monetary units, deposited with the bank
      */
-    @Transient
     public BigDecimal getEquityInDeposits() {
         BigDecimal totalDeposited = new BigDecimal("0");
 
@@ -70,7 +55,6 @@ public class Bank implements Serializable {
      * @param finalDate   period end date.
      * @return the amount, in monetary units, deposited with the bank
      */
-    @Transient
     public BigDecimal getEquityInDeposits(LocalDate initialDate, LocalDate finalDate) {
         BigDecimal totalDeposited = new BigDecimal("0");
 
@@ -87,7 +71,6 @@ public class Bank implements Serializable {
      *
      * @return the total, in monetary units, paid by the bank to customers.
      */
-    @Transient
     public BigDecimal getTotalInterestPaid() {
         BigDecimal totalInterestPaid = new BigDecimal("0");
         for (TermDeposit termDeposit : this.termDeposits) {
@@ -106,7 +89,6 @@ public class Bank implements Serializable {
      * @param finalDate   period end date.
      * @return the total, in monetary units, paid by the bank to customers.
      */
-    @Transient
     public BigDecimal getTotalInterestPaid(LocalDate initialDate, LocalDate finalDate) {
 
         BigDecimal totalInterestPaid = new BigDecimal("0");
@@ -124,7 +106,6 @@ public class Bank implements Serializable {
      *
      * @param termDeposit A term deposit.
      */
-    @Transient
     public void addDeposit(TermDeposit termDeposit) {
         if (termDeposit == null)
             throw new IllegalArgumentException();
@@ -136,41 +117,18 @@ public class Bank implements Serializable {
      *
      * @return Collection of cautioned deposits at the bank.
      */
-    @Fetch(FetchMode.SELECT)
-    @OneToMany(mappedBy = "bank", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<TermDeposit> getTermDeposits() {
         return termDeposits;
     }
 
-    /**
-     * Method to obtain the ID (from the database) of the bank.
-     *
-     * @return The ID (of the database) of the bank.
-     */
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
 
     /**
      * Method to obtain the bank name.
      *
      * @return The name of the bank.
      */
-    @Column(name = "Nome", nullable = false, unique = true)
     public String getName() {
         return name;
-    }
-
-    /**
-     * Method for assigning the database ID, exclusive use of ORM.
-     *
-     * @param id The database ID.
-     */
-    public void setId(Long id) {
-        this.id = id;
     }
 
 
@@ -190,25 +148,16 @@ public class Bank implements Serializable {
         this.name = name;
     }
 
-    /**
-     * Method for assigning a set of deposits to the bank's caution. Exclusive use of ORM.
-     *
-     * @param termDeposits Bank deposits cautioned collection.
-     */
-    private void setTermDeposits(List<TermDeposit> termDeposits) {
-        this.termDeposits = termDeposits;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Bank)) return false;
         Bank bank = (Bank) o;
-        return Objects.equals(getId(), bank.getId()) && getName().equals(bank.getName());
+        return getName().equals(bank.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName());
+        return Objects.hash(getName());
     }
 }

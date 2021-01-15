@@ -1,6 +1,5 @@
 package model;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,11 +7,6 @@ import java.util.Objects;
 
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
-@Entity
-@Table(name = "Deposito")
-@Access(AccessType.PROPERTY)
-//@DiscriminatorValue(value = "DEPOSIT")
-@PrimaryKeyJoinColumn(name = "id")
 public class TermDeposit extends FinancialAsset implements AssetWithInvestedValue {
 
     private BigDecimal depositedAmount;
@@ -20,11 +14,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     private String account;
     private Bank bank;
 
-    /**
-     * Term Deposit Builder for ORM.
-     */
-    private TermDeposit() {
-    }
 
     /**
      * term deposit builder.
@@ -127,7 +116,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      *
      * @return Amount deposited, in monetary units, in the financial asset.
      */
-    @Column(name = "ValorDepositado", nullable = false)
     public BigDecimal getDepositedAmount() {
         return depositedAmount;
     }
@@ -139,7 +127,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      * @return Amount deposited, in monetary units, in the financial asset.
      */
     @Override
-    @Transient
     public BigDecimal getAmountInvested() {
         return this.getDepositedAmount();
     }
@@ -149,7 +136,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      *
      * @return Standard annual return on financial assets.
      */
-    @Column(name = "TaxaRendimentoAnual", nullable = false)
     public BigDecimal getAnnualProfitability() {
         return annualProfitability;
     }
@@ -159,7 +145,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      *
      * @return The term deposit account.
      */
-    @Column(name = "Conta", nullable = false)
     public String getAccount() {
         return account;
     }
@@ -169,8 +154,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      *
      * @return The bank responsible for the term deposit.
      */
-    @ManyToOne
-    @JoinColumn(name = "Banco", referencedColumnName = "id", nullable = false)
     public Bank getBank() {
         return bank;
     }
@@ -189,16 +172,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     }
 
     /**
-     * Exclusive use of ORM.
-     * Method to change the amount deposited.
-     *
-     * @param depositedAmount New amount deposited.
-     */
-    private void setDepositedAmount(BigDecimal depositedAmount) {
-        this.depositedAmount = depositedAmount;
-    }
-
-    /**
      * Method to change the annual return on the term deposit.
      *
      * @param annualProfitability New annual income, in percentage.
@@ -210,15 +183,6 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         this.payments = createPayments();
     }
 
-    /**
-     * Exclusive use of ORM.
-     * Method to change the annual return on the term deposit.
-     *
-     * @param annualProfitability New annual income, in percentage.
-     */
-    private void setAnnualProfitability(BigDecimal annualProfitability) {
-        this.annualProfitability = annualProfitability;
-    }
 
     /**
      * Method for changing the account that identifies the term deposit.
@@ -258,9 +222,8 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDepositedAmount(), getAnnualProfitability(), getAccount(), getBank());
+        return Objects.hash(super.hashCode(), getDepositedAmount(), getAnnualProfitability(), getAccount(), getBank());
     }
-
 
     @Override
     public int compareTo(FinancialAsset financialAsset) {

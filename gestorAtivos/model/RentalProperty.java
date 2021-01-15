@@ -1,16 +1,11 @@
 package model;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-@Entity
-@Table(name = "Imovel")
-@Access(AccessType.PROPERTY)
-//@DiscriminatorValue(value = "PROPERTY")
-@PrimaryKeyJoinColumn(name = "id")
+
 public class RentalProperty extends FinancialAsset implements AssetWithInvestedValue {
 
     private BigDecimal propertyValue;
@@ -19,11 +14,6 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
     private BigDecimal annualAmountOtherExpenses;
     private String location;
 
-    /**
-     * Rental property builder. Exclusively for ORM.
-     */
-    private RentalProperty() {
-    }
 
     /**
      * Rental property builder.
@@ -107,7 +97,6 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      *
      * @return Monetary value of the property.
      */
-    @Column(name = "ValorImovel", nullable = false)
     public BigDecimal getPropertyValue() {
         return propertyValue;
     }
@@ -117,7 +106,6 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      *
      * @return Monetary value of the rent.
      */
-    @Column(name = "renda", nullable = false)
     public BigDecimal getRentAmount() {
         return rentAmount;
     }
@@ -127,7 +115,6 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      *
      * @return Monthly monetary cost of the condominium.
      */
-    @Column(name = "CustoMensalCondominio", nullable = false)
     public BigDecimal getMonthlyCostCondominium() {
         return monthlyCostCondominium;
     }
@@ -137,7 +124,6 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      *
      * @return Monetary cost with other expenses.
      */
-    @Column(name = "CustoAnualOutrasDespesas", nullable = false)
     public BigDecimal getAnnualAmountOtherExpenses() {
         return annualAmountOtherExpenses;
     }
@@ -147,7 +133,6 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      *
      * @return Property location.
      */
-    @Column(name = "Localizacao", nullable = false)
     public String getLocation() {
         return location;
     }
@@ -176,14 +161,6 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
         this.payments = createPayments();
     }
 
-    /**
-     * Method to change the monthly rental value of the property. exclusive use of ORM.
-     *
-     * @param rentAmount New monthly value, in monetary units, of the rental of the property.
-     */
-    private void setRentAmount(BigDecimal rentAmount){
-        this.rentAmount = rentAmount;
-    }
 
     /**
      * Method to change the monthly cost with condominium.
@@ -234,10 +211,9 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPropertyValue(), getRentAmount(), getMonthlyCostCondominium(), getAnnualAmountOtherExpenses(), getLocation());
+        return Objects.hash(super.hashCode(), getPropertyValue(), getRentAmount(), getMonthlyCostCondominium(), getAnnualAmountOtherExpenses(), getLocation());
     }
 
-    @Transient
     @Override
     public BigDecimal getAmountInvested() {
         return this.propertyValue;

@@ -1,12 +1,5 @@
 package model;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,21 +7,11 @@ import java.util.Objects;
 
 import static model.AssetType.FOUND;
 
-@Entity
-@Table(name = "Fundo")
-@Access(AccessType.PROPERTY)
-//@DiscriminatorValue(value = "FOUND")
-@PrimaryKeyJoinColumn(name = "id")
 public class InvestmentFund extends FinancialAsset implements AssetWithInvestedValue {
 
     private BigDecimal amountInvested;
     private BigDecimal monthlyProfitability;
 
-    /**
-     * Investment Fund Builder for ORM
-     */
-    private InvestmentFund() {
-    }
 
     /**
      * Builder of an investment fund.
@@ -60,7 +43,6 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      * @param dateOfPayment           Payment date to be changed.
      * @param newMonthlyProfitability New monthly profitability.
      */
-    @Transient
     public void setIndividualMonthlyProfitability(LocalDate dateOfPayment, BigDecimal newMonthlyProfitability) {
         if (dateOfPayment == null || newMonthlyProfitability == null)
             throw new IllegalArgumentException();
@@ -105,7 +87,6 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return A collection of payments.
      */
-    @Override
     protected ArrayList<Payment> createPayments() {
         ArrayList<Payment> payments = new ArrayList<>();
         BigDecimal interestReceived;
@@ -150,7 +131,6 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return Amount invested, in monetary units, in the financial asset.
      */
-    @Column(name = "ValorInvestido", nullable = false)
     public BigDecimal getAmountInvested() {
         return amountInvested;
     }
@@ -160,7 +140,6 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return Standard monthly return on financial assets.
      */
-    @Column(name = "RentabilidadeMensal", nullable = false)
     public BigDecimal getMonthlyProfitability() {
         return monthlyProfitability;
     }
@@ -170,7 +149,6 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      *
      * @return Collection of monthly returns in percentage.
      */
-    @Transient
     public ArrayList<BigDecimal> getIndividualMonthlyProfitability() {
         ArrayList<BigDecimal> individualMonthlyReturns = new ArrayList<>();
         for (Payment payment : this.payments) {
@@ -191,14 +169,6 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         this.amountInvested = amountInvested;
         recalculatePayments();
     }
-    /**
-     * Method to change the amount invested.  Exclusive use of ORM.
-     *
-     * @param amountInvested New amount invested.
-     */
-    private void setAmountInvested(BigDecimal amountInvested) {
-        this.amountInvested = amountInvested;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -211,7 +181,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getAmountInvested(), getMonthlyProfitability());
+        return Objects.hash(super.hashCode(), getAmountInvested(), getMonthlyProfitability());
     }
 
     @Override
