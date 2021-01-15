@@ -19,21 +19,16 @@ public class PaymentTest {
     @Test
     void testCreationComDateOfPaymentNull() {
         LocalDate dateNull = null;
-        assertThrows(IllegalArgumentException.class, () -> new Payment(investmentFund1, dateNull, new BigDecimal("50.87"), new BigDecimal("0.24")));
+        assertThrows(IllegalArgumentException.class, () -> new Payment(dateNull, new BigDecimal("50.87"), new BigDecimal("0.24")));
     }
 
     @Test
     void testCreationWithNumberNull() {
         BigDecimal numberNull = null;
-        assertThrows(IllegalArgumentException.class, () -> new Payment(investmentFund1, LocalDate.now(), numberNull, new BigDecimal("0.24")));
-        assertThrows(IllegalArgumentException.class, () -> new Payment(investmentFund1, LocalDate.now(), new BigDecimal("50.87"), numberNull));
+        assertThrows(IllegalArgumentException.class, () -> new Payment(LocalDate.now(), numberNull, new BigDecimal("0.24")));
+        assertThrows(IllegalArgumentException.class, () -> new Payment(LocalDate.now(), new BigDecimal("50.87"), numberNull));
     }
 
-    @Test
-    void testCreationWithActiveFinancialNull() {
-        InvestmentFund investmentFund2 = null;
-        assertThrows(IllegalArgumentException.class, () -> new Payment(investmentFund2, LocalDate.now(), new BigDecimal("50.87"), new BigDecimal("0.24")));
-    }
 
     @Test
     void testGetTaxDue() {

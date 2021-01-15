@@ -1,7 +1,5 @@
 package model;
 
-import dao.PaymentDAO;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -84,7 +82,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         BigDecimal amount = new BigDecimal(depositedAmount.toString());
         for (Payment payment : this.payments) {
             interestReceived = amount.multiply(payment.getMonthlyProfitability());
-            payments.add(new Payment(payment.getId(),this, payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
+            payments.add(new Payment( payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
             amount = amount.add(interestReceived);
         }
         this.payments = payments;
@@ -103,7 +101,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
 
         for (int i = 1; i <= this.duration; i++) {
             amountPaid = amount.multiply(this.annualProfitability.divide(new BigDecimal(String.valueOf(12)), 8, ROUND_HALF_UP));
-            payments.add(new Payment(this, this.startDate.plusMonths(i), annualProfitability.divide(new BigDecimal(String.valueOf(12)), 8, ROUND_HALF_UP), amountPaid));
+            payments.add(new Payment(this.startDate.plusMonths(i), annualProfitability.divide(new BigDecimal(String.valueOf(12)), 8, ROUND_HALF_UP), amountPaid));
             amount = amount.add(amountPaid);
         }
         return payments;

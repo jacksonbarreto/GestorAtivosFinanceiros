@@ -3,7 +3,6 @@ package model;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -95,7 +94,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         for (Payment payment : this.payments) {
             interestReceived = amount.multiply(payment.getMonthlyProfitability());
             //editar esse pagamento diretamente
-            payments.add(new Payment(payment.getId(),this, payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
+            payments.add(new Payment(payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
             amount = amount.add(interestReceived);
         }
         this.payments = payments;
@@ -114,7 +113,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
 
         for (int i = 1; i <= this.duration; i++) {
             interestReceived = amount.multiply(this.monthlyProfitability);
-            payments.add(new Payment(this, this.startDate.plusMonths(i), monthlyProfitability, interestReceived));
+            payments.add(new Payment(this.startDate.plusMonths(i), monthlyProfitability, interestReceived));
             amount = amount.add(interestReceived);
         }
         return payments;

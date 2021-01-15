@@ -1,13 +1,9 @@
 package model;
 
-import dao.PaymentDAO;
-import dao.RentalPropertyDAO;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -88,7 +84,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
     protected ArrayList<Payment> createPayments() {
         ArrayList<Payment> payments = new ArrayList<>();
         for (int i = 1; i <= this.duration; i++) {
-            payments.add(new Payment(this, this.startDate.plusMonths(i), new BigDecimal("0"), this.rentAmount));
+            payments.add(new Payment(this.startDate.plusMonths(i), new BigDecimal("0"), this.rentAmount));
         }
         return payments;
     }
