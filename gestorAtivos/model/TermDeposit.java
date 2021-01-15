@@ -215,6 +215,12 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         this.bank = bank;
     }
 
+    /**
+     * Method to customize the recording of the object,
+     * ensuring that the bank name is saved as a string, for future recovery, avoiding circular dependency.
+     *
+     * @param oos ObjectOutputStream.
+     */
     private void writeObject(ObjectOutputStream oos) {
         try {
             oos.defaultWriteObject();
@@ -224,6 +230,12 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         }
     }
 
+    /**
+     * Method to customize the recovery of an object from the file,
+     * ensuring that the correct bank can be assigned, using the bank name saved as a string.
+     *
+     * @param ois ObjectInputStream.
+     */
     private void readObject(ObjectInputStream ois) {
         try {
             ois.defaultReadObject();

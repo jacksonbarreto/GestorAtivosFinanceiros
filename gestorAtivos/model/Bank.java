@@ -113,7 +113,11 @@ public class Bank implements Serializable {
         this.termDeposits.add(termDeposit);
     }
 
-    public void resetDepositList(){
+    /**
+     * Method that initializes the term deposit collection to be loaded from deposits.
+     * Used to initialize the variable after the bank is loaded from a file into memory.
+     */
+    public void resetDepositList() {
         this.termDeposits = new ArrayList<>();
     }
 

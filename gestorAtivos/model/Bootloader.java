@@ -6,7 +6,10 @@ import static dao.DataBase.*;
 
 public class Bootloader {
 
-    private static void initializesData(){
+    /**
+     * Method to load all application data, from files to memory.
+     */
+    private static void initializesData() {
         banks = (List<Bank>) loadDataToMemory(banksFile);
         users = (List<User>) loadDataToMemory(usersFile);
         loadBankDeposits();
