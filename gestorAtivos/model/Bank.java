@@ -12,6 +12,7 @@ import static model.Utilities.dateIsInThePeriod;
 
 public class Bank implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String name;
     private final List<TermDeposit> termDeposits;
 

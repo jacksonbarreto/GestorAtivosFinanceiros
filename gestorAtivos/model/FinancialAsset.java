@@ -10,7 +10,7 @@ import java.util.Objects;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
 public abstract class FinancialAsset implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     protected AssetType assetType;
     protected LocalDate startDate;
     protected int duration;

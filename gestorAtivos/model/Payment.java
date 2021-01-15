@@ -8,7 +8,7 @@ import java.util.Objects;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
 public class Payment implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private final LocalDate dateOfPayment;
     private BigDecimal monthlyProfitability;
     private final BigDecimal interestReceived;

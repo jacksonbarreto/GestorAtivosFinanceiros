@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class SystemOperation implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final LocalDateTime moment;
     private final String message;
 
