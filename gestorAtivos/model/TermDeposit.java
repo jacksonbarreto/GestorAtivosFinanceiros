@@ -12,7 +12,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     private BigDecimal depositedAmount;
     private BigDecimal annualProfitability;
     private String account;
-    private Bank bank;
+    private transient Bank bank;
 
 
     /**
