@@ -1,6 +1,6 @@
 package model;
 
-import dao.SystemOperationDAO;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +33,9 @@ public class LogSystem {
     }
 
     public static void record(){
-        SystemOperationDAO dao = new SystemOperationDAO();
+
         for (SystemOperation so : getInstance().systemOperations){
-                dao.save(so);
+
         }
     }
 }

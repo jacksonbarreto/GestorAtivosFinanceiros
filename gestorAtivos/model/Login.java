@@ -1,6 +1,5 @@
 package model;
 
-import dao.UserDAO;
 
 
 import java.util.List;
@@ -12,9 +11,8 @@ public class Login {
     public static User userIsValid(String username, String password) {
         User user = null;
         List<User> users = null;
-        UserDAO userDAO = new UserDAO();
 
-        users = userDAO.findByUsername(username);
+        users = null; //userDAO.findByUsername(username);
         if (users != null) {
             for (User us : users) {
                 String passwordInputHash = getHashedPassword(password, us.getSalt());
