@@ -1,10 +1,14 @@
 package model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static dao.DataBase.findBankByName;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
 public class TermDeposit extends FinancialAsset implements AssetWithInvestedValue {
@@ -71,7 +75,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         BigDecimal amount = new BigDecimal(depositedAmount.toString());
         for (Payment payment : this.payments) {
             interestReceived = amount.multiply(payment.getMonthlyProfitability());
-            payments.add(new Payment( payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
+            payments.add(new Payment(payment.getDateOfPayment(), payment.getMonthlyProfitability(), interestReceived));
             amount = amount.add(interestReceived);
         }
         this.payments = payments;
@@ -209,6 +213,24 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         if (bank == null)
             throw new IllegalArgumentException();
         this.bank = bank;
+    }
+
+    private void writeObject(ObjectOutputStream oos) {
+        try {
+            oos.defaultWriteObject();
+            oos.writeUTF(bank.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readObject(ObjectInputStream ois) {
+        try {
+            ois.defaultReadObject();
+            this.bank = findBankByName(ois.readUTF());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

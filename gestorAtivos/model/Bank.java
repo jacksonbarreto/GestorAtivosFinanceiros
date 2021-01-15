@@ -14,7 +14,7 @@ public class Bank implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String name;
-    private final List<TermDeposit> termDeposits;
+    private transient List<TermDeposit> termDeposits;
 
 
     /**
@@ -111,6 +111,10 @@ public class Bank implements Serializable {
         if (termDeposit == null)
             throw new IllegalArgumentException();
         this.termDeposits.add(termDeposit);
+    }
+
+    public void resetDepositList(){
+        this.termDeposits = new ArrayList<>();
     }
 
     /**

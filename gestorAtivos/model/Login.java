@@ -4,7 +4,7 @@ package model;
 
 import java.util.List;
 
-import static dao.DataBase.findByUsername;
+import static dao.DataBase.findUserByUsername;
 import static model.Utilities.getHashedPassword;
 
 public class Login {
@@ -13,7 +13,7 @@ public class Login {
         User user = null;
         List<User> users = null;
 
-        users = findByUsername(username);
+        users = findUserByUsername(username);
         if (!users.isEmpty()) {
             for (User us : users) {
                 String passwordInputHash = getHashedPassword(password, us.getSalt());
