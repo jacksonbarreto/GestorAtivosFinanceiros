@@ -35,6 +35,15 @@ public class Bank implements Serializable {
     }
 
     /**
+     * builder for cloning.
+     * @param bank Instance to be cloned.
+     */
+    public Bank(Bank bank){
+        this.name = bank.getName();
+        termDeposits = bank.getTermDeposits();
+    }
+
+    /**
      * This method returns the amount, in monetary units, deposited with the bank.
      *
      * @return the amount, in monetary units, deposited with the bank
@@ -127,7 +136,7 @@ public class Bank implements Serializable {
      * @return Collection of cautioned deposits at the bank.
      */
     public List<TermDeposit> getTermDeposits() {
-        return termDeposits;
+        return this.termDeposits;
     }
 
 
@@ -137,7 +146,7 @@ public class Bank implements Serializable {
      * @return The name of the bank.
      */
     public String getName() {
-        return name;
+        return new String(this.name.toString());
     }
 
 
@@ -155,6 +164,11 @@ public class Bank implements Serializable {
             throw new IllegalArgumentException();
         }
         this.name = name;
+    }
+
+    @Override
+    public Bank clone(){
+        return new Bank(this);
     }
 
     @Override

@@ -33,6 +33,17 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
         this.payments = this.createPayments();
     }
 
+    /**
+     * builder for cloning.
+     * @param investmentFund Instance to be cloned.
+     */
+    public InvestmentFund(InvestmentFund investmentFund) {
+        super(investmentFund.getAssetType(), investmentFund.getStartDate(), investmentFund.getDuration(), investmentFund.getTax(), investmentFund.getDesignation());
+        this.amountInvested = investmentFund.getAmountInvested();
+        this.monthlyProfitability = investmentFund.getMonthlyProfitability();
+        this.payments = investmentFund.getPayments();
+    }
+
 
     /**
      * This method allows you to change the monthly profitability of a specific month (a given payment).
@@ -63,7 +74,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
     public void setMonthlyProfitability(BigDecimal monthlyProfitability) {
         if (monthlyProfitability == null)
             throw new IllegalArgumentException();
-        this.monthlyProfitability = monthlyProfitability;
+        this.monthlyProfitability = new BigDecimal(monthlyProfitability.toString());
     }
 
     /**
@@ -109,7 +120,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
     public void changeStartDate(LocalDate startDate) {
         if (startDate == null)
             throw new IllegalArgumentException();
-        this.startDate = startDate;
+        this.startDate = LocalDate.parse(startDate.toString());
         this.payments = this.createPayments();
     }
 
@@ -132,7 +143,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      * @return Amount invested, in monetary units, in the financial asset.
      */
     public BigDecimal getAmountInvested() {
-        return amountInvested;
+        return new BigDecimal(this.amountInvested.toString());
     }
 
     /**
@@ -141,7 +152,7 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
      * @return Standard monthly return on financial assets.
      */
     public BigDecimal getMonthlyProfitability() {
-        return monthlyProfitability;
+        return new BigDecimal(this.monthlyProfitability.toString());
     }
 
     /**
@@ -166,8 +177,13 @@ public class InvestmentFund extends FinancialAsset implements AssetWithInvestedV
     public void changeAmountInvested(BigDecimal amountInvested) {
         if (amountInvested == null || amountInvested.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
-        this.amountInvested = amountInvested;
+        this.amountInvested = new BigDecimal(amountInvested.toString());
         recalculatePayments();
+    }
+
+    @Override
+    public InvestmentFund clone(){
+        return new InvestmentFund(this);
     }
 
     @Override

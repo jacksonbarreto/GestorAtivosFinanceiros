@@ -54,6 +54,19 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     }
 
     /**
+     * builder for cloning.
+     * @param termDeposit Instance to be cloned.
+     */
+    public TermDeposit(TermDeposit termDeposit){
+        super(termDeposit.getAssetType(), termDeposit.getStartDate(), termDeposit.getDuration(), termDeposit.getTax(), termDeposit.getDesignation());
+        this.depositedAmount = termDeposit.getDepositedAmount();
+        this.annualProfitability = termDeposit.getAnnualProfitability();
+        this.account = termDeposit.getAccount();
+        this.bank = termDeposit.getBank();
+        this.payments = termDeposit.getPayments();
+    }
+
+    /**
      * Method for changing the duration of the investment.
      *
      * @param duration New duration, in months, of the financial asset.
@@ -110,7 +123,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     public void changeStartDate(LocalDate startDate) {
         if (startDate == null)
             throw new IllegalArgumentException();
-        this.startDate = startDate;
+        this.startDate = LocalDate.parse(startDate.toString());
         //apagar tudo no banco antes
         this.payments = this.createPayments();
     }
@@ -121,7 +134,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      * @return Amount deposited, in monetary units, in the financial asset.
      */
     public BigDecimal getDepositedAmount() {
-        return depositedAmount;
+        return new BigDecimal(this.depositedAmount.toString());
     }
 
     /**
@@ -141,7 +154,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      * @return Standard annual return on financial assets.
      */
     public BigDecimal getAnnualProfitability() {
-        return annualProfitability;
+        return new BigDecimal(this.annualProfitability.toString());
     }
 
     /**
@@ -150,7 +163,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      * @return The term deposit account.
      */
     public String getAccount() {
-        return account;
+        return new String(account.toString());
     }
 
     /**
@@ -159,7 +172,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
      * @return The bank responsible for the term deposit.
      */
     public Bank getBank() {
-        return bank;
+        return bank.clone();
     }
 
     /**
@@ -171,7 +184,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     public void changeDepositedAmount(BigDecimal depositedAmount) {
         if (depositedAmount == null || depositedAmount.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
-        this.depositedAmount = depositedAmount;
+        this.depositedAmount = new BigDecimal(depositedAmount.toString());
         this.payments = createPayments();
     }
 
@@ -183,7 +196,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
     public void changeAnnualProfitability(BigDecimal annualProfitability) {
         if (annualProfitability == null)
             throw new IllegalArgumentException();
-        this.annualProfitability = annualProfitability;
+        this.annualProfitability = new BigDecimal(annualProfitability.toString());
         this.payments = createPayments();
     }
 
@@ -201,7 +214,7 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         } else if (account.length() <= 3) {
             throw new IllegalArgumentException();
         }
-        this.account = account;
+        this.account = new String(account.toString());
     }
 
     /**
@@ -213,6 +226,11 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         if (bank == null)
             throw new IllegalArgumentException();
         this.bank = bank;
+    }
+
+    @Override
+    public TermDeposit clone(){
+        return new TermDeposit(this);
     }
 
     /**

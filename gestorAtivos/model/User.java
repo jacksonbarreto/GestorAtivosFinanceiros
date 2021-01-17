@@ -47,6 +47,19 @@ public class User implements Serializable {
     }
 
     /**
+     * builder for cloning.
+     * @param user Instance to be cloned.
+     */
+    public User(User user){
+        this.username = user.getUsername();
+        this.salt = user.getSalt();
+        this.password = user.getPassword();
+        this.userType = user.getUserType();
+        this.financialAssets = user.getFinancialAssets();
+        this.logs = user.getLogs();
+    }
+
+    /**
      * Method to record a user log.
      *
      * @param operation Operation.
@@ -118,7 +131,7 @@ public class User implements Serializable {
 
         for (FinancialAsset fa : this.financialAssets) {
             if (fa.getDesignation().toLowerCase().matches("(.*)" + designation.toLowerCase() + "(.*)")) {
-                financialAssets.add(fa);
+                financialAssets.add(fa.clone());
             }
         }
         return financialAssets;
@@ -138,7 +151,7 @@ public class User implements Serializable {
         List<FinancialAsset> financialAssets = new ArrayList<>();
         for (FinancialAsset fa : this.financialAssets) {
             if (fa.getAssetType() == assetType) {
-                financialAssets.add(fa);
+                financialAssets.add(fa.clone());
             }
         }
         return financialAssets;
@@ -172,7 +185,7 @@ public class User implements Serializable {
         List<FinancialAsset> financialAssets = new ArrayList<>();
         for (FinancialAsset fa : this.financialAssets) {
             if (fa.getDesignation().toLowerCase().matches("(.*)" + designation.toLowerCase() + "(.*)") && fa.getAssetType() == assetType) {
-                financialAssets.add(fa);
+                financialAssets.add(fa.clone());
             }
         }
         return financialAssets;
@@ -201,27 +214,27 @@ public class User implements Serializable {
                 switch (logicalOperator) {
                     case EQUAL:
                         if (((AssetWithInvestedValue) fa).getAmountInvested().equals(referenceValue)) {
-                            filteredFinancialAssets.add(fa);
+                            filteredFinancialAssets.add(fa.clone());
                         }
                         break;
                     case LESS_THAN:
                         if (((AssetWithInvestedValue) fa).getAmountInvested().compareTo(referenceValue) < 0) {
-                            filteredFinancialAssets.add(fa);
+                            filteredFinancialAssets.add(fa.clone());
                         }
                         break;
                     case BIGGER_THEN:
                         if (((AssetWithInvestedValue) fa).getAmountInvested().compareTo(referenceValue) > 0) {
-                            filteredFinancialAssets.add(fa);
+                            filteredFinancialAssets.add(fa.clone());
                         }
                         break;
                     case LESS_OR_EQUAL:
                         if (((AssetWithInvestedValue) fa).getAmountInvested().compareTo(referenceValue) <= 0) {
-                            filteredFinancialAssets.add(fa);
+                            filteredFinancialAssets.add(fa.clone());
                         }
                         break;
                     case BIGGER_OR_EQUAL:
                         if (((AssetWithInvestedValue) fa).getAmountInvested().compareTo(referenceValue) >= 0) {
-                            filteredFinancialAssets.add(fa);
+                            filteredFinancialAssets.add(fa.clone());
                         }
                 }
             }
@@ -236,7 +249,7 @@ public class User implements Serializable {
      * @return The user's login name.
      */
     public String getUsername() {
-        return username;
+        return new String(username.toString());
     }
 
     /**
@@ -247,17 +260,8 @@ public class User implements Serializable {
     public void changeUsername(String username) {
         if (username == null || username.isEmpty() || username.length() <= 3)
             throw new IllegalArgumentException();
-        this.username = username;
+        this.username = new String(username.toString());
         addLog(CHANGED_USERNAME);
-    }
-
-    /**
-     * Method for changing the user's login name. Exclusive use of ORM
-     *
-     * @param username New user login name.
-     */
-    private void setUsername(String username) {
-        this.username = username;
     }
 
     /**
@@ -266,7 +270,7 @@ public class User implements Serializable {
      * @return The user's encrypted access password.
      */
     public String getPassword() {
-        return password;
+        return new String(password.toString());
     }
 
     /**
@@ -319,6 +323,10 @@ public class User implements Serializable {
      * @return collection of financial assets.
      */
     public List<FinancialAsset> getFinancialAssets() {
+        List<FinancialAsset> financialAssets = new ArrayList<>();
+        for (FinancialAsset financialAsset : this.financialAssets){
+            financialAssets.add(financialAsset.clone());
+        }
         return financialAssets;
     }
 
@@ -333,7 +341,7 @@ public class User implements Serializable {
         for (FinancialAsset fa : this.financialAssets) {
             if (dateIsBeforeOrEqual(LocalDate.now(), fa.getStartDate()) &&
                     dateIsAfterOrEqual(LocalDate.now(), fa.getStartDate().plusMonths(fa.getDuration()))) {
-                financialAssetsreverseOrderActive.add(fa);
+                financialAssetsreverseOrderActive.add(fa.clone());
             }
         }
         financialAssetsreverseOrderActive.sort(Collections.reverseOrder());
@@ -361,7 +369,7 @@ public class User implements Serializable {
                             dateIsAfterOrEqual(finalDate, fa.getStartDate().plusMonths(fa.getDuration()))
 
             ) {
-                financialAssetsActive.add(fa);
+                financialAssetsActive.add(fa.clone());
             }
         }
         return financialAssetsActive;
@@ -373,9 +381,18 @@ public class User implements Serializable {
      * @return Collection of user logs.
      */
     public List<Log> getLogs() {
+        List<Log> logs = new ArrayList<>();
+        for (Log log : this.logs){
+            logs.add(log.clone());
+        }
         return logs;
     }
 
+
+    @Override
+    public User clone(){
+        return new User(this);
+    }
 
     @Override
     public String toString() {

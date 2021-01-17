@@ -21,6 +21,15 @@ public class Log implements Serializable {
         this.moment = LocalDateTime.now();
     }
 
+    /**
+     * builder for cloning.
+     * @param log Instance to be cloned.
+     */
+    public Log(Log log){
+        this.operation = log.getOperation();
+        this.moment = log.getMoment();
+    }
+
 
     /**
      * Method for obtaining the record date and time.
@@ -28,7 +37,7 @@ public class Log implements Serializable {
      * @return The date and time of registration.
      */
     public LocalDateTime getMoment() {
-        return moment;
+        return LocalDateTime.parse(moment.toString());
     }
 
     /**
@@ -38,6 +47,11 @@ public class Log implements Serializable {
      */
     public Operation getOperation() {
         return operation;
+    }
+
+    @Override
+    public Log clone(){
+        return new Log(this);
     }
 
     @Override

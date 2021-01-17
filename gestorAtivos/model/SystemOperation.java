@@ -16,13 +16,22 @@ public class SystemOperation implements Serializable {
         this.moment = LocalDateTime.now();
     }
 
+    /**
+     * builder for cloning.
+     * @param systemOperation Instance to be cloned.
+     */
+    public SystemOperation(SystemOperation systemOperation){
+        this.message = systemOperation.getMessage();
+        this.moment = systemOperation.getMoment();
+    }
+
 
     /**
      * Method to obtain the instant of the occurrence.
      * @return The instant of occurrence.
      */
     public LocalDateTime getMoment() {
-        return moment;
+        return LocalDateTime.parse(moment.toString());
     }
 
 
@@ -31,7 +40,12 @@ public class SystemOperation implements Serializable {
      * @return The occurrence message.
      */
     public String getMessage() {
-        return message;
+        return new String(message.toString());
+    }
+
+    @Override
+    public SystemOperation clone(){
+        return new SystemOperation(this);
     }
 
 }

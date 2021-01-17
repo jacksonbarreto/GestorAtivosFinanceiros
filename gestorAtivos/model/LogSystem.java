@@ -29,6 +29,10 @@ public class LogSystem {
     }
 
     public List<SystemOperation> getSystemOperations() {
+        List<SystemOperation> systemOperations = new ArrayList<>();
+        for (SystemOperation systemOperation : this.systemOperations){
+            systemOperations.add(systemOperation.clone());
+        }
         return systemOperations;
     }
 

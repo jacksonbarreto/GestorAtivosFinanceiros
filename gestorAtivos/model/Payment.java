@@ -28,6 +28,15 @@ public class Payment implements Serializable {
         this.interestReceived = interestReceived;
     }
 
+    /**
+     * builder for cloning.
+     * @param payment Instance to be cloned.
+     */
+    public Payment(Payment payment){
+        this.dateOfPayment = payment.getDateOfPayment();
+        this.monthlyProfitability = payment.getMonthlyProfitability();
+        this.interestReceived = payment.getInterestReceived();
+    }
 
     /**
      * Method that returns the monetary amount due in taxes.
@@ -48,7 +57,7 @@ public class Payment implements Serializable {
      * @return Profitability applied to payment.
      */
     public BigDecimal getMonthlyProfitability() {
-        return monthlyProfitability;
+        return new BigDecimal(this.monthlyProfitability.toString());
     }
 
     /**
@@ -69,7 +78,7 @@ public class Payment implements Serializable {
      * @return Date on which the financial asset was paid, or will be paid.
      */
     public LocalDate getDateOfPayment() {
-        return dateOfPayment;
+        return LocalDate.parse(this.dateOfPayment.toString());
     }
 
 
@@ -79,9 +88,13 @@ public class Payment implements Serializable {
      * @return Amount received as payment.
      */
     public BigDecimal getInterestReceived() {
-        return interestReceived;
+        return new BigDecimal(this.interestReceived.toString());
     }
 
+    @Override
+    public Payment clone(){
+        return new Payment(this);
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -49,6 +49,8 @@ public abstract class FinancialAsset implements Serializable {
     }
 
 
+
+
     /**
      * This method returns the gross profit, that is,
      * the amount invested initially plus interest for the investment period, without considering the tax discount.
@@ -104,13 +106,15 @@ public abstract class FinancialAsset implements Serializable {
      */
     protected abstract ArrayList<Payment> createPayments();
 
+    public abstract FinancialAsset clone();
+
     /**
      * Method for obtaining the start date of the financial asset.
      *
      * @return Financial asset start date.
      */
     public LocalDate getStartDate() {
-        return startDate;
+        return LocalDate.parse(this.startDate.toString());
     }
 
     /**
@@ -151,7 +155,7 @@ public abstract class FinancialAsset implements Serializable {
      * @return Annual percentage of tax.
      */
     public BigDecimal getTax() {
-        return tax;
+        return new BigDecimal(this.tax.toString());
     }
 
     /**
@@ -172,7 +176,7 @@ public abstract class FinancialAsset implements Serializable {
      * @return Designation of the financial asset.
      */
     public String getDesignation() {
-        return designation;
+        return new String(designation.toString());
     }
 
     /**
@@ -197,6 +201,10 @@ public abstract class FinancialAsset implements Serializable {
      * @return Financial asset payment collection.
      */
     public List<Payment> getPayments() {
+        List<Payment> payments = new ArrayList<>();
+        for (Payment payment : this.payments){
+            payments.add(payment.clone());
+        }
         return payments;
     }
 

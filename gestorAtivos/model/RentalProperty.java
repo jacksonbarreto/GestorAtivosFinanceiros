@@ -53,6 +53,20 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
     }
 
     /**
+     * builder for cloning.
+     * @param rentalProperty Instance to be cloned.
+     */
+    public RentalProperty(RentalProperty rentalProperty){
+        super(rentalProperty.getAssetType(), rentalProperty.getStartDate(), rentalProperty.getDuration(), rentalProperty.getTax(), rentalProperty.getDesignation());
+        this.propertyValue = rentalProperty.getPropertyValue();
+        this.rentAmount = rentalProperty.getRentAmount();
+        this.monthlyCostCondominium = rentalProperty.getMonthlyCostCondominium();
+        this.annualAmountOtherExpenses = rentalProperty.getAnnualAmountOtherExpenses();
+        this.location = rentalProperty.getLocation();
+        this.payments = rentalProperty.getPayments();
+    }
+
+    /**
      * The method changes the duration of the financial asset, automatically recalculating payments.
      * If there have been changes in monthly earnings individually, these will be lost.
      *
@@ -88,7 +102,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
     public void changeStartDate(LocalDate startDate) {
         if (startDate == null)
             throw new IllegalArgumentException();
-        this.startDate = startDate;
+        this.startDate = LocalDate.parse(startDate.toString());
         this.payments = this.createPayments();
     }
 
@@ -98,7 +112,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      * @return Monetary value of the property.
      */
     public BigDecimal getPropertyValue() {
-        return propertyValue;
+        return new BigDecimal(this.propertyValue.toString());
     }
 
     /**
@@ -107,7 +121,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      * @return Monetary value of the rent.
      */
     public BigDecimal getRentAmount() {
-        return rentAmount;
+        return new BigDecimal(this.rentAmount.toString());
     }
 
     /**
@@ -116,7 +130,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      * @return Monthly monetary cost of the condominium.
      */
     public BigDecimal getMonthlyCostCondominium() {
-        return monthlyCostCondominium;
+        return new BigDecimal(this.monthlyCostCondominium.toString());
     }
 
     /**
@@ -125,7 +139,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      * @return Monetary cost with other expenses.
      */
     public BigDecimal getAnnualAmountOtherExpenses() {
-        return annualAmountOtherExpenses;
+        return new BigDecimal(this.annualAmountOtherExpenses.toString());
     }
 
     /**
@@ -134,7 +148,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
      * @return Property location.
      */
     public String getLocation() {
-        return location;
+        return new String(this.location.toString());
     }
 
     /**
@@ -145,7 +159,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
     public void setPropertyValue(BigDecimal propertyValue) {
         if (propertyValue == null || propertyValue.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
-        this.propertyValue = propertyValue;
+        this.propertyValue = new BigDecimal(propertyValue.toString());
     }
 
 
@@ -157,7 +171,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
     public void changeRentAmount(BigDecimal rentAmount) {
         if (rentAmount == null || rentAmount.compareTo(new BigDecimal("0")) <= 0)
             throw new IllegalArgumentException();
-        this.rentAmount = rentAmount;
+        this.rentAmount = new BigDecimal(rentAmount.toString());
         this.payments = createPayments();
     }
 
@@ -170,7 +184,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
     public void setMonthlyCostCondominium(BigDecimal monthlyCostCondominium) {
         if (monthlyCostCondominium == null || monthlyCostCondominium.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
-        this.monthlyCostCondominium = monthlyCostCondominium;
+        this.monthlyCostCondominium = new BigDecimal(monthlyCostCondominium.toString());
     }
 
     /**
@@ -181,7 +195,7 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
     public void setAnnualAmountOtherExpenses(BigDecimal annualAmountOtherExpenses) {
         if (annualAmountOtherExpenses == null || annualAmountOtherExpenses.compareTo(new BigDecimal("0")) < 0)
             throw new IllegalArgumentException();
-        this.annualAmountOtherExpenses = annualAmountOtherExpenses;
+        this.annualAmountOtherExpenses = new BigDecimal(annualAmountOtherExpenses.toString());
     }
 
     /**
@@ -197,7 +211,12 @@ public class RentalProperty extends FinancialAsset implements AssetWithInvestedV
         } else if (location.length() <= 3) {
             throw new IllegalArgumentException();
         }
-        this.location = location;
+        this.location = new String(location.toString());
+    }
+
+    @Override
+    public RentalProperty clone(){
+        return new RentalProperty(this);
     }
 
     @Override
