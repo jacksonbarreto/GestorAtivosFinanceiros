@@ -3,9 +3,7 @@ package model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static java.math.BigDecimal.ROUND_HALF_UP;
 import static model.Utilities.dateIsInThePeriod;
@@ -14,7 +12,7 @@ public class Bank implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String name;
-    private transient List<TermDeposit> termDeposits;
+    private transient Set<TermDeposit> termDeposits;
 
 
     /**
@@ -31,7 +29,7 @@ public class Bank implements Serializable {
             throw new IllegalArgumentException();
         }
         this.name = name;
-        termDeposits = new ArrayList<>();
+        termDeposits = new HashSet<>();
     }
 
     /**
@@ -127,7 +125,7 @@ public class Bank implements Serializable {
      * Used to initialize the variable after the bank is loaded from a file into memory.
      */
     public void resetDepositList() {
-        this.termDeposits = new ArrayList<>();
+        this.termDeposits = new HashSet<>();
     }
 
     /**
@@ -135,8 +133,8 @@ public class Bank implements Serializable {
      *
      * @return Collection of cautioned deposits at the bank.
      */
-    public List<TermDeposit> getTermDeposits() {
-        return this.termDeposits;
+    public Set<TermDeposit> getTermDeposits() {
+        return termDeposits;
     }
 
 
@@ -146,7 +144,7 @@ public class Bank implements Serializable {
      * @return The name of the bank.
      */
     public String getName() {
-        return new String(this.name.toString());
+        return name;
     }
 
 

@@ -1,10 +1,9 @@
 package model;
 
 
-
 import java.util.List;
 
-import static dao.DataBase.findUserByUsername;
+import static dao.UserDAO.findUserByUsername;
 import static model.Utilities.getHashedPassword;
 
 public class Login {

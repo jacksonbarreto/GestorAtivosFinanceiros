@@ -12,13 +12,18 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+import static model.Bootloader.boot;
+import static model.Shutdown.shutdown;
+
 
 public class Main extends Application {
 
     double xOffset;
     double yOffset;
     public static void main(String[] args) {
+        boot();
         launch(args);
+        shutdown();
     }
 
     @Override

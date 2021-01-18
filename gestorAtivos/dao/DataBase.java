@@ -6,56 +6,47 @@ import model.TermDeposit;
 import model.User;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DataBase {
-    public static final String usersFile = "userData.dat";
-    public static final String banksFile = "banksData.dat";
-    public static List<User> users;
-    public static List<Bank> banks;
+    private static final String usersFile = "userData.dat";
+    private static final String banksFile = "banksData.dat";
+    public static final String logsFile = "logs.txt";
+    public static Path source = Paths.get("data");
+    public static final Path sourceLogs = Paths.get(source.toString(),"logsFile");
+    public static final Path pathUser = Paths.get(source.toString(),usersFile);
+    public static final Path pathBanks = Paths.get(source.toString(),banksFile);
+    public static final Set<User> users = new HashSet<>();
+    public static final Set<Bank> banks = new HashSet<>();
 
-    /**
-     * Method that retrieves a collection of users who have the requested username.
-     *
-     * @param username username to be searched.
-     * @return Collection of users with the searched username.
-     */
-    public static List<User> findUserByUsername(String username) {
-        List<User> usersFound = new ArrayList<>();
-        for (User user : users) {
-            if (user.getUsername().equals(username))
-                usersFound.add(user);
-        }
-        return usersFound;
-    }
 
-    /**
-     * Method that finds a bank by its name.
-     *
-     * @param name bank name to be found.
-     * @return Bank that matches the name searched.
-     */
-    public static Bank findBankByName(String name) {
-        for (Bank bank : banks) {
-            if (bank.getName().equals(name))
-                return bank;
-        }
-        return null;
-    }
+
+
 
     /**
      * Method that keeps all application data in file.
      */
     public static void saveAll() {
-        record(users, usersFile);
-        record(banks, banksFile);
+        record(users, pathUser);
+        record(banks, pathBanks);
+    }
+
+    /**
+     * Method to load all application data, from files to memory.
+     */
+    public static void initializesData() {
+        banks.addAll((Set<Bank>) loadDataToMemory(pathBanks));
+        users.addAll ((Set<User>) loadDataToMemory(pathUser));
+        loadBankDeposits();
     }
 
     /**
      * Method that loads term deposits in their respective bank.
      */
-    public static void loadBankDeposits() {
+    private static void loadBankDeposits() {
         for (Bank bank : banks) {
             bank.resetDepositList();
             for (User user : users) {
@@ -73,8 +64,8 @@ public class DataBase {
      * @param objectToRecord  Object to be persisted.
      * @param destinationFile File path where the object is to be persisted.
      */
-    public static void record(Object objectToRecord, String destinationFile) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(destinationFile))) {
+    private static void record(Object objectToRecord, Path destinationFile) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(destinationFile.toString()))) {
             oos.writeObject(objectToRecord);
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,8 +78,8 @@ public class DataBase {
      * @param sourceFile File path where the object is saved.
      * @return Object retrieved from the file.
      */
-    public static Object loadDataToMemory(String sourceFile) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(sourceFile))) {
+    private static Object loadDataToMemory(Path sourceFile) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(sourceFile.toString()))) {
             return ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

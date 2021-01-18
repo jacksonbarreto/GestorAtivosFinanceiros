@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static dao.DataBase.findBankByName;
+import static dao.BankDAO.findBankByName;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
 public class TermDeposit extends FinancialAsset implements AssetWithInvestedValue {
@@ -49,8 +49,8 @@ public class TermDeposit extends FinancialAsset implements AssetWithInvestedValu
         this.annualProfitability = annualProfitability;
         this.account = account;
         this.bank = bank;
-        bank.addDeposit(this);
         this.payments = this.createPayments();
+        bank.addDeposit(this);
     }
 
     /**
