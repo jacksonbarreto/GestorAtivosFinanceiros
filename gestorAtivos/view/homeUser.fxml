@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="437.0" layoutY="89.0" prefHeight="130.0" prefWidth="326.0" AnchorPane.leftAnchor="437.0" AnchorPane.rightAnchor="436.6" AnchorPane.topAnchor="80.0">
+         <children>
+            <VBox layoutX="45.0" layoutY="61.0" prefHeight="130.0" prefWidth="326.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="327.0" text="Seja bem vindo ao" textAlignment="CENTER" textFill="#5a5a5a">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="54.0" prefWidth="330.0" text="Asset Manager Y" textAlignment="CENTER" textFill="#48408d">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="username" alignment="CENTER" prefHeight="35.0" prefWidth="328.0" text="Marcos Paulo" textAlignment="CENTER" textFill="#5a5a5a">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="48.0" layoutY="310.0" prefHeight="200.0" prefWidth="1103.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="48.799999999999955">
+         <children>
+            <VBox layoutX="147.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="40.0">
+               <children>
+                  <Label text="€ 155.000,00">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
