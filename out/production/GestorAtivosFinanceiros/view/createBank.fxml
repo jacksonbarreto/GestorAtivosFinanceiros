@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateBankController">
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+   <children>
+      <Label text="Criar Banco" textFill="#605ead">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0">
+         <VBox.margin>
+            <Insets left="30.0" top="60.0" />
+         </VBox.margin>
+         <children>
+            <Pane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: #6c6cc4;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0">
+                     <children>
+                        <Label prefHeight="18.0" text="NOME DO BANCO" textFill="#6c6cc4">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="bankName" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="406.0">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+            <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="739.0">
+               <children>
+                  <JFXButton fx:id="btnSave" onAction="#saveNewBank" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #605ead; -fx-border-radius: 0; -fx-background-radius: 0;" text="SALVAR" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>

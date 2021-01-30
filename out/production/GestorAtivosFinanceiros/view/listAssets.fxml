@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox fx:id="vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListAssetsController">
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+   <children>
+      <Label text="Listar todos os ativos" textFill="#605ead">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="30.0" />
+         </VBox.margin>
+      </Label>
+      <TableView fx:id="tableAssets" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="colIcon" prefWidth="75.0" />
+          <TableColumn fx:id="colName" prefWidth="251.19998931884766" resizable="false" text="NOME" />
+            <TableColumn fx:id="colAmaunt" prefWidth="117.5999755859375" text="TOTAL INVESTIDO" />
+            <TableColumn fx:id="colPlusInfo" prefWidth="135.99990844726562" text="MAIS INFORMAÇÕES" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>
