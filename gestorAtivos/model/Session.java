@@ -1,8 +1,6 @@
 package model;
 
 
-import java.util.List;
-
 public class Session {
     private static Session INSTANCE;
     private User currentUser;
@@ -21,8 +19,21 @@ public class Session {
         return INSTANCE;
     }
 
+    private void setUser(User currentUser){
+        this.currentUser = currentUser;
+    }
     public static void addUserInSession(User currentUser) {
-        getInstance().currentUser = currentUser;
+        if (currentUser == null)
+            throw new IllegalArgumentException();
+        getInstance().setUser(currentUser);
+    }
+
+    private User getUser(){
+        return this.currentUser;
+    }
+
+    public static User getCurrentUser(){
+        return getInstance().getUser();
     }
 
     public static void logout() {

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="848.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewAssetController">
+   <children>
+      <Label text="Cadastrar novo ativo" textFill="#605ead">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="50.0" />
+         </VBox.margin>
+      </Label>
+      <Label text="TIPO DE ATIVO" textFill="#565656">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="500.0">
+         <children>
+            <JFXRadioButton fx:id="RDTermDeposit" selected="true" text="Depósito a termo" textFill="#565656">
+               <selectedColor>
+                  <Color red="0.3764705955982208" green="0.3686274588108063" blue="0.6784313917160034" />
+               </selectedColor>
+               <toggleGroup>
+                  <ToggleGroup fx:id="AssetType" />
+               </toggleGroup>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <unSelectedColor>
+                  <Color red="0.33725491166114807" green="0.33725491166114807" blue="0.33725491166114807" />
+               </unSelectedColor>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="RDRentalProperty" text="Imóvel arrendado" textFill="#565656" toggleGroup="$AssetType">
+               <selectedColor>
+                  <Color red="0.3764705955982208" green="0.3686274588108063" blue="0.6784313917160034" />
+               </selectedColor>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <unSelectedColor>
+                  <Color red="0.33725491166114807" green="0.33725491166114807" blue="0.33725491166114807" />
+               </unSelectedColor>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="RDInvestmentFund" text="Fundo de Investimento" textFill="#565656" toggleGroup="$AssetType">
+               <selectedColor>
+                  <Color red="0.3764705955982208" green="0.3686274588108063" blue="0.6784313917160034" />
+               </selectedColor>
+               <unSelectedColor>
+                  <Color red="0.33725491166114807" green="0.33725491166114807" blue="0.33725491166114807" />
+               </unSelectedColor>
+            </JFXRadioButton>
+         </children>
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </HBox>
+      <VBox prefHeight="233.0" prefWidth="598.0" spacing="10.0">
+         <children>
+            <Pane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: #6c6cc4;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="566.0">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="97.0" text="NOME DO ATIVO" textFill="#6c6cc4">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="designation" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="349.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+            <Pane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: #6c6cc4;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="566.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="42.0" text="INÍCIO" textFill="#6c6cc4">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <DatePicker fx:id="startDate" prefHeight="26.0" prefWidth="107.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                        <Label prefHeight="18.0" prefWidth="58.0" text="DURAÇÃO" textFill="#6c6cc4" />
+                        <TextField fx:id="duration" prefHeight="26.0" prefWidth="58.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="18.0" prefWidth="109.0" text="VALOR DO IMÓVEL" textFill="#6c6cc4" />
+                        <TextField fx:id="propertyValue" prefHeight="26.0" prefWidth="84.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+            <Pane prefHeight="50.0" prefWidth="612.0" style="-fx-border-color: #6c6cc4;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="737.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="63.0" text="IMPOSTO" textFill="#6c6cc4">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="tax" prefHeight="26.0" prefWidth="58.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="18.0" prefWidth="137.0" text="CONDOMÍNIO MENSAL" textFill="#6c6cc4" />
+                        <TextField fx:id="monthlyCostCondominium" prefHeight="26.0" prefWidth="58.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="18.0" prefWidth="48.0" text="RENDA" textFill="#6c6cc4" />
+                        <TextField fx:id="rentAmount" prefHeight="26.0" prefWidth="84.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="18.0" prefWidth="162.0" text="OUTRAS DESPESAS ANUAL" textFill="#6c6cc4" />
+                        <TextField fx:id="annualAmountOtherExpenses" prefHeight="26.0" prefWidth="84.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+            <Pane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: #6c6cc4;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="566.0">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="62.0" text="ENDEREÇO" textFill="#6c6cc4">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="location" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="384.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <JFXButton fx:id="btnSave" onAction="#saveAsset" style="-fx-background-color: #605ead;" text="CADASTRAR" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+      <AnchorPane fx:id="conteudo" prefHeight="200.0" prefWidth="200.0" />
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>

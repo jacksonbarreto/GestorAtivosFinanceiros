@@ -23,7 +23,12 @@ public class DataBase {
     public static final Set<Bank> banks = new HashSet<>();
 
 
-
+    public static int getTotalBanks(){
+        return banks.size();
+    }
+    public static int getTotalUsers(){
+        return users.size();
+    }
 
 
     /**

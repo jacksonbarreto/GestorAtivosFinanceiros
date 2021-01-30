@@ -1,69 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
-   <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #4c4392;" BorderPane.alignment="CENTER">
-         <children>
-            <VBox layoutX="34.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <JFXButton prefHeight="30.0" prefWidth="164.0" text="HOME" textAlignment="CENTER" textFill="WHITE" />
-                  <JFXButton prefHeight="30.0" prefWidth="164.0" text="NOVO ATIVO" textAlignment="CENTER" textFill="WHITE" />
-                  <JFXButton prefHeight="30.0" prefWidth="164.0" text="RELATÓRIO" textAlignment="CENTER" textFill="WHITE" />
-                  <JFXButton prefHeight="30.0" prefWidth="164.0" text="IMPOSTO PAGO" textAlignment="CENTER" textFill="WHITE" />
-                  <JFXButton prefHeight="30.0" prefWidth="164.0" text="FINANCEIRO" textAlignment="CENTER" textFill="WHITE" />
-                  <JFXButton prefHeight="30.0" prefWidth="164.0" text="LISTAR TODOS ATIVOS" textAlignment="CENTER" textFill="WHITE" />
-                  <JFXButton prefHeight="30.0" prefWidth="164.0" text="CONSULTAR LOGS" textAlignment="CENTER" textFill="WHITE" />
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-   </left>
+<BorderPane fx:id="mainScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <top>
-      <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="80.0" style="-fx-background-color: #625eb2;" BorderPane.alignment="CENTER">
+      <HBox prefHeight="66.0" prefWidth="1350.0" style="-fx-background-color: #4b458f;" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_LEFT" layoutX="29.0" layoutY="5.0" prefHeight="63.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="41.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../img/Logo.png" />
+               </image>
+            </ImageView>
+            <HBox alignment="TOP_RIGHT" prefHeight="66.0" prefWidth="1190.0">
                <children>
-                  <ImageView fitHeight="53.0" fitWidth="166.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="btnConfig" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleMouseEvent" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
+                        <Insets right="10.0" top="20.0" />
                      </HBox.margin>
+                     <image>
+                        <Image url="@../img/Config.png" />
+                     </image>
                   </ImageView>
-                  <JFXTextField prefHeight="26.0" prefWidth="250.0" promptText="PROCURAR">
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
+                        <Insets right="10.0" top="20.0" />
                      </HBox.margin>
-                  </JFXTextField>
-                  <MenuButton mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="FILTRO">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="NENHUM" />
-                      <MenuItem mnemonicParsing="false" text="&lt;" />
-                        <MenuItem mnemonicParsing="false" text="&lt;=" />
-                        <MenuItem mnemonicParsing="false" text="=" />
-                        <MenuItem mnemonicParsing="false" text="&gt;" />
-                        <MenuItem mnemonicParsing="false" text="&gt;=" />
-                    </items>
-                  </MenuButton>
-                  <JFXTextField prefWidth="200.0" promptText="MONTANTE">
-                     <HBox.margin>
-                        <Insets left="20.0" right="150.0" />
-                     </HBox.margin>
-                  </JFXTextField>
-                  <ImageView fitHeight="53.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="53.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="53.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" />
+                     <image>
+                        <Image url="@../img/Notification.png" />
+                     </image>
+                  </ImageView>
+                  <StackPane prefHeight="66.0" prefWidth="54.0">
+                     <children>
+                        <ImageView fx:id="iconUser" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../img/User.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="iconAdmin" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../img/Admin.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="iconRoot" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../img/Root.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
                </children>
             </HBox>
-         </children></AnchorPane>
+         </children>
+      </HBox>
    </top>
+   <left>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="userMenu" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="186.0" style="-fx-background-color: #4b458f;" visible="false">
+               <children>
+                  <JFXButton fx:id="btnHome" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="HOME" textFill="#ffa300">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="btnNewAsset" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="NOVO ATIVO" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnConsultLog" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="CONSULTAR LOGS" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnLstAllAssets" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="LISTAR TODOS ATIVOS" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton graphicTextGap="10.0" onMouseClicked="#closeWindows" prefHeight="30.0" prefWidth="180.0" text="LOGOUT" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="400.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+            <VBox fx:id="rootMenu" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="186.0" style="-fx-background-color: #4b458f;" visible="false">
+               <children>
+                  <JFXButton fx:id="btnHome1" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="HOME" textFill="#ffa300">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="btnCreateUser" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="CRIAR USUÁRIO" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnCriateBank" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="CRIAR BANCO" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnListUsers" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="LISTAR USUÁRIOS" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton graphicTextGap="10.0" onMouseClicked="#closeWindows" prefHeight="30.0" prefWidth="180.0" text="LOGOUT" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="400.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+         </children>
+      </StackPane>
+   </left>
 </BorderPane>

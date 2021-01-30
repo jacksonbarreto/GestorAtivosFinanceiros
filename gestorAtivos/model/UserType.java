@@ -1,6 +1,9 @@
 package model;
 
+import javafx.util.StringConverter;
+
 import java.io.Serializable;
+import java.util.Arrays;
 
 
 public enum UserType implements Serializable {
@@ -23,4 +26,23 @@ public enum UserType implements Serializable {
         return userType;
     }
 
+    @Override
+    public String toString() {
+        return userType;
+    }
+    public static class UserTypeStringConverter extends StringConverter<UserType> {
+        @Override
+        public String toString (UserType object) {
+            if (object == null) {
+                return "no data";
+            }
+            return object.getUserType();
+        }
+        @Override
+        public UserType fromString (String name) {
+            return Arrays.stream(UserType.values())
+                        .filter (userType->userType.userType.equalsIgnoreCase(name))
+                    .findFirst().get();
+        }
+    }
 }

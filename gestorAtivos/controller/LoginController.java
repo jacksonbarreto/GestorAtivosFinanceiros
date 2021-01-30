@@ -70,7 +70,7 @@ public class LoginController implements Initializable {
             } else {
                 addUserInSession(user);
                 MainView mainView = new MainView();
-                closeWindows();
+                LoginView.getStage().close();
                 try {
                     mainView.start(new Stage());
                 } catch (IOException e) {

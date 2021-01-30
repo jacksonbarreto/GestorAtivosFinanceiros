@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="351.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.configAccountController">
+   <children>
+      <Label text="Configuração da conta" textFill="#605ead">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="30.0" />
+         </VBox.margin>
+      </Label>
+      <VBox prefHeight="233.0" prefWidth="598.0" spacing="10.0">
+         <children>
+            <Pane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: #6c6cc4;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="566.0">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="117.0" text="NOME DE USUÁRIO" textFill="#6c6cc4">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="username" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="385.0">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+            <HBox prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="361.0" style="-fx-border-color: #6c6cc4;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="368.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="42.0" text="SENHA" textFill="#6c6cc4">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <PasswordField fx:id="pass" prefHeight="26.0" prefWidth="246.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="50.0" prefWidth="406.0" style="-fx-border-color: #6c6cc4;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="387.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="137.0" text="CONFIRMAR SENHA" textFill="#6c6cc4">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <PasswordField fx:id="confirPass" prefHeight="26.0" prefWidth="262.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="739.0">
+               <children>
+                  <JFXButton fx:id="btnSave" onAction="#saveNewUser" style="-fx-background-color: #605ead;" text="SALVAR" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets left="30.0" />
+         </VBox.margin>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>
