@@ -329,6 +329,18 @@ public class User implements Serializable {
         }
         return financialAssets;
     }
+    /**
+     * Method to obtain all the financial assets of the user.
+     *
+     * @return collection of financial assets.
+     */
+    public List<FinancialAsset> getFinancialAssetsForUpdate() {
+        List<FinancialAsset> financialAssets = new ArrayList<>();
+        for (FinancialAsset financialAsset : this.financialAssets){
+            financialAssets.add(financialAsset);
+        }
+        return financialAssets;
+    }
 
     /**
      * This method returns a collection with the user's financial assets, which are active on the current date,
@@ -342,6 +354,25 @@ public class User implements Serializable {
             if (dateIsBeforeOrEqual(LocalDate.now(), fa.getStartDate()) &&
                     dateIsAfterOrEqual(LocalDate.now(), fa.getStartDate().plusMonths(fa.getDuration()))) {
                 financialAssetsreverseOrderActive.add(fa.clone());
+            }
+        }
+        financialAssetsreverseOrderActive.sort(Collections.reverseOrder());
+        return financialAssetsreverseOrderActive;
+    }
+
+
+    /**
+     * This method returns a collection with the user's financial assets, which are active on the current date,
+     * descendingly ordered by the amount invested initially.
+     *
+     * @return collection of financial assets in descending order.
+     */
+    public List<FinancialAsset> getFinancialAssetsreverseOrderActiveForUpdate() {
+        List<FinancialAsset> financialAssetsreverseOrderActive = new ArrayList<>();
+        for (FinancialAsset fa : this.financialAssets) {
+            if (dateIsBeforeOrEqual(LocalDate.now(), fa.getStartDate()) &&
+                    dateIsAfterOrEqual(LocalDate.now(), fa.getStartDate().plusMonths(fa.getDuration()))) {
+                financialAssetsreverseOrderActive.add(fa);
             }
         }
         financialAssetsreverseOrderActive.sort(Collections.reverseOrder());

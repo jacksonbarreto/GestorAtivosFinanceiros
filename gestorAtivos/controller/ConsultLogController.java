@@ -28,8 +28,8 @@ public class ConsultLogController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ColDate.setCellValueFactory(new PropertyValueFactory<Log, LocalDateTime>("moment"));
-        ColOperation.setCellValueFactory(new PropertyValueFactory<Log, Operation>("operation"));
+        ColDate.setCellValueFactory(new PropertyValueFactory<>("moment"));
+        ColOperation.setCellValueFactory(new PropertyValueFactory<>("operation"));
         tableLogs.setItems(getLogs());
     }
 

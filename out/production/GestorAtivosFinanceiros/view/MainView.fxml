@@ -82,12 +82,27 @@
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton fx:id="btnLstAllAssets" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="LISTAR TODOS ATIVOS" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
                   <JFXButton fx:id="btnConsultLog" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="CONSULTAR LOGS" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnLstAllAssets" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="LISTAR TODOS ATIVOS" textFill="WHITE">
+                  <JFXButton fx:id="btnReport" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text=" RELATÓRIO" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnFinancial" alignment="CENTER" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="FINANCEIRO" textAlignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnTax" alignment="CENTER" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="IMPOSTO" textAlignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>

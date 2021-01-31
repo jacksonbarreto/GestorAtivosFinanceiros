@@ -16,13 +16,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static controller.PanelLocation.CENTER;
-import static controller.PanelLocation.SIDEBAR;
 import static model.Session.getCurrentUser;
 import static model.Shutdown.shutdown;
 
 
 public class MainController implements Initializable {
-
+    private Boolean UserReportVisible = false;
     @FXML
     private BorderPane mainScreen;
 
@@ -52,6 +51,14 @@ public class MainController implements Initializable {
     private VBox rootMenu;
     @FXML
     private ImageView iconRoot;
+    @FXML
+    private JFXButton btnReport;
+
+    @FXML
+    private JFXButton btnFinancial;
+    @FXML
+    private JFXButton btnTax;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,6 +98,7 @@ public class MainController implements Initializable {
                 userMenu.setVisible(true);
                 loadScreen("homeUser", CENTER);
         }
+
     }
 
     public void handleMouseEvent(MouseEvent mouseEvent) {
@@ -111,10 +119,30 @@ public class MainController implements Initializable {
             loadScreen("createBank", CENTER);
         }else if (mouseEvent.getSource() == btnCreateUser) {
             loadScreen("createUser", CENTER);
+        }else if (mouseEvent.getSource() == btnReport) {
+            if (UserReportVisible){
+                hideUserReportBtn();
+            }else {
+                showUserReportBtn();
+            }
+        }else if (mouseEvent.getSource() == btnFinancial) {
+            loadScreen("financialReport", CENTER);
+        }else if (mouseEvent.getSource() == btnTax) {
+            loadScreen("taxReport", CENTER);
         }
 
     }
 
+    private void hideUserReportBtn(){
+        btnFinancial.setVisible(false);
+        btnTax.setVisible(false);
+        UserReportVisible = false;
+    }
+    private void showUserReportBtn(){
+        btnFinancial.setVisible(true);
+        btnTax.setVisible(true);
+        UserReportVisible = true;
+    }
 
     public void closeWindows() {
         shutdown();

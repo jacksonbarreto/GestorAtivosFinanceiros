@@ -2,6 +2,7 @@ package view;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class LoginView extends Application implements StandardWindow {
             primaryStage.setX(event.getScreenX() - xOffset);
             primaryStage.setY(event.getScreenY() - yOffset);
         });
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("../img/icon.jpg")));
     }
 
     public static void setStage(Stage stage) {

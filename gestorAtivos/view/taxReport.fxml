@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="704.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TaxReportController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+    <children>
+        <Label text="Relatório imposto pago" textFill="#605ead">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label text="CONSULTE OS IMPOSTOS PAGOS" textFill="#565656">
+            <font>
+                <Font size="14.0" />
+            </font>
+            <VBox.margin>
+                <Insets left="30.0" top="30.0" />
+            </VBox.margin>
+        </Label>
+        <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="636.0" spacing="20.0">
+            <VBox.margin>
+                <Insets left="30.0" right="30.0" top="20.0" />
+            </VBox.margin>
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="298.0" style="-fx-border-color: #605ead;">
+                    <children>
+                        <Label prefHeight="18.0" prefWidth="80.0" text="DATA INICIAL" textFill="#605ead">
+                            <HBox.margin>
+                                <Insets left="20.0" />
+                            </HBox.margin>
+                        </Label>
+                        <DatePicker fx:id="startDate" prefHeight="26.0" prefWidth="178.0" promptText="10/07/2019">
+                            <HBox.margin>
+                                <Insets left="10.0" right="20.0" />
+                            </HBox.margin>
+                        </DatePicker>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="298.0" style="-fx-border-color: #605ead;">
+                    <children>
+                        <Label text="DATA FINAL" textFill="#605ead">
+                            <HBox.margin>
+                                <Insets left="20.0" />
+                            </HBox.margin>
+                        </Label>
+                        <DatePicker fx:id="finalDate" prefHeight="26.0" prefWidth="178.0" promptText="22/11/2021">
+                            <HBox.margin>
+                                <Insets left="10.0" right="20.0" />
+                            </HBox.margin>
+                        </DatePicker>
+                    </children>
+                </HBox>
+                <ImageView fx:id="btnSearch" fitHeight="31.0" fitWidth="101.0" onMouseClicked="#findAssets" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/Search.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="679.0" spacing="20.0">
+            <VBox.margin>
+                <Insets left="30.0" right="30.0" top="5.0" />
+            </VBox.margin>
+            <children>
+                <Label fx:id="erroStartDate" alignment="CENTER" prefHeight="18.0" prefWidth="298.0" text="A data Inicial deve ser preenchida." textAlignment="CENTER" textFill="#9c0000" visible="false">
+                    <font>
+                        <Font name="System Italic" size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="erroFinalDate" alignment="CENTER" prefHeight="18.0" prefWidth="298.0" text="A data final deve ser preenchida." textAlignment="CENTER" textFill="#9c0000" visible="false">
+                    <font>
+                        <Font name="System Italic" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+        <StackPane prefHeight="301.0" prefWidth="679.0">
+            <VBox.margin>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
+            </VBox.margin>
+            <children>
+                <VBox fx:id="notFoundScreen" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
+                    <children>
+                        <Label text="Não existe nenhum ativo que corresponda aos critérios de busca." textFill="#565656">
+                            <font>
+                                <Font name="System Italic" size="12.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox fx:id="resultScreen" prefHeight="200.0" prefWidth="100.0" visible="false">
+                    <children>
+                        <TableView fx:id="tableAssets" onMouseClicked="#rowSelected" prefHeight="306.0" prefWidth="679.0">
+                            <columns>
+                                <TableColumn fx:id="icon" prefWidth="75.0" />
+                                <TableColumn fx:id="name" prefWidth="229.5999755859375" text="NOME" />
+                                <TableColumn fx:id="taxDueTotal" minWidth="0.0" prefWidth="192.0" text="TOTAL PAGO EM IMPOSTOS" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+            <VBox fx:id="taxScreen" maxWidth="-Infinity" prefHeight="212.0" prefWidth="579.0" style="-fx-border-color: #565656; -fx-border-radius: 2em; -fx-background-color: E4E4E4; -fx-background-radius: 2em;" visible="false">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <StackPane.margin>
+                  <Insets bottom="30.0" left="80.0" right="80.0" top="30.0" />
+               </StackPane.margin>
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="579.0">
+                     <children>
+                        <Label onMouseClicked="#closeTaxScreen" text="X" textFill="#565656">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <ImageView fx:id="iconPayment" fitHeight="26.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="namePayment" text="Viagem Disney" textFill="#565656">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <TableView fx:id="tablePayment" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="dateOfPayment" prefWidth="99.20000380277634" text="DATA" />
+                      <TableColumn fx:id="taxDue" prefWidth="156.0000228881836" text="IMPOSTO PAGO" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+            </VBox>
+            </children>
+        </StackPane>
+    </children>
+</VBox>

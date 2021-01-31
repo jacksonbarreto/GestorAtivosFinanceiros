@@ -74,7 +74,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="739.0">
                <children>
-                  <JFXButton fx:id="btnSave" onAction="#saveNewUser" style="-fx-background-color: #605ead;" text="SALVAR" textFill="WHITE">
+                  <JFXButton fx:id="btnSave" onAction="#saveNewUser" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #605ead; -fx-border-radius: 0; -fx-background-radius: 0;" text="SALVAR" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>

@@ -165,6 +165,11 @@ public class Bank implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return this.name;
+    }
+
+    @Override
     public Bank clone(){
         return new Bank(this);
     }

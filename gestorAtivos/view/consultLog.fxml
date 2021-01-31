@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConsultLogController">
    <children>
-      <Label text="Cadastrar novo ativo" textFill="#605ead">
+      <Label text="Consultar logs" textFill="#605ead">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
