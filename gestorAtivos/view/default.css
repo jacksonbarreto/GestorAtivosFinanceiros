@@ -1,0 +1,56 @@
+.clicked{
+-fx-text-fill: #ffa300;
+}
+.default{
+ -fx-text-fill: #ffffff;
+}
+
+.button:hover{
+    -fx-text-fill: #ffa300;
+}
+
+
+.jfx-combo-box {
+-fx-text-inner-color:  #ffffff;
+}
+
+.jfx-combo-box .cell {
+    -fx-text-fill: #ffffff;
+}
+.combo-box-popup .list-view .list-cell {
+-fx-background-color: #6c6cc4;
+}
+.combo-box-popup .list-view .list-cell:filled:hover{
+-fx-background-color: #605ead;
+}
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover {
+-fx-background-color: #ffa300;
+}
+.comboStandard .cell {
+    -fx-text-fill: #565656;
+}
+
+.defultField{
+-fx-padding: 1,1,1,1;
+ -fx-background-color: transparent;
+ -fx-text-fill: #565656;
+}
+.search{
+
+   -fx-padding: 1,1,1,1;
+   -fx-border-color: #ffffff;
+   -fx-border-width: 1;
+   -fx-border-radius: 0;
+   -fx-border: gone;
+   -fx-background-color: #ffffff;
+   -fx-text-fill: grey;
+   -fx-background-image:url('../img/Search.png');
+     -fx-background-repeat: no-repeat;
+     -fx-background-position: left 10 center;
+-fx-prompt-text-position: left 40 center;
+}
+#amountFild{
+ -fx-border-color: #ffffff;
+   -fx-border-width: 1;
+   -fx-border-radius: 0;
+}

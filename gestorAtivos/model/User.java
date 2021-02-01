@@ -123,8 +123,6 @@ public class User implements Serializable {
             throw new IllegalArgumentException();
         } else if (designation.isEmpty()) {
             throw new IllegalArgumentException();
-        } else if (designation.length() <= 3) {
-            throw new IllegalArgumentException();
         }
 
         List<FinancialAsset> financialAssets = new ArrayList<>();
@@ -178,8 +176,6 @@ public class User implements Serializable {
         if (designation == null || assetType == null) {
             throw new IllegalArgumentException();
         } else if (designation.isEmpty()) {
-            throw new IllegalArgumentException();
-        } else if (designation.length() <= 3) {
             throw new IllegalArgumentException();
         }
         List<FinancialAsset> financialAssets = new ArrayList<>();

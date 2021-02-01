@@ -1,19 +1,16 @@
 package model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
-public class PaymentForList {
+public class PaymentForView {
 
     private String dateOfPayment;
     private String monthlyProfitability;
     private String interestReceived;
     private String taxDue;
 
-    public PaymentForList() {
+    public PaymentForView() {
     }
 
-    public PaymentForList(String dateOfPayment, String monthlyProfitability, String interestReceived) {
+    public PaymentForView(String dateOfPayment, String monthlyProfitability, String interestReceived) {
         this.dateOfPayment = dateOfPayment;
         this.monthlyProfitability = monthlyProfitability;
         this.interestReceived = interestReceived;

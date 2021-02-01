@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -10,28 +13,69 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<BorderPane fx:id="mainScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1350.0" stylesheets="@default.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <top>
-      <HBox prefHeight="66.0" prefWidth="1350.0" style="-fx-background-color: #4b458f;" BorderPane.alignment="CENTER">
+      <HBox prefHeight="66.0" prefWidth="1350.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="41.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
-               <HBox.margin>
-                  <Insets left="20.0" top="20.0" />
-               </HBox.margin>
-               <image>
-                  <Image url="@../img/Logo.png" />
-               </image>
-            </ImageView>
-            <HBox alignment="TOP_RIGHT" prefHeight="66.0" prefWidth="1190.0">
+            <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="66.0" prefWidth="202.0" style="-fx-background-color: #4b458f;">
                <children>
-                  <ImageView fx:id="btnConfig" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleMouseEvent" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="41.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets right="10.0" top="20.0" />
+                        <Insets />
                      </HBox.margin>
                      <image>
-                        <Image url="@../img/Config.png" />
+                        <Image url="@../img/Logo.png" />
                      </image>
                   </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="66.0" prefWidth="1153.0" style="-fx-background-color: #605ead;">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="66.0" prefWidth="792.0">
+                     <HBox.margin>
+                        <Insets right="180.0" />
+                     </HBox.margin>
+                     <children>
+                        <TextField fx:id="search" alignment="CENTER" focusTraversable="false" onKeyPressed="#handleFindAsset" prefHeight="36.0" prefWidth="238.0" promptText="PROCURAR" styleClass="search">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets></TextField>
+                        <JFXComboBox fx:id="assetType" onAction="#findAsset" prefHeight="36.0" promptText="TIPO DE ATIVO">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="prompt-combo" />
+                              <String fx:value="combo-box" />
+                           </styleClass>
+                        </JFXComboBox>
+                        <TextField id="amountFild" fx:id="amountFilter" onKeyPressed="#handleFindAsset" prefHeight="36.0" promptText="123000.00">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <JFXComboBox fx:id="logicalOperator" labelFloat="true" onAction="#findAsset" prefHeight="36.0" prefWidth="202.0" promptText="OPERADOR" styleClass="jfx-combo-box">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </JFXComboBox>
+                     </children>
+                  </HBox>
+                  <JFXButton fx:id="btnConfig" contentDisplay="CENTER" onMouseClicked="#router" wrapText="true">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Config.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets top="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets right="10.0" top="20.0" />
@@ -40,36 +84,22 @@
                         <Image url="@../img/Notification.png" />
                      </image>
                   </ImageView>
-                  <StackPane prefHeight="66.0" prefWidth="54.0">
-                     <children>
-                        <ImageView fx:id="iconUser" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                           <image>
-                              <Image url="@../img/User.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="iconAdmin" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                           <image>
-                              <Image url="@../img/Admin.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="iconRoot" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                           <image>
-                              <Image url="@../img/Root.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
+                  <ImageView fx:id="avatar" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </ImageView>
                </children>
             </HBox>
          </children>
       </HBox>
    </top>
    <left>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <StackPane maxWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="userMenu" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="186.0" style="-fx-background-color: #4b458f;" visible="false">
+            <VBox fx:id="userMenu" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="200.0" style="-fx-background-color: #4b458f;" visible="false">
                <children>
-                  <JFXButton fx:id="btnHome" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="HOME" textFill="#ffa300">
+                  <JFXButton fx:id="btnHome" alignment="TOP_LEFT" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text="HOME" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -77,32 +107,32 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="btnNewAsset" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="NOVO ATIVO" textFill="WHITE">
+                  <JFXButton fx:id="btnNewAsset" alignment="TOP_LEFT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" ripplerFill="WHITE" stylesheets="@default.css" text="NOVO ATIVO" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnLstAllAssets" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="LISTAR TODOS ATIVOS" textFill="WHITE">
+                  <JFXButton fx:id="btnLstAllAssets" alignment="TOP_LEFT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" stylesheets="@default.css" text="LISTAR TODOS ATIVOS" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnConsultLog" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="CONSULTAR LOGS" textFill="WHITE">
+                  <JFXButton fx:id="btnConsultLog" alignment="TOP_LEFT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text="CONSULTAR LOGS" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnReport" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text=" RELATÓRIO" textFill="WHITE">
+                  <JFXButton fx:id="btnReport" alignment="TOP_LEFT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text=" RELATÓRIO" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnFinancial" alignment="CENTER" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="FINANCEIRO" textAlignment="CENTER" textFill="WHITE" visible="false">
+                  <JFXButton fx:id="btnFinancial" alignment="CENTER_RIGHT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text="FINANCEIRO" textAlignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnTax" alignment="CENTER" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="IMPOSTO" textAlignment="CENTER" textFill="WHITE" visible="false">
+                  <JFXButton fx:id="btnTax" alignment="CENTER_RIGHT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text="IMPOSTO" textAlignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -129,7 +159,7 @@
             </VBox>
             <VBox fx:id="rootMenu" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="186.0" style="-fx-background-color: #4b458f;" visible="false">
                <children>
-                  <JFXButton fx:id="btnHome1" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="HOME" textFill="#ffa300">
+                  <JFXButton fx:id="btnHome1" alignment="TOP_LEFT" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text="HOME" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -137,17 +167,17 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="btnCreateUser" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="CRIAR USUÁRIO" textFill="WHITE">
+                  <JFXButton fx:id="btnCreateUser" alignment="TOP_LEFT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text="CRIAR USUÁRIO" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnCriateBank" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="CRIAR BANCO" textFill="WHITE">
+                  <JFXButton fx:id="btnCreateBank" alignment="TOP_LEFT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text="CRIAR BANCO" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnListUsers" maxWidth="-Infinity" onMouseClicked="#handleMouseEvent" prefHeight="30.0" prefWidth="180.0" text="LISTAR USUÁRIOS" textFill="WHITE">
+                  <JFXButton fx:id="btnListUsers" alignment="TOP_LEFT" maxWidth="-Infinity" onMouseClicked="#router" prefHeight="30.0" prefWidth="180.0" text="LISTAR USUÁRIOS" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

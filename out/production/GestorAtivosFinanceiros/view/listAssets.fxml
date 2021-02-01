@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListAssetsController">
+<VBox fx:id="vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListAssetsController">
    <children>
       <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="827.0" prefWidth="790.0">
          <children>
@@ -49,7 +49,7 @@
             </VBox>
             <VBox fx:id="infoAssetScreen" prefHeight="422.0" prefWidth="790.0" visible="false">
                <children>
-                  <ScrollPane prefHeight="438.0" prefWidth="790.0">
+                  <ScrollPane prefHeight="523.0" prefWidth="790.0">
                      <content>
                         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="816.0" prefWidth="774.0">
                            <children>

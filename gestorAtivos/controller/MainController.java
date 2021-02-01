@@ -1,30 +1,44 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import model.AssetType;
+import model.FinancialAsset;
+import model.LogicalOperator;
 import view.MainView;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import static controller.PanelLocation.CENTER;
+import static controller.Utils.applyStyle;
+import static model.LogicalOperator.BIGGER_THEN;
 import static model.Session.getCurrentUser;
 import static model.Shutdown.shutdown;
+import static model.User.filterByAmountInvested;
 
 
 public class MainController implements Initializable {
-    private Boolean UserReportVisible = false;
+    private Boolean statusVisibilitySubmenuReport = false;
     @FXML
     private BorderPane mainScreen;
-
     @FXML
     private JFXButton btnHome;
     @FXML
@@ -36,112 +50,186 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton btnLstAllAssets;
     @FXML
-    private JFXButton btnCriateBank;
+    private JFXButton btnCreateBank;
     @FXML
     private JFXButton btnCreateUser;
     @FXML
-    private ImageView btnConfig;
+    private JFXButton btnConfig;
     @FXML
-    private ImageView iconUser;
-    @FXML
-    private ImageView iconAdmin;
+    private ImageView avatar;
     @FXML
     private VBox userMenu;
     @FXML
     private VBox rootMenu;
     @FXML
-    private ImageView iconRoot;
-    @FXML
     private JFXButton btnReport;
-
+    @FXML
+    private JFXButton btnListUsers;
     @FXML
     private JFXButton btnFinancial;
     @FXML
     private JFXButton btnTax;
+    @FXML
+    private TextField search;
+    @FXML
+    private JFXComboBox<AssetType> assetType;
+    @FXML
+    private JFXComboBox<LogicalOperator> logicalOperator;
+    @FXML
+    private TextField amountFilter;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         configScreenForUser();
+        assetType.getItems().add(null);
+        assetType.getItems().addAll(FXCollections.observableArrayList(AssetType.values()));
+        logicalOperator.getItems().addAll(FXCollections.observableArrayList(LogicalOperator.values()));
+        logicalOperator.setValue(BIGGER_THEN);
     }
 
-    public void loadScreen(String screen, PanelLocation panelLocation) {
+    @FXML
+    void handleFindAsset(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            findAsset();
+        }
+    }
+
+    @FXML
+    void findAsset() {
+        FXMLLoader loader = getLoader("findAssets");
+        Parent content = loadLoader(loader);
+        FindAssetsController controller = loader.getController();
+        List<FinancialAsset> source = new ArrayList<>();
+        if (!search.getText().isEmpty() || assetType.getValue() != null || !search.getText().isEmpty() || !amountFilter.getText().isEmpty()) {
+            if (!search.getText().isEmpty() && assetType.getValue() != null) {
+                if (amountFilter.getText().isEmpty()) {
+                    source.addAll(getCurrentUser().findFinancialAsset(search.getText(), assetType.getValue()));
+                } else {
+                    source.addAll(filterByAmountInvested(getCurrentUser().findFinancialAsset(search.getText(), assetType.getValue()), logicalOperator.getValue(), new BigDecimal(amountFilter.getText())));
+                }
+            } else if (!search.getText().isEmpty()) {
+                if (amountFilter.getText().isEmpty()) {
+                    source.addAll(getCurrentUser().findFinancialAsset(search.getText()));
+                } else {
+                    source.addAll(filterByAmountInvested(getCurrentUser().findFinancialAsset(search.getText()), logicalOperator.getValue(), new BigDecimal(amountFilter.getText())));
+                }
+            } else if (assetType.getValue() != null) {
+                if (amountFilter.getText().isEmpty()) {
+                    source.addAll(getCurrentUser().findFinancialAsset(assetType.getValue()));
+                } else {
+                    source.addAll(filterByAmountInvested(getCurrentUser().findFinancialAsset(assetType.getValue()), logicalOperator.getValue(), new BigDecimal(amountFilter.getText())));
+                }
+            } else if (!amountFilter.getText().isEmpty()) {
+                source.addAll(filterByAmountInvested(getCurrentUser().getFinancialAssets(), logicalOperator.getValue(), new BigDecimal(amountFilter.getText())));
+            }
+            controller.defineSource(source);
+            mainScreen.setCenter(content);
+        }
+    }
+
+    private FXMLLoader getLoader(String screen) {
+        return new FXMLLoader(getClass().getResource("/view/" + screen + ".fxml"));
+    }
+
+    private Parent loadLoader(FXMLLoader loader) {
         Parent content = null;
         try {
-            content = FXMLLoader.load(getClass().getResource("/view/" + screen + ".fxml"));
-
+            content = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        switch (panelLocation){
-            case CENTER:
-                mainScreen.setCenter(content);
-                break;
-            case SIDEBAR:
+        return content;
+    }
 
-        }
-
+    private void loadScreen(String screen) {
+        mainScreen.setCenter(loadLoader(getLoader(screen)));
     }
 
     private void configScreenForUser() {
+        String route = null;
         switch (getCurrentUser().getUserType()) {
             case ROOT:
-                iconRoot.setVisible(true);
+                avatar.setImage(new Image(this.getClass().getResourceAsStream("../img/Root.png")));
                 rootMenu.setVisible(true);
-                loadScreen("homeRoot", CENTER);
+                applyStyle(btnHome1, "clicked");
+                route = "homeRoot";
                 break;
             case MANAGER:
-                iconAdmin.setVisible(true);
+                avatar.setImage(new Image(this.getClass().getResourceAsStream("../img/Admin.png")));
                 break;
             default:
-                iconUser.setVisible(true);
+                avatar.setImage(new Image(this.getClass().getResourceAsStream("../img/User.png")));
                 userMenu.setVisible(true);
-                loadScreen("homeUser", CENTER);
+                applyStyle(btnHome, "clicked");
+                route = "homeUser";
         }
-
+        loadScreen(route);
     }
 
-    public void handleMouseEvent(MouseEvent mouseEvent) {
+    public void router(MouseEvent mouseEvent) {
+        JFXButton clickedButton = (JFXButton) mouseEvent.getSource();
+        String route = null;
 
-        if (mouseEvent.getSource() == btnHome) {
-            loadScreen("homeUser", CENTER);
-        } else if (mouseEvent.getSource() == btnNewAsset) {
-            loadScreen("newAsset", CENTER);
-        } else if (mouseEvent.getSource() == btnConsultLog) {
-            loadScreen("consultLog", CENTER);
-        } else if (mouseEvent.getSource() == btnLstAllAssets) {
-            loadScreen("listAssets", CENTER);
-        } else if (mouseEvent.getSource() == btnConfig) {
-            loadScreen("configAccount", CENTER);
-        }else if (mouseEvent.getSource() == btnHome1) {
-            loadScreen("homeRoot", CENTER);
-        }else if (mouseEvent.getSource() == btnCriateBank) {
-            loadScreen("createBank", CENTER);
-        }else if (mouseEvent.getSource() == btnCreateUser) {
-            loadScreen("createUser", CENTER);
-        }else if (mouseEvent.getSource() == btnReport) {
-            if (UserReportVisible){
-                hideUserReportBtn();
-            }else {
-                showUserReportBtn();
+        restartButtons();
+        if (clickedButton == btnHome) {
+            route = "homeUser";
+        } else if (clickedButton == btnNewAsset) {
+            route = "newAsset";
+        } else if (clickedButton == btnConsultLog) {
+            route = "consultLog";
+        } else if (clickedButton == btnLstAllAssets) {
+            route = "listAssets";
+        } else if (clickedButton == btnConfig) {
+            route = "configAccount";
+        } else if (clickedButton == btnHome1) {
+            route = "homeRoot";
+        } else if (clickedButton == btnCreateBank) {
+            route = "createBank";
+        } else if (clickedButton == btnCreateUser) {
+            route = "createUser";
+        } else if (clickedButton == btnReport) {
+            restartButtons();
+            if (statusVisibilitySubmenuReport) {
+                hideReportSubmenu();
+            } else {
+                hideReportSubmenu();
+                displaysReportSubmenu();
             }
-        }else if (mouseEvent.getSource() == btnFinancial) {
-            loadScreen("financialReport", CENTER);
-        }else if (mouseEvent.getSource() == btnTax) {
-            loadScreen("taxReport", CENTER);
+        } else if (clickedButton == btnFinancial) {
+            applyStyle(btnReport, "clicked");
+            route = "financialReport";
+        } else if (clickedButton == btnTax) {
+            applyStyle(btnReport, "clicked");
+            route = "taxReport";
+        }
+        if (clickedButton != btnReport && clickedButton != btnFinancial && clickedButton != btnTax) {
+            hideReportSubmenu();
         }
 
+        applyStyle(clickedButton, "clicked");
+        if (route != null) {
+            loadScreen(route);
+        }
     }
 
-    private void hideUserReportBtn(){
+    private void restartButtons() {
+        List<JFXButton> buttons = Arrays.asList(btnReport, btnHome, btnHome1, btnTax, btnFinancial, btnCreateUser, btnCreateBank, btnLstAllAssets, btnConsultLog, btnNewAsset, btnListUsers);
+        for (JFXButton button : buttons) {
+            button.getStyleClass().remove("clicked");
+        }
+    }
+
+    private void hideReportSubmenu() {
         btnFinancial.setVisible(false);
         btnTax.setVisible(false);
-        UserReportVisible = false;
+        statusVisibilitySubmenuReport = false;
     }
-    private void showUserReportBtn(){
+
+    private void displaysReportSubmenu() {
         btnFinancial.setVisible(true);
         btnTax.setVisible(true);
-        UserReportVisible = true;
+        statusVisibilitySubmenuReport = true;
     }
 
     public void closeWindows() {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="848.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewAssetController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="848.0" stylesheets="@default.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewAssetController">
    <children>
       <Label text="Cadastrar novo ativo financeiro" textFill="#605ead">
          <font>
@@ -79,14 +79,14 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="787.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="787.0">
                            <children>
                               <Label prefHeight="18.0" prefWidth="97.0" text="NOME DO ATIVO" textFill="#6c6cc4">
                                  <HBox.margin>
                                     <Insets left="20.0" right="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="designation" alignment="CENTER" prefHeight="26.0" prefWidth="630.0" promptText="Férias em Moscou">
+                              <TextField fx:id="designation" alignment="CENTER" prefHeight="26.0" prefWidth="630.0" promptText="Férias em Moscou" styleClass="defultField" stylesheets="@default.css">
                                  <HBox.margin>
                                     <Insets right="20.0" />
                                  </HBox.margin>
@@ -129,7 +129,7 @@
                                                 <Insets left="20.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="duration" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="168.0" promptText="12">
+                                          <TextField fx:id="duration" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="168.0" promptText="12" styleClass="defultField" stylesheets="@default.css">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>
@@ -150,7 +150,7 @@
                                                 <Insets left="20.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tax" alignment="CENTER" prefHeight="26.0" prefWidth="98.0" promptText="0.12">
+                                          <TextField fx:id="tax" alignment="CENTER" prefHeight="26.0" prefWidth="98.0" promptText="0.12" styleClass="defultField">
                                              <HBox.margin>
                                                 <Insets left="10.0" right="20.0" />
                                              </HBox.margin>
@@ -358,7 +358,7 @@
                                                             <Insets left="20.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <TextField fx:id="depositedAmount" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="253.0" promptText="5280.89">
+                                                      <TextField fx:id="depositedAmount" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="253.0" promptText="5280.89" styleClass="defultField">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
@@ -387,7 +387,7 @@
                                                             <Insets left="20.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <TextField fx:id="annualProfitability" alignment="CENTER" prefHeight="26.0" prefWidth="151.0" promptText="0.21">
+                                                      <TextField fx:id="annualProfitability" alignment="CENTER" prefHeight="26.0" prefWidth="151.0" promptText="0.21" styleClass="defultField">
                                                          <HBox.margin>
                                                             <Insets left="10.0" />
                                                          </HBox.margin>
@@ -421,7 +421,7 @@
                                                             <Insets left="20.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <TextField fx:id="account" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="253.0" promptText="458790211-A">
+                                                      <TextField fx:id="account" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="253.0" promptText="458790211-A" styleClass="defultField">
                                                          <HBox.margin>
                                                             <Insets right="20.0" />
                                                          </HBox.margin>
@@ -442,11 +442,7 @@
                                                             <Insets left="20.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <ChoiceBox fx:id="bank" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="305.0">
-                                                         <HBox.margin>
-                                                            <Insets right="20.0" />
-                                                         </HBox.margin>
-                                                      </ChoiceBox>
+                                                      <JFXComboBox fx:id="bank" prefHeight="26.0" prefWidth="306.0" styleClass="comboStandard" />
                                                    </children>
                                                 </HBox>
                                              </children>

@@ -34,7 +34,6 @@ public class MainView extends Application implements StandardWindow {
             primaryStage.setY(event.getScreenY() - yOffset);
         });
 
-        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("../img/icon.jpg")));
     }
 
     public static Stage getStage() {

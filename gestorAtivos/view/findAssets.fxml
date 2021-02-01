@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListAssetsController">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FindAssetsController">
    <children>
-      <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="827.0" prefWidth="790.0">
+      <StackPane alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="827.0" prefWidth="790.0">
          <children>
             <VBox fx:id="successScreen" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
@@ -28,7 +28,7 @@
                   </Label>
                </children>
             </VBox>
-            <VBox fx:id="alllAssetsScreen" prefHeight="388.0" prefWidth="790.0" visible="false">
+            <VBox fx:id="allAssetsScreen" prefHeight="388.0" prefWidth="790.0" visible="false">
                <children>
                   <Label text="Listar todos os ativos" textFill="#605ead">
                      <font>
@@ -39,19 +39,19 @@
                      </VBox.margin>
                   </Label>
                   <TableView fx:id="tableAssets" prefHeight="370.0" prefWidth="739.0">
-                    <columns>
-                      <TableColumn fx:id="colIcon" prefWidth="110.39996182918549" />
-                      <TableColumn fx:id="colName" prefWidth="265.5999526977539" resizable="false" text="NOME" />
+                     <columns>
+                        <TableColumn fx:id="colIcon" prefWidth="110.39996182918549" />
+                        <TableColumn fx:id="colName" prefWidth="265.5999526977539" resizable="false" text="NOME" />
                         <TableColumn fx:id="colAmaunt" prefWidth="177.59994506835938" text="TOTAL INVESTIDO" />
-                    </columns>
+                     </columns>
                   </TableView>
                </children>
             </VBox>
-            <VBox fx:id="infoAssetScreen" prefHeight="422.0" prefWidth="790.0" visible="false">
+            <VBox fx:id="infoAssetScreen" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="422.0" prefWidth="790.0" visible="false">
                <children>
-                  <ScrollPane prefHeight="523.0" prefWidth="790.0">
+                  <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="582.0">
                      <content>
-                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="816.0" prefWidth="774.0">
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="816.0">
                            <children>
                               <Label alignment="TOP_LEFT" text="Ativo Financeiro" textFill="#605ead">
                                  <font>
@@ -61,7 +61,7 @@
                                     <Insets bottom="30.0" />
                                  </VBox.margin>
                               </Label>
-                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="787.0" style="-fx-border-color: #605ead;">
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="50.0" style="-fx-border-color: #605ead;">
                                  <children>
                                     <Label prefHeight="18.0" prefWidth="130.0" text="NOME DO ATIVO" textFill="#6c6cc4">
                                        <HBox.margin>
@@ -78,7 +78,7 @@
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="787.0" spacing="10.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="50.0" spacing="10.0">
                                  <children>
                                     <Pane prefHeight="50.0" prefWidth="229.0" style="-fx-border-color: #6c6cc4;">
                                        <children>
@@ -142,7 +142,7 @@
                                     </Pane>
                                  </children>
                               </HBox>
-                              <StackPane fx:id="assetTypeScreen" prefHeight="150.0" prefWidth="200.0">
+                              <StackPane fx:id="assetTypeScreen" prefHeight="150.0">
                                  <children>
                                     <VBox fx:id="paneImovel" prefHeight="244.0" prefWidth="787.0" spacing="10.0" visible="false">
                                        <children>
@@ -287,7 +287,7 @@
                                                             <Insets right="15.0" />
                                                          </HBox.margin>
                                                       </Pane>
-                                                      <Pane prefHeight="50.0" prefWidth="406.0" style="-fx-border-color: #6c6cc4;">
+                                                      <Pane prefHeight="50.0" prefWidth="418.0" style="-fx-border-color: #6c6cc4;">
                                                          <children>
                                                             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="405.0" spacing="10.0">
                                                                <children>
@@ -438,7 +438,7 @@
                                     <Insets top="20.0" />
                                  </VBox.margin>
                               </StackPane>
-                              <HBox alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="200.0" spacing="10.0">
+                              <HBox alignment="CENTER_RIGHT" prefHeight="53.0" spacing="10.0">
                                  <children>
                                     <JFXButton fx:id="btnBack" onAction="#back" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #565656; -fx-background-radius: 0;" text="VOLTAR" textFill="WHITE">
                                        <font>
@@ -522,11 +522,11 @@
                                  </VBox.margin>
                               </Label>
                               <TableView fx:id="tablePayments" prefHeight="200.0" prefWidth="200.0">
-                                <columns>
-                                  <TableColumn fx:id="dateOfPayment" prefWidth="144.7999885082245" text="DATA" />
-                                  <TableColumn fx:id="interestReceived" prefWidth="175.19998168945312" text="VALOR RECEBIDO" />
+                                 <columns>
+                                    <TableColumn fx:id="dateOfPayment" prefWidth="144.7999885082245" text="DATA" />
+                                    <TableColumn fx:id="interestReceived" prefWidth="175.19998168945312" text="VALOR RECEBIDO" />
                                     <TableColumn fx:id="monthlyProfit" prefWidth="185.5999755859375" text="RENTABILIDADE MENSAL" />
-                                </columns>
+                                 </columns>
                               </TableView>
                            </children>
                         </VBox>
@@ -552,13 +552,19 @@
                   <Label fx:id="msgError" text="Label" textFill="#b50000" />
                </children>
             </VBox>
+            <VBox fx:id="notFound" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Label text="Não existe nenhum ativo que corresponda aos critérios de busca." textFill="#565656">
+                     <font>
+                        <Font name="System Italic" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
          <VBox.margin>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
          </VBox.margin>
       </StackPane>
    </children>
-   <padding>
-      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-   </padding>
 </VBox>

@@ -33,7 +33,6 @@ public class LoginView extends Application implements StandardWindow {
             primaryStage.setX(event.getScreenX() - xOffset);
             primaryStage.setY(event.getScreenY() - yOffset);
         });
-        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("../img/icon.jpg")));
     }
 
     public static void setStage(Stage stage) {

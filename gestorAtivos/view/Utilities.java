@@ -3,6 +3,7 @@ package view;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -21,6 +22,7 @@ public class Utilities {
         scene.setFill(Color.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.getIcons().add(new Image(classe.getResourceAsStream("../img/icon.png")));
         try {
             classe.getMethod("setStage", Stage.class).invoke(classe, primaryStage);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {

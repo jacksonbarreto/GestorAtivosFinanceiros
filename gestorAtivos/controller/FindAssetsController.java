@@ -1,6 +1,5 @@
 package controller;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,106 +9,68 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import model.*;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
+import static controller.Utils.*;
 import static dao.DataBase.banks;
-import static model.Session.getCurrentUser;
 
-public class ListAssetsController implements Initializable {
-
-    @FXML
-    private VBox vbox;
-
+public class FindAssetsController implements Initializable {
     @FXML
     private TableView<AssetForList> tableAssets;
-
     @FXML
     private TableColumn<AssetForList, ImageView> colIcon;
-
     @FXML
     private TableColumn<AssetForList, String> colName;
-
     @FXML
     private TableColumn<AssetForList, BigDecimal> colAmaunt;
-
-
     @FXML
-    private VBox alllAssetsScreen;
+    private VBox allAssetsScreen;
     @FXML
     private VBox infoAssetScreen;
-
     @FXML
     private TextField designation;
-
     @FXML
     private DatePicker startDate;
-
     @FXML
     private TextField duration;
-
     @FXML
     private TextField tax;
-
-    @FXML
-    private StackPane assetTypeScreen;
-
     @FXML
     private VBox paneImovel;
-
     @FXML
     private TextField monthlyCostCondominium;
-
     @FXML
     private TextField rentAmount;
-
     @FXML
     private TextField propertyValue;
-
     @FXML
     private TextField annualAmountOtherExpenses;
-
     @FXML
     private TextField location;
-
     @FXML
     private VBox paneFound;
-
     @FXML
     private TextField amountInvested;
-
     @FXML
     private TextField monthlyProfitability;
-
     @FXML
     private VBox paneTermeDeposit;
-
     @FXML
     private TextField depositedAmount;
-
     @FXML
     private TextField annualProfitability;
-
     @FXML
     private TextField account;
-
     @FXML
     private ChoiceBox<Bank> bank;
-
-    @FXML
-    private JFXButton btnBack;
-
-    @FXML
-    private JFXButton btnSave;
     @FXML
     private VBox successScreen;
     @FXML
@@ -118,46 +79,57 @@ public class ListAssetsController implements Initializable {
     private Label msgError;
     @FXML
     private Label netProfit;
-
     @FXML
     private Label avgNetProfit;
-
     @FXML
     private Label grossProfit;
-
     @FXML
     private Label avgGrossProfit;
-
     @FXML
     private TableView<PaymentForView> tablePayments;
-
     @FXML
     private TableColumn<PaymentForView, ?> dateOfPayment;
-
     @FXML
     private TableColumn<PaymentForView, ?> interestReceived;
     @FXML
     private TableColumn<PaymentForView, ?> monthlyProfit;
+    @FXML
+    private VBox notFound;
+    private List<FinancialAsset> source;
+    private FinancialAsset financialAssetGeneric;
 
-    FinancialAsset financialAssetGeneric;
-
+    public void defineSource(List<FinancialAsset> source) {
+        this.source = source;
+        if (source.size() == 0) {
+            notFound.setVisible(true);
+        } else {
+            loadTables();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        startTable();
         bank.getItems().addAll(FXCollections.observableArrayList(banks));
     }
 
-    private void startTable(){
+
+    private void loadTables() {
         hideScreens();
         hidePaneAssets();
-        alllAssetsScreen.setVisible(true);
+        allAssetsScreen.setVisible(true);
+        initializeTableAssets();
+        initializePaymentsTable();
+    }
+
+    private void initializeTableAssets() {
         colIcon.setCellValueFactory(new PropertyValueFactory<>("icon"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colAmaunt.setCellValueFactory(new PropertyValueFactory<>("amount"));
         addButtonToTable();
         tableAssets.setItems(getAssets());
+    }
 
+    private void initializePaymentsTable() {
         dateOfPayment.setCellValueFactory(new PropertyValueFactory<>("dateOfPayment"));
         interestReceived.setCellValueFactory(new PropertyValueFactory<>("interestReceived"));
         monthlyProfit.setCellValueFactory(new PropertyValueFactory<>("monthlyProfitability"));
@@ -170,21 +142,16 @@ public class ListAssetsController implements Initializable {
     }
 
     public List<AssetForList> getAssetForList() {
-        DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale("pt","Portugal"));
-        dfs.setDecimalSeparator(',');
-        dfs.setGroupingSeparator('.');
-        DecimalFormat df = new DecimalFormat("€ ###,##0.00",dfs);
-
         List<AssetForList> assetForLists = new ArrayList<>();
 
-        for (FinancialAsset fa : getCurrentUser().getFinancialAssetsreverseOrderActiveForUpdate()) {
+        for (FinancialAsset fa : source) {
             AssetForList assetForList = new AssetForList();
-            assetForList.setAmount(df.format(((AssetWithInvestedValue) fa).getAmountInvested()));
+            assetForList.setAmount(euroCurrency.format(((AssetWithInvestedValue) fa).getAmountInvested()));
             assetForList.setName(fa.getDesignation());
-            assetForList.setNetProfit(df.format(fa.getNetProfit()));
-            assetForList.setAvgNetProfit(df.format(fa.getAverageMonthlyNetProfit()));
-            assetForList.setGrossProfit(df.format(fa.getGrossProfit()));
-            assetForList.setAvgGrossProfit(df.format(fa.getAverageMonthlyGrossProfit()));
+            assetForList.setNetProfit(euroCurrency.format(fa.getNetProfit()));
+            assetForList.setAvgNetProfit(euroCurrency.format(fa.getAverageMonthlyNetProfit()));
+            assetForList.setGrossProfit(euroCurrency.format(fa.getGrossProfit()));
+            assetForList.setAvgGrossProfit(euroCurrency.format(fa.getAverageMonthlyGrossProfit()));
             assetForList.setFinancialAsset(fa);
             if (fa instanceof InvestmentFund) {
                 assetForList.setIcon(new ImageView(new Image(this.getClass().getResourceAsStream("../img/Invest.png"))));
@@ -203,21 +170,15 @@ public class ListAssetsController implements Initializable {
         payments.addAll(getPaymentsForList(financialAsset));
         return payments;
     }
+
     public List<PaymentForView> getPaymentsForList(FinancialAsset financialAsset) {
         List<PaymentForView> payments = new ArrayList<>();
-        DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale("pt","Portugal"));
-        dfs.setDecimalSeparator(',');
-        dfs.setGroupingSeparator('.');
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        DecimalFormat df = new DecimalFormat("€ ###,##0.00",dfs);
-        DecimalFormat dfP = new DecimalFormat("##0.00 %",dfs);
-
-        for (Payment payment : financialAsset.getPayments()){
+        for (Payment payment : financialAsset.getPayments()) {
             PaymentForView paymentForView = new PaymentForView();
-            paymentForView.setInterestReceived(df.format(payment.getInterestReceived()));
-            paymentForView.setMonthlyProfitability(dfP.format(payment.getMonthlyProfitability()));
-            paymentForView.setDateOfPayment(dtf.format(payment.getDateOfPayment()));
+            paymentForView.setInterestReceived(euroCurrency.format(payment.getInterestReceived()));
+            paymentForView.setMonthlyProfitability(percentage.format(payment.getMonthlyProfitability()));
+            paymentForView.setDateOfPayment(EuropeanDate.format(payment.getDateOfPayment()));
             payments.add(paymentForView);
         }
         return payments;
@@ -259,10 +220,6 @@ public class ListAssetsController implements Initializable {
     }
 
     private void fillFields(FinancialAsset financialAsset) {
-        DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale("pt","Portugal"));
-        dfs.setDecimalSeparator(',');
-        dfs.setGroupingSeparator('.');
-        DecimalFormat df = new DecimalFormat("###,##0.00",dfs);
 
         hideScreens();
         hidePaneAssets();
@@ -292,15 +249,12 @@ public class ListAssetsController implements Initializable {
             location.setText(((RentalProperty) financialAsset).getLocation());
             paneImovel.setVisible(true);
         }
-
-
-        netProfit.setText(df.format(financialAsset.getNetProfit()));
-        avgNetProfit.setText(df.format(financialAsset.getAverageMonthlyNetProfit()));
-        grossProfit.setText(df.format(financialAsset.getGrossProfit()));
-        avgGrossProfit.setText(df.format(financialAsset.getAverageMonthlyGrossProfit()));
+        netProfit.setText(euroCurrency.format(financialAsset.getNetProfit()));
+        avgNetProfit.setText(euroCurrency.format(financialAsset.getAverageMonthlyNetProfit()));
+        grossProfit.setText(euroCurrency.format(financialAsset.getGrossProfit()));
+        avgGrossProfit.setText(euroCurrency.format(financialAsset.getAverageMonthlyGrossProfit()));
 
         tablePayments.setItems(getPayments(financialAsset));
-
     }
 
     @FXML
@@ -331,7 +285,7 @@ public class ListAssetsController implements Initializable {
             }
             hideScreens();
             successScreen.setVisible(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             hideScreens();
             hidePaneAssets();
             msgError.setText(e.getMessage());
@@ -343,7 +297,7 @@ public class ListAssetsController implements Initializable {
     void back() {
         hideScreens();
         hidePaneAssets();
-        alllAssetsScreen.setVisible(true);
+        allAssetsScreen.setVisible(true);
         tableAssets.setItems(getAssets());
     }
 
@@ -354,7 +308,7 @@ public class ListAssetsController implements Initializable {
     }
 
     private void hideScreens() {
-        alllAssetsScreen.setVisible(false);
+        allAssetsScreen.setVisible(false);
         infoAssetScreen.setVisible(false);
         successScreen.setVisible(false);
         erroUpdateScreen.setVisible(false);

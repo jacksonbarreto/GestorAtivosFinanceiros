@@ -1,6 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,7 +85,7 @@ public class NewAssetController implements Initializable {
     private TextField account;
 
     @FXML
-    private ChoiceBox<Bank> bank;
+    private JFXComboBox<Bank> bank;
     @FXML
     private VBox successScreen;
 

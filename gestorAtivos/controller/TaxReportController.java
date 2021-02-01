@@ -62,13 +62,13 @@ public class TaxReportController implements Initializable {
     @FXML
     private VBox taxScreen;
     @FXML
-    private TableView<PaymentForList> tablePayment;
+    private TableView<PaymentForView> tablePayment;
 
     @FXML
-    private TableColumn<PaymentForList, String> dateOfPayment;
+    private TableColumn<PaymentForView, String> dateOfPayment;
 
     @FXML
-    private TableColumn<PaymentForList, String> taxDue;
+    private TableColumn<PaymentForView, String> taxDue;
 
     @FXML
     private ImageView iconPayment;
@@ -155,13 +155,13 @@ public class TaxReportController implements Initializable {
         }
     }
 
-    private ObservableList<PaymentForList> getPayments(FinancialAsset financialAsset) {
-        ObservableList<PaymentForList> payments = FXCollections.observableArrayList();
+    private ObservableList<PaymentForView> getPayments(FinancialAsset financialAsset) {
+        ObservableList<PaymentForView> payments = FXCollections.observableArrayList();
         payments.addAll(getPaymentsForList(financialAsset));
         return payments;
     }
-    public List<PaymentForList> getPaymentsForList(FinancialAsset financialAsset) {
-        List<PaymentForList> payments = new ArrayList<>();
+    public List<PaymentForView> getPaymentsForList(FinancialAsset financialAsset) {
+        List<PaymentForView> payments = new ArrayList<>();
         DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale("pt","Portugal"));
         dfs.setDecimalSeparator(',');
         dfs.setGroupingSeparator('.');
@@ -170,10 +170,10 @@ public class TaxReportController implements Initializable {
         DecimalFormat df = new DecimalFormat("€ ###,##0.00",dfs);
 
         for (Payment payment : financialAsset.getPayments()){
-            PaymentForList paymentForList = new PaymentForList();
-            paymentForList.setTaxDue(df.format(payment.getTaxDue(financialAsset.getTax())));
-            paymentForList.setDateOfPayment(dtf.format(payment.getDateOfPayment()));
-            payments.add(paymentForList);
+            PaymentForView paymentForView = new PaymentForView();
+            paymentForView.setTaxDue(df.format(payment.getTaxDue(financialAsset.getTax())));
+            paymentForView.setDateOfPayment(dtf.format(payment.getDateOfPayment()));
+            payments.add(paymentForView);
         }
         return payments;
     }

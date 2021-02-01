@@ -34,7 +34,7 @@ public class configAccountController implements Initializable {
 
 
     @FXML
-    void saveAsset(ActionEvent event) {
+    void saveNewUser(ActionEvent event) {
         getCurrentUser().changeUsername(username.getText());
         getCurrentUser().changePassword(pass.getText());
     }
