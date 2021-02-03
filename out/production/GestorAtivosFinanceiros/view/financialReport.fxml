@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="704.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FinancialReportController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="704.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FinancialReportController">
    <padding>
       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
    </padding>
@@ -106,11 +106,11 @@
                   <TableView fx:id="tableAssets" prefHeight="306.0" prefWidth="679.0">
                     <columns>
                       <TableColumn fx:id="icon" prefWidth="75.0" />
-                      <TableColumn fx:id="name" prefWidth="128.800048828125" text="NOME" />
-                        <TableColumn fx:id="netProfit" minWidth="0.0" prefWidth="102.39997863769531" text="LUCRO LÍQUIDO" />
-                        <TableColumn fx:id="avgNetProfit" minWidth="0.0" prefWidth="149.60003662109375" text="LUCRO LÍQUIDO MENSAL" />
-                        <TableColumn fx:id="grossProfit" minWidth="0.0" prefWidth="99.99993896484375" text="LUCRO BRUTO" />
-                        <TableColumn fx:id="avgGrossProfit" minWidth="0.0" prefWidth="121.60009765625" text="LUCRO BRUTO MENSAL" />
+                      <TableColumn fx:id="name" maxWidth="277.59999084472656" prefWidth="277.59999084472656" text="NOME" />
+                        <TableColumn fx:id="netProfit" maxWidth="284.0000305175781" minWidth="0.0" prefWidth="170.39993286132812" text="LUCRO LÍQUIDO" />
+                        <TableColumn fx:id="avgNetProfit" minWidth="0.0" prefWidth="199.20001220703125" text="LUCRO LÍQUIDO MENSAL" />
+                        <TableColumn fx:id="grossProfit" minWidth="0.0" prefWidth="105.5999755859375" text="LUCRO BRUTO" />
+                        <TableColumn fx:id="avgGrossProfit" minWidth="0.0" prefWidth="190.40008544921875" text="LUCRO BRUTO MENSAL" />
                     </columns>
                   </TableView>
                </children>

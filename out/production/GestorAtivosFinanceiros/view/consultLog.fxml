@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConsultLogController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1057.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ConsultLogController">
    <children>
       <Label text="Consultar logs" textFill="#605ead">
          <font>
@@ -17,11 +18,16 @@
             <Insets bottom="50.0" />
          </VBox.margin>
       </Label>
-      <TableView fx:id="tableLogs" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableLogs" maxWidth="-Infinity" prefHeight="415.0" prefWidth="840.0" stylesheets="@default.css">
         <columns>
-          <TableColumn fx:id="ColDate" prefWidth="224.79999387264252" resizable="false" text="DATA" />
-          <TableColumn fx:id="ColOperation" prefWidth="226.39996337890625" text="OPERAÇÃO" />
+          <TableColumn fx:id="ColDate" maxWidth="243.1999992132187" prefWidth="236.7999747991562" resizable="false" text="DATA" />
+          <TableColumn fx:id="ColOperation" maxWidth="1.7976931348623157E308" prefWidth="592.7998352050781" text="OPERAÇÃO" />
         </columns>
+         <styleClass>
+            <String fx:value="table-cell" />
+            <String fx:value="table-column" />
+            <String fx:value="table-row-cell" />
+         </styleClass>
       </TableView>
    </children>
    <padding>
