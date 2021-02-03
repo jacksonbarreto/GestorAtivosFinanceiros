@@ -38,11 +38,11 @@
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </Label>
-                  <TableView fx:id="tableAssets" prefHeight="370.0" prefWidth="739.0">
+                  <TableView fx:id="tableAssets" maxWidth="-Infinity" prefHeight="370.0" prefWidth="739.0">
                      <columns>
                         <TableColumn fx:id="colIcon" prefWidth="110.39996182918549" />
                         <TableColumn fx:id="colName" prefWidth="265.5999526977539" resizable="false" text="NOME" />
-                        <TableColumn fx:id="colAmaunt" prefWidth="177.59994506835938" text="TOTAL INVESTIDO" />
+                        <TableColumn fx:id="colAmaunt" prefWidth="220.79995727539062" text="TOTAL INVESTIDO" />
                      </columns>
                   </TableView>
                </children>

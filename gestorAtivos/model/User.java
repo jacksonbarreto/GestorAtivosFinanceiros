@@ -101,6 +101,16 @@ public class User implements Serializable {
                 it.remove();
             }
         }
+        switch (financialAsset.getAssetType()) {
+            case FOUND:
+                addLog(REMOVED_INVESTMENT_FUND);
+                break;
+            case DEPOSIT:
+                addLog(REMOVED_DEPOSIT);
+                break;
+            case PROPERTY:
+                addLog(REMOVED_PROPERTY);
+        }
     }
 
     /**

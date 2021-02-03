@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -19,39 +19,67 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0">
+      <StackPane prefHeight="150.0" prefWidth="200.0">
          <VBox.margin>
             <Insets left="30.0" top="60.0" />
          </VBox.margin>
          <children>
-            <Pane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: #6c6cc4;">
+            <VBox fx:id="createScreen" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="50.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" style="-fx-border-color: #605ead;">
                      <children>
                         <Label prefHeight="18.0" text="NOME DO BANCO" textFill="#6c6cc4">
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="bankName" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="406.0">
+                        <TextField fx:id="bankName" alignment="CENTER" onKeyPressed="#keyHandle" prefHeight="26.0" prefWidth="624.0" promptText="Millennium BCP" styleClass="defultField" stylesheets="@default.css">
                            <HBox.margin>
-                              <Insets />
+                              <Insets right="20.0" />
                            </HBox.margin>
                         </TextField>
                      </children>
                   </HBox>
-               </children>
-            </Pane>
-            <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="739.0">
-               <children>
-                  <JFXButton fx:id="btnSave" onAction="#saveNewBank" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #605ead; -fx-border-radius: 0; -fx-background-radius: 0;" text="SALVAR" textFill="WHITE">
+                  <Label fx:id="errorNameBank" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="638.0" text="O nome não pode ser vazio e deve ter mais de 3 carácteres." textFill="#c70000" visible="false">
                      <font>
-                        <Font name="System Bold" size="10.0" />
+                        <Font name="System Italic" size="12.0" />
                      </font>
-                  </JFXButton>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="33.0" prefWidth="739.0">
+                     <children>
+                        <JFXButton onAction="#saveNewBank" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #605ead; -fx-border-radius: 0; -fx-background-radius: 0;" text="SALVAR" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
+            <VBox fx:id="success" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Label text="Banco criado com sucesso." textFill="#008a65">
+                     <font>
+                        <Font name="System Bold Italic" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox fx:id="errorScreen" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Label text="Erro na criação do banco." textFill="#bf0000">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="Erro:" textFill="#aa0000" />
+                  <Label fx:id="msgError" text="Erro:" textFill="#aa0000" />
+               </children>
+            </VBox>
          </children>
-      </VBox>
+      </StackPane>
    </children>
 </VBox>

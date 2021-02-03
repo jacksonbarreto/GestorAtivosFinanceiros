@@ -12,6 +12,7 @@ public class Utils {
     public static final DecimalFormat euroCurrency = new DecimalFormat("€ ###,##0.00", dfs);
     public static final DecimalFormat percentage = new DecimalFormat("##0.00 %", dfs);
     public static final DateTimeFormatter EuropeanDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     static {
         dfs.setDecimalSeparator(',');
     }
@@ -20,8 +21,6 @@ public class Utils {
     public static void applyStyle(Parent object, String style) {
         object.getStyleClass().add(style);
     }
-
-
 
 
 }

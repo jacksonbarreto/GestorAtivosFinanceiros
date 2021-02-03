@@ -10,11 +10,9 @@ import model.*;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static controller.Utils.euroCurrency;
 import static model.Session.getCurrentUser;
 
 public class HomeUserController implements Initializable {
@@ -28,44 +26,40 @@ public class HomeUserController implements Initializable {
     @FXML
     private Label totalAmount;
 
-    private BigDecimal totalImovel;
-    private BigDecimal totalFound;
-    private BigDecimal totalDeposit;
-    private BigDecimal totalAssets;
+    private BigDecimal totalInvestedInRealEstate;
+    private BigDecimal totalInvestedInInvestmentFunds;
+    private BigDecimal totalInvestedInTermDeposits;
+    private BigDecimal totalInvestedInFinancialAssets;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale("pt","Portugal"));
-        dfs.setDecimalSeparator(',');
-        dfs.setGroupingSeparator('.');
-        DecimalFormat df = new DecimalFormat("€ ###,##0.00",dfs);
 
-       username.setText(getCurrentUser().getUsername());
+        username.setText(getCurrentUser().getUsername());
         startAmounts();
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
-                new PieChart.Data("Imóveis Arrendados", totalImovel.doubleValue()),
-                new PieChart.Data("Fundos de Investimento", totalFound.doubleValue()),
-                new PieChart.Data("Depósitos a Termo", totalDeposit.doubleValue())
+                new PieChart.Data("Imóveis Arrendados", totalInvestedInRealEstate.doubleValue()),
+                new PieChart.Data("Fundos de Investimento", totalInvestedInInvestmentFunds.doubleValue()),
+                new PieChart.Data("Depósitos a Termo", totalInvestedInTermDeposits.doubleValue())
         );
         chart.setData(pieData);
-        totalAmount.setText(df.format(totalAssets));
+        totalAmount.setText(euroCurrency.format(totalInvestedInFinancialAssets));
     }
 
-    private void startAmounts(){
-        totalImovel = BigDecimal.ZERO;
-        totalFound = BigDecimal.ZERO;
-        totalDeposit = BigDecimal.ZERO;
-        totalAssets = BigDecimal.ZERO;
+    private void startAmounts() {
+        totalInvestedInRealEstate = BigDecimal.ZERO;
+        totalInvestedInInvestmentFunds = BigDecimal.ZERO;
+        totalInvestedInTermDeposits = BigDecimal.ZERO;
+        totalInvestedInFinancialAssets = BigDecimal.ZERO;
 
-        for (FinancialAsset financialAsset : getCurrentUser().getFinancialAssets()){
-            if (financialAsset instanceof TermDeposit){
-                totalDeposit = totalDeposit.add(((AssetWithInvestedValue)financialAsset).getAmountInvested());
-            }else if (financialAsset instanceof RentalProperty){
-                totalImovel = totalImovel.add(((AssetWithInvestedValue)financialAsset).getAmountInvested());
-            }else if (financialAsset instanceof InvestmentFund){
-                totalFound = totalFound.add(((AssetWithInvestedValue)financialAsset).getAmountInvested());
+        for (FinancialAsset financialAsset : getCurrentUser().getFinancialAssets()) {
+            if (financialAsset instanceof TermDeposit) {
+                totalInvestedInTermDeposits = totalInvestedInTermDeposits.add(((AssetWithInvestedValue) financialAsset).getAmountInvested());
+            } else if (financialAsset instanceof RentalProperty) {
+                totalInvestedInRealEstate = totalInvestedInRealEstate.add(((AssetWithInvestedValue) financialAsset).getAmountInvested());
+            } else if (financialAsset instanceof InvestmentFund) {
+                totalInvestedInInvestmentFunds = totalInvestedInInvestmentFunds.add(((AssetWithInvestedValue) financialAsset).getAmountInvested());
             }
-            totalAssets = totalAssets.add(((AssetWithInvestedValue)financialAsset).getAmountInvested());
+            totalInvestedInFinancialAssets = totalInvestedInFinancialAssets.add(((AssetWithInvestedValue) financialAsset).getAmountInvested());
         }
     }
 

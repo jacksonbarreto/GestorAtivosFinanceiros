@@ -54,3 +54,23 @@
    -fx-border-width: 1;
    -fx-border-radius: 0;
 }
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #605ead;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #605ead;
+}
+
+.table-cell {
+-fx-text-fill:#565656;
+ -fx-background-color: #ffffff;
+ -fx-border-bottom-color: #565656;
+}
+.table-column {
+  -fx-alignment: CENTER;
+}
+

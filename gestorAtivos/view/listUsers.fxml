@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListUsersController">
+   <children>
+      <Label text="Listar utilizadores" textFill="#605ead">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <StackPane prefHeight="515.0" prefWidth="851.0">
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="tableUsers" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="colIcon" prefWidth="75.0" />
+                      <TableColumn fx:id="ColUsername" prefWidth="75.0" text="NOME" />
+                    </columns>
+                  </TableView>
+               </children>
+               <StackPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </StackPane.margin>
+            </VBox>
+            <VBox fx:id="infoUserScreen" alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="391.0" prefWidth="582.0" style="-fx-background-color: F3F3F3; -fx-background-radius: 2em; -fx-border-radius: 2em; -fx-border-color: #565656;" visible="false">
+               <children>
+                  <Label onMouseClicked="#closeWindows" text="X" textFill="#565656">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Label maxWidth="1.7976931348623157E308" text="Detalhes do usuário" textFill="#605ead">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+                  <Label maxWidth="1.7976931348623157E308" text="LOGS" textFill="#565656">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="30.0" top="20.0" />
+                     </padding>
+                  </Label>
+                  <TableView fx:id="tableLog" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="colData" maxWidth="215.20008504390717" prefWidth="161.59998738765717" text="DATA" />
+                      <TableColumn fx:id="ColOperation" maxWidth="358.3999328613281" prefWidth="358.3999328613281" text="ATIVIDADE" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets left="30.0" right="30.0" top="15.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+               <StackPane.margin>
+                  <Insets left="60.0" right="60.0" />
+               </StackPane.margin>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+   <padding>
+      <Insets left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>

@@ -42,8 +42,6 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton btnHome;
     @FXML
-    private JFXButton btnHome1;
-    @FXML
     private JFXButton btnNewAsset;
     @FXML
     private JFXButton btnConsultLog;
@@ -68,6 +66,8 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton btnFinancial;
     @FXML
+    private JFXButton btnListBank;
+    @FXML
     private JFXButton btnTax;
     @FXML
     private TextField search;
@@ -77,13 +77,14 @@ public class MainController implements Initializable {
     private JFXComboBox<LogicalOperator> logicalOperator;
     @FXML
     private TextField amountFilter;
-
+    private String routeOfHome;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         configScreenForUser();
         assetType.getItems().add(null);
         assetType.getItems().addAll(FXCollections.observableArrayList(AssetType.values()));
+        assetType.setValue(null);
         logicalOperator.getItems().addAll(FXCollections.observableArrayList(LogicalOperator.values()));
         logicalOperator.setValue(BIGGER_THEN);
     }
@@ -147,13 +148,12 @@ public class MainController implements Initializable {
     }
 
     private void configScreenForUser() {
-        String route = null;
         switch (getCurrentUser().getUserType()) {
             case ROOT:
                 avatar.setImage(new Image(this.getClass().getResourceAsStream("../img/Root.png")));
                 rootMenu.setVisible(true);
-                applyStyle(btnHome1, "clicked");
-                route = "homeRoot";
+                applyStyle(btnHome, "clicked");
+                routeOfHome = "homeRoot";
                 break;
             case MANAGER:
                 avatar.setImage(new Image(this.getClass().getResourceAsStream("../img/Admin.png")));
@@ -162,9 +162,9 @@ public class MainController implements Initializable {
                 avatar.setImage(new Image(this.getClass().getResourceAsStream("../img/User.png")));
                 userMenu.setVisible(true);
                 applyStyle(btnHome, "clicked");
-                route = "homeUser";
+                routeOfHome = "homeUser";
         }
-        loadScreen(route);
+        loadScreen(routeOfHome);
     }
 
     public void router(MouseEvent mouseEvent) {
@@ -173,7 +173,7 @@ public class MainController implements Initializable {
 
         restartButtons();
         if (clickedButton == btnHome) {
-            route = "homeUser";
+            route = routeOfHome;
         } else if (clickedButton == btnNewAsset) {
             route = "newAsset";
         } else if (clickedButton == btnConsultLog) {
@@ -182,8 +182,6 @@ public class MainController implements Initializable {
             route = "listAssets";
         } else if (clickedButton == btnConfig) {
             route = "configAccount";
-        } else if (clickedButton == btnHome1) {
-            route = "homeRoot";
         } else if (clickedButton == btnCreateBank) {
             route = "createBank";
         } else if (clickedButton == btnCreateUser) {
@@ -202,6 +200,10 @@ public class MainController implements Initializable {
         } else if (clickedButton == btnTax) {
             applyStyle(btnReport, "clicked");
             route = "taxReport";
+        } else if (clickedButton == btnListBank) {
+            route = "listBanks";
+        } else if (clickedButton == btnListUsers) {
+            route = "listUsers";
         }
         if (clickedButton != btnReport && clickedButton != btnFinancial && clickedButton != btnTax) {
             hideReportSubmenu();
@@ -214,7 +216,7 @@ public class MainController implements Initializable {
     }
 
     private void restartButtons() {
-        List<JFXButton> buttons = Arrays.asList(btnReport, btnHome, btnHome1, btnTax, btnFinancial, btnCreateUser, btnCreateBank, btnLstAllAssets, btnConsultLog, btnNewAsset, btnListUsers);
+        List<JFXButton> buttons = Arrays.asList(btnReport, btnListBank, btnHome, btnTax, btnFinancial, btnCreateUser, btnCreateBank, btnLstAllAssets, btnConsultLog, btnNewAsset, btnListUsers);
         for (JFXButton button : buttons) {
             button.getStyleClass().remove("clicked");
         }

@@ -162,7 +162,6 @@ public class UserTest {
         assertEquals(1, user1.findFinancialAsset("praia").size());
         assertEquals(3, user1.findFinancialAsset("Casa").size());
         assertThrows(IllegalArgumentException.class, () -> user1.findFinancialAsset(""));
-        assertThrows(IllegalArgumentException.class, () -> user1.findFinancialAsset("dfg"));
         assertThrows(IllegalArgumentException.class, () -> user1.findFinancialAsset(stringNull));
     }
 
@@ -180,7 +179,6 @@ public class UserTest {
         assertEquals(2, user1.findFinancialAsset("Casa", PROPERTY).size());
         assertEquals(1, user1.findFinancialAsset("Casa", DEPOSIT).size());
         assertThrows(IllegalArgumentException.class, () -> user1.findFinancialAsset(""));
-        assertThrows(IllegalArgumentException.class, () -> user1.findFinancialAsset("dfg"));
         assertThrows(IllegalArgumentException.class, () -> user1.findFinancialAsset(stringNull));
     }
 
